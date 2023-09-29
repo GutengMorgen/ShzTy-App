@@ -1,4 +1,4 @@
-package com.gutengmorgen.ShzTy.Conection;
+package com.gutengmorgen.ShzTy.factory;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

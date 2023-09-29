@@ -1,4 +1,4 @@
-package com.gutengmorgen.ShzTy.Entities;
+package com.gutengmorgen.ShzTy.models;
 
 import java.sql.Date;
 

@@ -6,8 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-import com.gutengmorgen.ShzTy.Conection.HibernateUtil;
-import com.gutengmorgen.ShzTy.Entities.Artist;
+import com.gutengmorgen.ShzTy.factory.HibernateUtil;
+import com.gutengmorgen.ShzTy.models.Artist;
 
 public class Main {
 

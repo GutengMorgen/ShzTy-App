@@ -4,9 +4,11 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -19,9 +21,14 @@ import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.JScrollPane;
+import java.awt.PopupMenu;
 
-public class MainFrame extends JFrame {
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class MainFrame extends JFrame{
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -64,7 +71,8 @@ public class MainFrame extends JFrame {
 	setContentPane(contentPane);
 	contentPane.setLayout(null);
 	
-	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+	tabbedPane.setAutoscrolls(true);
 	tabbedPane.setBounds(0, 0, 601, 388);
 	contentPane.add(tabbedPane);
 	
@@ -119,14 +127,41 @@ public class MainFrame extends JFrame {
 	gbc_btnSearchArtists.gridy = 0;
 	Artists.add(btnSearchArtists, gbc_btnSearchArtists);
 	
+	JScrollPane scrollPane = new JScrollPane();
+	GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+	gbc_scrollPane.gridwidth = 2;
+	gbc_scrollPane.fill = GridBagConstraints.BOTH;
+	gbc_scrollPane.gridx = 0;
+	gbc_scrollPane.gridy = 1;
+	Artists.add(scrollPane, gbc_scrollPane);
+	
+	JPopupMenu popupMenu = new JPopupMenu();
+	JMenuItem menuShowInfo = new JMenuItem("Show More Info");
+	JMenuItem menuItemEdit = new JMenuItem("Edit Current Row");
+	JMenuItem menuItemRemove = new JMenuItem("Remove Current Row");
+	JMenuItem menuItemAdd = new JMenuItem("Add New Row");
+	 
+	popupMenu.add(menuShowInfo);
+	popupMenu.add(menuItemEdit);
+	popupMenu.add(menuItemRemove);
+	popupMenu.add(menuItemAdd);
+	
 	tableArtists = new JTable();
-	GridBagConstraints gbc_tableArtists = new GridBagConstraints();
-	gbc_tableArtists.gridwidth = 2;
-	gbc_tableArtists.insets = new Insets(0, 0, 0, 5);
-	gbc_tableArtists.fill = GridBagConstraints.BOTH;
-	gbc_tableArtists.gridx = 0;
-	gbc_tableArtists.gridy = 1;
-	Artists.add(tableArtists, gbc_tableArtists);
+	tableArtists.setComponentPopupMenu(popupMenu);
+	tableArtists.setFillsViewportHeight(true);
+	scrollPane.setViewportView(tableArtists);
+	tableArtists.setModel(new DefaultTableModel(
+		new Object[][] {
+			{"artista 1"},
+			{"artista 2"},
+			{"artista 3"},
+			{"artista 4"},
+			{"artista 5"},
+		},
+		new String[] {
+			"Artists"
+		}
+	));
 	
 	JPanel Albums = new JPanel();
 	tabbedPane.addTab("Albums", null, Albums, null);
@@ -188,6 +223,19 @@ public class MainFrame extends JFrame {
 	Tracks.add(btnSearchTracks, gbc_btnSearchTracks);
 	
 	tableTracks = new JTable();
+	tableTracks.setModel(new DefaultTableModel(
+		new Object[][] {
+			{null},
+			{null},
+			{null},
+			{null},
+			{null},
+			{null},
+		},
+		new String[] {
+			"New column"
+		}
+	));
 	GridBagConstraints gbc_tableTracks = new GridBagConstraints();
 	gbc_tableTracks.gridwidth = 2;
 	gbc_tableTracks.insets = new Insets(0, 0, 0, 5);

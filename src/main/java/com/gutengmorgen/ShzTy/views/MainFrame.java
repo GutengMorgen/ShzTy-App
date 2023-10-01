@@ -4,29 +4,23 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.PopupMenu;
+import java.awt.Point;
 
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class MainFrame extends JFrame{
 
@@ -60,7 +54,6 @@ public class MainFrame extends JFrame{
      * Create the frame.
      */
     public MainFrame() {
-    	setAlwaysOnTop(true);
     	setResizable(false);
     	setTitle("ShzTy - Desktop App");
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,19 +128,16 @@ public class MainFrame extends JFrame{
 	gbc_scrollPane.gridy = 1;
 	Artists.add(scrollPane, gbc_scrollPane);
 	
-	JPopupMenu popupMenu = new JPopupMenu();
-	JMenuItem menuShowInfo = new JMenuItem("Show More Info");
-	JMenuItem menuItemEdit = new JMenuItem("Edit Current Row");
-	JMenuItem menuItemRemove = new JMenuItem("Remove Current Row");
-	JMenuItem menuItemAdd = new JMenuItem("Add New Row");
-	 
-	popupMenu.add(menuShowInfo);
-	popupMenu.add(menuItemEdit);
-	popupMenu.add(menuItemRemove);
-	popupMenu.add(menuItemAdd);
-	
 	tableArtists = new JTable();
-	tableArtists.setComponentPopupMenu(popupMenu);
+	tableArtists.setComponentPopupMenu(new CustomPopupMenu());
+	tableArtists.addMouseListener(new MouseAdapter() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+		    Point point = e.getPoint();
+		    int currentRow = tableArtists.rowAtPoint(point);
+		    tableArtists.setRowSelectionInterval(currentRow, currentRow);
+		}
+	});
 	tableArtists.setFillsViewportHeight(true);
 	scrollPane.setViewportView(tableArtists);
 	tableArtists.setModel(new DefaultTableModel(

@@ -11,6 +11,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.models.DtoArtists.DtoCreateArtist;
 
 public class TablePopupMenu extends JPopupMenu implements ActionListener {
 
@@ -76,7 +77,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	//TODO: para crear y editar se usaran el mismo frame
 	
 	CustomDialog dialog = new CustomDialog("Edit Current Item");
-	dialog.autoFill(Artist.class);
+	dialog.autoFill(DtoCreateArtist.class);
 	dialog.setVisible(true);
     }
     
@@ -84,7 +85,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	//TODO: para crear y editar se usaran el mismo frame
 	
 	CustomDialog dialog = new CustomDialog("Add New Item");
-	dialog.autoFill(Artist.class);
+	dialog.autoFill(DtoCreateArtist.class);
 	dialog.setVisible(true);
     }
     

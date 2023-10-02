@@ -69,6 +69,7 @@ public class CustomDialog extends JDialog {
 	for(Field field : fields) {
 	    String fieldName = field.getName();
 	    Class<?> fieldType = field.getType(); //TODO: for create a different input component
+	    //TODO: add something to read validation annotation
 	    
 	    JLabel label = new JLabel(fieldName);
 	    JTextField textField = new JTextField(10);

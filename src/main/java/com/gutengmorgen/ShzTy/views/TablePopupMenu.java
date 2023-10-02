@@ -11,13 +11,13 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
-import com.gutengmorgen.ShzTy.models.DtoArtists.DtoCreateArtist;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
 
 public class TablePopupMenu extends JPopupMenu implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private JMenuItem menuItemInfo;
-    private JMenuItem menuItemEdit;
+    private JMenuItem menuItemUpdate;
     private JMenuItem menuItemRemove;
     private JMenuItem menuItemAdd;
     private JTable table;
@@ -25,15 +25,15 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
     public TablePopupMenu() {
 	menuItemInfo = new JMenuItem("Show More Info");
 	menuItemInfo.addActionListener(this);
-	menuItemEdit = new JMenuItem("Edit Current Row");
-	menuItemEdit.addActionListener(this);
+	menuItemUpdate = new JMenuItem("Update Current Row");
+	menuItemUpdate.addActionListener(this);
 	menuItemRemove = new JMenuItem("Remove Current Row");
 	menuItemRemove.addActionListener(this);
 	menuItemAdd = new JMenuItem("Add New Row");
 	menuItemAdd.addActionListener(this);
 	
 	add(menuItemInfo);
-	add(menuItemEdit);
+	add(menuItemUpdate);
 	add(menuItemRemove);
 	add(menuItemAdd);
     }
@@ -42,8 +42,8 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == menuItemInfo) {
 	    showInfo();
-	} else if (e.getSource() == menuItemEdit) {
-	    editItem();
+	} else if (e.getSource() == menuItemUpdate) {
+	    updateItem();
 	} else if (e.getSource() == menuItemRemove) {
 	    removeItem();
 	} else if (e.getSource() == menuItemAdd) {
@@ -73,11 +73,11 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	    table.setRowHeight(currentRow, 50);
     }
     
-    private void editItem() {
+    private void updateItem() {
 	//TODO: para crear y editar se usaran el mismo frame
 	
-	CustomDialog dialog = new CustomDialog("Edit Current Item");
-	dialog.autoFill(DtoCreateArtist.class);
+	CustomDialog dialog = new CustomDialog("Update Current Item");
+	dialog.autoFill(DtoMapper.map(table.getName(), DtoTypes.UPDATE));
 	dialog.setVisible(true);
     }
     
@@ -85,7 +85,8 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	//TODO: para crear y editar se usaran el mismo frame
 	
 	CustomDialog dialog = new CustomDialog("Add New Item");
-	dialog.autoFill(DtoCreateArtist.class);
+//	dialog.autoFill(DtoCreateArtist.class);
+	dialog.autoFill(DtoMapper.map(table.getName(), DtoTypes.CREATE));
 	dialog.setVisible(true);
     }
     

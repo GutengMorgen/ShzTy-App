@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.gutengmorgen.ShzTy.views.DtoTypes;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +34,26 @@ public class Artist {
     private String country;
     private String biography;
     
+    
+    public static Class<?> dtoRooter(DtoTypes dtoTypes) throws ClassNotFoundException {
+	String packagePath = "com.gutengmorgen.ShzTy.models.Artists.DtoArtists.";
+	Class<?> clazz = null;
+	
+	if(dtoTypes == DtoTypes.CREATE) {
+	    String className = "DtoCreateArtist";
+	    clazz = Class.forName(packagePath + className);
+	}
+	else if (dtoTypes == DtoTypes.UPDATE) {
+	    String className = "DtoUpdateArtist";
+	    clazz = Class.forName(packagePath + className);
+	}
+	else if (dtoTypes == DtoTypes.RETURN) {
+	    String className = "DtoReturnArtist";
+	    clazz = Class.forName(packagePath + className);
+	}
+	
+	return clazz;
+    }
     
     @Override
     public String toString() {

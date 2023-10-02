@@ -1,4 +1,4 @@
-package com.gutengmorgen.ShzTy.models.DtoArtists;
+package com.gutengmorgen.ShzTy.models.Artists.DtoArtists;
 
 import java.sql.Date;
 import java.util.Set;

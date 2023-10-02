@@ -13,14 +13,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.Point;
 
 import javax.swing.JScrollPane;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame{
 
@@ -29,10 +27,10 @@ public class MainFrame extends JFrame{
     private JTable tableArtists;
     private JTextField textSearchArtists;
     private JTextField textSearchAlbums;
-    private JTable tableAlbums;
     private JTextField textSearchTracks;
     private JTable tableTracks;
     private JTextField textSearchAnything;
+    private JTable tableAlbums;
 
     /**
      * Launch the application.
@@ -127,17 +125,12 @@ public class MainFrame extends JFrame{
 	gbc_scrollPane.gridx = 0;
 	gbc_scrollPane.gridy = 1;
 	Artists.add(scrollPane, gbc_scrollPane);
+
+	TablePopupMenu popupMenu = new TablePopupMenu();
 	
 	tableArtists = new JTable();
-	tableArtists.setComponentPopupMenu(new CustomPopupMenu());
-	tableArtists.addMouseListener(new MouseAdapter() {
-		@Override
-		public void mousePressed(MouseEvent e) {
-		    Point point = e.getPoint();
-		    int currentRow = tableArtists.rowAtPoint(point);
-		    tableArtists.setRowSelectionInterval(currentRow, currentRow);
-		}
-	});
+	tableArtists.addMouseListener(new TableMouseListenir(tableArtists, popupMenu));
+//	tableArtists.setComponentPopupMenu(new CustomPopupMenu(this, tableArtists));
 	tableArtists.setFillsViewportHeight(true);
 	scrollPane.setViewportView(tableArtists);
 	tableArtists.setModel(new DefaultTableModel(
@@ -178,14 +171,31 @@ public class MainFrame extends JFrame{
 	gbc_btnSearchAlbums.gridy = 0;
 	Albums.add(btnSearchAlbums, gbc_btnSearchAlbums);
 	
+	JScrollPane scrollPane_1 = new JScrollPane();
+	GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+	gbc_scrollPane_1.gridwidth = 2;
+	gbc_scrollPane_1.insets = new Insets(0, 0, 0, 5);
+	gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+	gbc_scrollPane_1.gridx = 0;
+	gbc_scrollPane_1.gridy = 1;
+	Albums.add(scrollPane_1, gbc_scrollPane_1);
+	
 	tableAlbums = new JTable();
-	GridBagConstraints gbc_tableAlbums = new GridBagConstraints();
-	gbc_tableAlbums.gridwidth = 2;
-	gbc_tableAlbums.insets = new Insets(0, 0, 0, 5);
-	gbc_tableAlbums.fill = GridBagConstraints.BOTH;
-	gbc_tableAlbums.gridx = 0;
-	gbc_tableAlbums.gridy = 1;
-	Albums.add(tableAlbums, gbc_tableAlbums);
+	tableAlbums.addMouseListener(new TableMouseListenir(tableAlbums, popupMenu));
+	tableAlbums.setFillsViewportHeight(true);
+	tableAlbums.setModel(new DefaultTableModel(
+		new Object[][] {
+			{"Album 1"},
+			{"Album 2"},
+			{"Album 3"},
+			{"Album 4"},
+			{"Album 5"},
+		},
+		new String[] {
+			"Albums"
+		}
+	));
+	scrollPane_1.setViewportView(tableAlbums);
 	
 	JPanel Tracks = new JPanel();
 	tabbedPane.addTab("Tracks", null, Tracks, null);
@@ -212,27 +222,31 @@ public class MainFrame extends JFrame{
 	gbc_btnSearchTracks.gridy = 0;
 	Tracks.add(btnSearchTracks, gbc_btnSearchTracks);
 	
+	JScrollPane scrollPane_2 = new JScrollPane();
+	GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
+	gbc_scrollPane_2.gridwidth = 2;
+	gbc_scrollPane_2.insets = new Insets(0, 0, 0, 5);
+	gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
+	gbc_scrollPane_2.gridx = 0;
+	gbc_scrollPane_2.gridy = 1;
+	Tracks.add(scrollPane_2, gbc_scrollPane_2);
+	
 	tableTracks = new JTable();
+	tableTracks.addMouseListener(new TableMouseListenir(tableTracks, popupMenu));
+	tableTracks.setFillsViewportHeight(true);
+	scrollPane_2.setViewportView(tableTracks);
 	tableTracks.setModel(new DefaultTableModel(
 		new Object[][] {
-			{null},
-			{null},
-			{null},
-			{null},
-			{null},
-			{null},
+			{"Track 1"},
+			{"Track 2"},
+			{"Track 3"},
+			{"Track 4"},
+			{"Track 5"},
 		},
 		new String[] {
-			"New column"
+			"Tracks"
 		}
 	));
-	GridBagConstraints gbc_tableTracks = new GridBagConstraints();
-	gbc_tableTracks.gridwidth = 2;
-	gbc_tableTracks.insets = new Insets(0, 0, 0, 5);
-	gbc_tableTracks.fill = GridBagConstraints.BOTH;
-	gbc_tableTracks.gridx = 0;
-	gbc_tableTracks.gridy = 1;
-	Tracks.add(tableTracks, gbc_tableTracks);
 	
 	JPanel Search = new JPanel();
 	tabbedPane.addTab("Search", null, Search, null);

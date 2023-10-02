@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 
+import com.gutengmorgen.ShzTy.models.Artists.Artist;
+
 public class TablePopupMenu extends JPopupMenu implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -59,27 +61,6 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	show(table, event.getX(), event.getY());
     }
 
-    private void addItem() {
-	//TODO: para crear y editar se usaran el mismo frame
-	JDialog dialog = new CustomDialog("Add New Item");
-	dialog.setVisible(true);
-    }
-    
-    private void editItem() {
-	//TODO: para crear y editar se usaran el mismo frame
-	JDialog dialog = new CustomDialog("Edit Current Item");
-	dialog.setVisible(true);
-	
-    }
-
-    private void removeItem() {
-	//TODO: para eliminar saldra una ventana de emergencia
-	int a = JOptionPane.showConfirmDialog(table, "Are you sure?");
-	if(a == JOptionPane.YES_OPTION){
-	    System.out.println("Se elemino el Artist");
-	}
-    }
-
     private void showInfo() {
 	//TODO: para show more se desplegara toda la info del artist agrandando su row y luego volvera a su tamaño inicial con un boton, show less
 	
@@ -89,7 +70,30 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	    table.setRowHeight(currentRow, 16);
 	else
 	    table.setRowHeight(currentRow, 50);
-	    
     }
     
+    private void editItem() {
+	//TODO: para crear y editar se usaran el mismo frame
+	
+	CustomDialog dialog = new CustomDialog("Edit Current Item");
+	dialog.autoFill(Artist.class);
+	dialog.setVisible(true);
+    }
+    
+    private void addItem() {
+	//TODO: para crear y editar se usaran el mismo frame
+	
+	CustomDialog dialog = new CustomDialog("Add New Item");
+	dialog.autoFill(Artist.class);
+	dialog.setVisible(true);
+    }
+    
+    private void removeItem() {
+	//TODO: para eliminar saldra una ventana de emergencia
+	
+	int a = JOptionPane.showConfirmDialog(table, "Are you sure?");
+	if(a == JOptionPane.YES_OPTION){
+	    System.out.println("Se elemino el Artist");
+	}
+    }
 }

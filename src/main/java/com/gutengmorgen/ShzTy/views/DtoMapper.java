@@ -1,59 +1,48 @@
 package com.gutengmorgen.ShzTy.views;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import com.gutengmorgen.ShzTy.models.Artists.Artist;
-
+//NOTE: necesito obtener la clase del modelo para usar su find_DTOs
 public class DtoMapper {
+    private static String modelsPackage = "com.gutengmorgen.ShzTy.models";
     
     public static void main(String[] args) {
-//	System.out.println(nameExtrator("tests-Artists"));
-//	map("table-Artists", DtoTypes.UPDATE);
-	map(Artist.class, DtoTypes.CREATE);
+	map("table-Artists", DTO_MODEL.UPDATE);
     }
     
-    private static String nameExtrator(String input) {
-	String splited = input.split("-")[1];
-//	System.out.println("slited: " + splited);
-	
-	Pattern pattern = Pattern.compile("s?$");
-	Matcher matcher = pattern.matcher(splited);
-	
-	if (matcher.find()) {
-            String result = matcher.replaceAll("");
-            return result;
-        } else {
-            throw new RuntimeException("El nombre " + input + " no es valido");
-        }
+    private static String simpleExtractor(String input) {
+	return(input.split("-")[1]);
     }
 
-    public static Class<?> map(String entityName, DtoTypes dtoType) {
-	String name = nameExtrator(entityName);
-	Class<?> clazz;
-	try {
-	    clazz = Class.forName("com.gutengmorgen.ShzTy.models.Artists." + name);
-	    System.out.println("name: " + clazz.getName());
-	} catch (ClassNotFoundException e) {
-	    e.printStackTrace();
-	}
-	return null;
-    }
-
-    //TODO: what about pass the entity instead to find by the name
-    public static Class<?> map(Class<?> entity, DtoTypes dtoType) {
+    public static Class<?> map(String entityName, DTO_MODEL model) {
+	String classSimpleName = simpleExtractor(entityName);
 	
 	try {
-	    Method method = entity.getMethod("dtoRooter", DtoTypes.class);
-	    Class<?> result = (Class<?>) method.invoke(null, dtoType);
-	    System.out.println(result.getName());
+	    Class<?> modelClass = ClassFinder.findClassInPackage(modelsPackage, classSimpleName);
+	    return executeMethod(modelClass, model);
+	    
 	} catch (Exception e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 	
 	return null;
+    }
+    
+    public static Class<?> map(String packageName, String entityName, DTO_MODEL model) {
+	String classSimpleName = simpleExtractor(entityName);
+	
+	try {
+	    Class<?> modelClass = ClassFinder.findClassInPackage(modelsPackage, classSimpleName);
+	    return executeMethod(modelClass, model);
+	    
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return null;
+    }
+    
+    private static Class<?> executeMethod(Class<?> modelClass, DTO_MODEL model) throws Exception{
+	Method method = modelClass.getMethod("find_DTOs", DTO_MODEL.class);
+	return (Class<?>) method.invoke(null, model);
     }
 }

@@ -129,9 +129,9 @@ public class MainFrame extends JFrame{
 	TablePopupMenu popupMenu = new TablePopupMenu();
 	
 	tableArtists = new JTable();
-	tableArtists.setName("table-Artists");
+//	NOTE: strategy name = table-{EntityName/ModelName}
+	tableArtists.setName("table-Artist");
 	tableArtists.addMouseListener(new TableMouseListenir(tableArtists, popupMenu));
-//	tableArtists.setComponentPopupMenu(new CustomPopupMenu(this, tableArtists));
 	tableArtists.setFillsViewportHeight(true);
 	scrollPane.setViewportView(tableArtists);
 	tableArtists.setModel(new DefaultTableModel(
@@ -182,7 +182,7 @@ public class MainFrame extends JFrame{
 	Albums.add(scrollPane_1, gbc_scrollPane_1);
 	
 	tableAlbums = new JTable();
-	tableAlbums.setName("table-Albums");
+	tableAlbums.setName("table-Album");
 	tableAlbums.addMouseListener(new TableMouseListenir(tableAlbums, popupMenu));
 	tableAlbums.setFillsViewportHeight(true);
 	tableAlbums.setModel(new DefaultTableModel(
@@ -234,7 +234,7 @@ public class MainFrame extends JFrame{
 	Tracks.add(scrollPane_2, gbc_scrollPane_2);
 	
 	tableTracks = new JTable();
-	tableTracks.setName("table-Tracks");
+	tableTracks.setName("table-Track");
 	tableTracks.addMouseListener(new TableMouseListenir(tableTracks, popupMenu));
 	tableTracks.setFillsViewportHeight(true);
 	scrollPane_2.setViewportView(tableTracks);

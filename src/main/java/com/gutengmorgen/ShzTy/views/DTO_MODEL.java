@@ -1,6 +1,6 @@
 package com.gutengmorgen.ShzTy.views;
 
-public enum DtoTypes {
+public enum DTO_MODEL {
     CREATE,
     UPDATE,
     DELETE,

@@ -4,14 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
-
-import com.gutengmorgen.ShzTy.models.Artists.Artist;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
 
 public class TablePopupMenu extends JPopupMenu implements ActionListener {
 
@@ -77,7 +73,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	//TODO: para crear y editar se usaran el mismo frame
 	
 	CustomDialog dialog = new CustomDialog("Update Current Item");
-	dialog.autoFill(DtoMapper.map(table.getName(), DtoTypes.UPDATE));
+	dialog.autoFill(DtoMapper.map(table.getName(), DTO_MODEL.UPDATE));
 	dialog.setVisible(true);
     }
     
@@ -86,7 +82,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	
 	CustomDialog dialog = new CustomDialog("Add New Item");
 //	dialog.autoFill(DtoCreateArtist.class);
-	dialog.autoFill(DtoMapper.map(table.getName(), DtoTypes.CREATE));
+	dialog.autoFill(DtoMapper.map(table.getName(), DTO_MODEL.CREATE));
 	dialog.setVisible(true);
     }
     

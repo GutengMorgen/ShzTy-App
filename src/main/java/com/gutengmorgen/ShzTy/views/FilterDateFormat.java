@@ -5,12 +5,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 public class FilterDateFormat extends DocumentFilter {
-    int count = 0;
 
     @Override
     public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
 	super.remove(fb, offset, length);
-	count--;
     }
 
     @Override
@@ -21,6 +19,7 @@ public class FilterDateFormat extends DocumentFilter {
 	
 	//-12346790
 	//12346790-
+	//TODO: agregar un limitador para el mes, dia y año
 	int textLength = fb.getDocument().getLength();
 	if(textLength == 10)
 	    return;

@@ -10,10 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.gutengmorgen.ShzTy.models.Artists.Artist;
-
 import javax.swing.JTextField;
-import javax.swing.JTextArea;
 import java.awt.GridLayout;
 
 public class CustomDialog extends JDialog {
@@ -76,7 +73,7 @@ public class CustomDialog extends JDialog {
 	    contentPanel.add(label);
 	    contentPanel.add(textField);
 	    
-	    System.out.println(fieldName + ", Tipo: " + fieldType.getName());
+//	    System.out.println(fieldName + ", Tipo: " + fieldType.getName());
 	}
     }
 }

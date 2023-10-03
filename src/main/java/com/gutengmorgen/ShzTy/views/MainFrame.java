@@ -11,6 +11,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import com.gutengmorgen.ShzTy.models.Albums.Album;
+import com.gutengmorgen.ShzTy.models.Artists.Artist;
+
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
@@ -126,12 +130,12 @@ public class MainFrame extends JFrame{
 	gbc_scrollPane.gridy = 1;
 	Artists.add(scrollPane, gbc_scrollPane);
 
-	TablePopupMenu popupMenu = new TablePopupMenu();
+	TablePopupMenu tablePopupMenu = new TablePopupMenu();
 	
 	tableArtists = new JTable();
 //	NOTE: strategy name = table-{EntityName/ModelName}
 	tableArtists.setName("table-Artist");
-	tableArtists.addMouseListener(new TableMouseListenir(tableArtists, popupMenu));
+	tableArtists.addMouseListener(new TableMouseListenir(tableArtists, tablePopupMenu, Artist.class));
 	tableArtists.setFillsViewportHeight(true);
 	scrollPane.setViewportView(tableArtists);
 	tableArtists.setModel(new DefaultTableModel(
@@ -183,7 +187,7 @@ public class MainFrame extends JFrame{
 	
 	tableAlbums = new JTable();
 	tableAlbums.setName("table-Album");
-	tableAlbums.addMouseListener(new TableMouseListenir(tableAlbums, popupMenu));
+	tableAlbums.addMouseListener(new TableMouseListenir(tableAlbums, tablePopupMenu, Album.class));
 	tableAlbums.setFillsViewportHeight(true);
 	tableAlbums.setModel(new DefaultTableModel(
 		new Object[][] {
@@ -235,7 +239,7 @@ public class MainFrame extends JFrame{
 	
 	tableTracks = new JTable();
 	tableTracks.setName("table-Track");
-	tableTracks.addMouseListener(new TableMouseListenir(tableTracks, popupMenu));
+	tableTracks.addMouseListener(new TableMouseListenir(tableTracks, tablePopupMenu, null));
 	tableTracks.setFillsViewportHeight(true);
 	scrollPane_2.setViewportView(tableTracks);
 	tableTracks.setModel(new DefaultTableModel(

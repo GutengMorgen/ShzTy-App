@@ -9,9 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoReturnAlbum;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.views.DTO_MODEL;
@@ -46,7 +43,7 @@ public class Artist {
 		+ country + ", biography=" + biography + "]";
     }
     
-    public static Class<?> find_DTOs(DTO_MODEL model) {
+    public static Class<?> findDtoClassByModel(DTO_MODEL model) {
 	Class<?> dtoClass = null;
 	
 	if (model == DTO_MODEL.CREATE) dtoClass = DtoCreateArtist.class;

@@ -2,5 +2,15 @@
 - crear un metodo para buscar una entidad por el nombre
 
 - estrategia para obtener los dtos de un modelo/entidad:
-	- poner todos los dtos de un modelo, crear un metodo find_DTOs y asignarles un DTO_MODEL
-	- 
+	- poner todos los dtos de un modelo(findDtoClassByModel), crear un metodo find_DTOs y asignarles un DTO_MODEL
+	- primero se crea un metodo para buscar todas las clases de los dtos que tiene un modelo
+	- se hacer referencia al modelo desde el nombre de una JTable
+	- se extraer el nombre del modelo del nombre del JTable
+	- se busca la clase del modelo usando su nombreSimple en un package
+	- se ejecuta el metodo(findDtoClassByModel) del modelo para obtener la clase del dto
+	- se obtiene los parametros de la clase del dto
+	- se crear un componente basado en los tipos de parametros de la clase del dto
+	- excepciones que manejar:
+		- que no se encuentre la clase del modelo
+		- que no se encuentre el metodo del modelo
+		- que no se encuentre el dto

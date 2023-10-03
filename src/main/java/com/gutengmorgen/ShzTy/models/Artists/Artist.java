@@ -9,6 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoReturnAlbum;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.views.DTO_MODEL;
 
 import lombok.AllArgsConstructor;
@@ -41,14 +46,13 @@ public class Artist {
 		+ country + ", biography=" + biography + "]";
     }
     
-    public static Class<?> find_DTOs(DTO_MODEL model) throws ClassNotFoundException {
-	String packageName = "com.gutengmorgen.ShzTy.models.Artists.DtoArtists";
-	String classSimpleName = "";
+    public static Class<?> find_DTOs(DTO_MODEL model) {
+	Class<?> dtoClass = null;
 	
-	if(model == DTO_MODEL.CREATE) classSimpleName = "DtoCreateArtist";
-	else if (model == DTO_MODEL.UPDATE) classSimpleName = "DtoUpdateArtist";
-	else if (model == DTO_MODEL.RETURN) classSimpleName = "DtoReturnArtist";
+	if (model == DTO_MODEL.CREATE) dtoClass = DtoCreateArtist.class;
+	else if (model == DTO_MODEL.UPDATE) dtoClass = DtoUpdateArtist.class;
+	else if (model == DTO_MODEL.RETURN) dtoClass = null;
 
-	return Class.forName(packageName + "." + classSimpleName);
+	return dtoClass;
     }
 }

@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.AbstractDocument;
 
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
+import com.toedter.calendar.JDateChooser;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -94,9 +95,11 @@ public class CustomDialog extends JDialog implements ActionListener {
 		contentPanel.add(textField);
 		
 	    } else if (fieldType.getSimpleName().equals("Date")) {
-		JTextField textField = new JTextField(10);
-		((AbstractDocument) textField.getDocument()).setDocumentFilter(new FilterDateFormat());
-		contentPanel.add(textField);
+//		JTextField textField = new JTextField(10);
+//		((AbstractDocument) textField.getDocument()).setDocumentFilter(new FilterDateFormat());
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString("yyyy-MM-dd");
+		contentPanel.add(dateChooser);
 		
 	    } else if (fieldType.getSimpleName().equals("Set")) {
 		String[] options = { "option 1", "option 2", "option 3", "option 4" };

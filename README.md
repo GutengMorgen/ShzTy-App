@@ -14,3 +14,9 @@
 		- que no se encuentre la clase del modelo
 		- que no se encuentre el metodo del modelo
 		- que no se encuentre el dto
+		
+		- crear un combobox en el customdialog segun el modelo que se pide
+		- validar los datos en customdialog
+		- create o update los datos segun el DtoModel
+		- implementar el delete el item de la tabla
+		- implementar el get para cada tabla

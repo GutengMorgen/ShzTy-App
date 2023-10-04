@@ -7,7 +7,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 public class FilterDateFormat extends DocumentFilter {
-    private final Pattern pattern = Pattern.compile("^\\d+$");
+    private final Pattern pattern = Pattern.compile("^[0-9-]*$");
 
     @Override
     public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
@@ -64,13 +64,12 @@ public class FilterDateFormat extends DocumentFilter {
 
 	if (isValid(newText)) {
 	    if (newText.length() == 4 || newText.length() == 7) {
-		super.replace(fb, offset, length, "-" + text, attrs);
+		super.replace(fb, offset, length, text + "-", attrs);
 	    } else {
 		super.replace(fb, offset, length, text, attrs);
 	    }
-	}
-	else {
-	    System.out.println("invalid");
+	} else {
+//	    System.out.println("invalid");
 	}
 
     }

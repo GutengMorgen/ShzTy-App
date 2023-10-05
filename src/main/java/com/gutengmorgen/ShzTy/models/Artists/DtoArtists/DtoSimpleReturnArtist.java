@@ -1,9 +1,11 @@
 package com.gutengmorgen.ShzTy.models.Artists.DtoArtists;
 
-import java.sql.Date;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.models.Genres.Genre;
+import com.gutengmorgen.ShzTy.models.Languages.Language;
 
 public record DtoSimpleReturnArtist(
 	String Name,
@@ -21,8 +23,9 @@ public record DtoSimpleReturnArtist(
 		artist.getCountry(),
 		artist.tracksCount(), 
 		artist.albumsCount(),
-		Set.of("fwefe", "ewfwef"),
-		Set.of());
+		artist.getLanguages().stream().map(Language::getName).collect(Collectors.toSet()),
+		artist.getGenres().stream().map(Genre::getName).collect(Collectors.toSet())
+	);
     }
     
 }

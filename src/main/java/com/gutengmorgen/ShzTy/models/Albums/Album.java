@@ -38,7 +38,7 @@ public class Album {
     @Column(name = "id_albums")
     private Long id;
     private String title;
-    private Date release_Date;
+    private Date release_date;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_artists")

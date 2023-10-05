@@ -31,8 +31,8 @@ public class Track {
     @Column(name = "id_tracks")
     private Long id;
     private String title;
-    private Date release_Date;
-    private int play_Time;
+    private Date release_date;
+    private int play_time;
     private String notes;
     
     @ManyToOne(cascade = CascadeType.MERGE)

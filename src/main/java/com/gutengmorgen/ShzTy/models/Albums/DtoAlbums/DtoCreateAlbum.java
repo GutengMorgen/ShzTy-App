@@ -3,8 +3,8 @@ package com.gutengmorgen.ShzTy.models.Albums.DtoAlbums;
 import java.sql.Date;
 import java.util.Set;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public record DtoCreateAlbum(
 	@NotBlank(message = "Title is required")

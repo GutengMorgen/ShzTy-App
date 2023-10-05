@@ -11,12 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AbstractDocument;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
 import com.toedter.calendar.JDateChooser;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import javax.swing.JTextField;
 import java.awt.GridLayout;
@@ -102,6 +102,10 @@ public class CustomDialog extends JDialog implements ActionListener {
 		contentPanel.add(dateChooser);
 		
 	    } else if (fieldType.getSimpleName().equals("Set")) {
+		//NOTE: obtener los nombres e ids de un modelo
+		//crear un query para que obtenga solo los nombres e ids de un modelo
+		//crear un controller para que facilite la llamada ese query
+		//el controller devolvera una lista de objectos con dos parametros {nombre, id}
 		String[] options = { "option 1", "option 2", "option 3", "option 4" };
 		JComboBox<String> comboBox = new JComboBox<String>(options);
 		contentPanel.add(comboBox);

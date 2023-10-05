@@ -6,26 +6,27 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-import com.gutengmorgen.ShzTy.factory.HibernateUtil;
+import com.gutengmorgen.ShzTy.factory.ConnectionBaseHibernate;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 
 public class Main {
 
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-	EntityManagerFactory emf = HibernateUtil.getEmf();
+	EntityManagerFactory emf = ConnectionBaseHibernate.getManagerFactory();
 	EntityManager em = emf.createEntityManager();
 	
-        String jpql = "SELECT a FROM Artist a";
+        String jpql = "SELECT a.name FROM Artist a";
         Query query = em.createQuery(jpql);
 
-        List<Artist> artistList = query.getResultList();
+        List<String> artistList = query.getResultList();
 
-        for (Artist artist : artistList) {
+        for (var artist : artistList) {
 	    System.out.println(artist.toString());
 	}
 	
 	em.close();
-	HibernateUtil.closeEmf();
+	ConnectionBaseHibernate.closeManagerFactory();
     }
 
 }

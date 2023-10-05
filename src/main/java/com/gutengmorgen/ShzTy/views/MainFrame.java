@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.gutengmorgen.ShzTy.Services.ArtistService;
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 
@@ -132,24 +133,26 @@ public class MainFrame extends JFrame{
 
 	TablePopupMenu tablePopupMenu = new TablePopupMenu();
 	
-	tableArtists = new JTable();
+	ArtistService artistService = new ArtistService();
+	
+	tableArtists = new JTable(new ArtistTableModel(artistService.getAllArtist()));
 //	NOTE: strategy name = table-{EntityName/ModelName}
 	tableArtists.setName("table-Artist");
 	tableArtists.addMouseListener(new TableMouseListenir(tableArtists, tablePopupMenu, Artist.class));
 	tableArtists.setFillsViewportHeight(true);
 	scrollPane.setViewportView(tableArtists);
-	tableArtists.setModel(new DefaultTableModel(
-		new Object[][] {
-			{"artista 1"},
-			{"artista 2"},
-			{"artista 3"},
-			{"artista 4"},
-			{"artista 5"},
-		},
-		new String[] {
-			"Artists"
-		}
-	));
+//	tableArtists.setModel(new DefaultTableModel(
+//		new Object[][] {
+//			{"artista 1"},
+//			{"artista 2"},
+//			{"artista 3"},
+//			{"artista 4"},
+//			{"artista 5"},
+//		},
+//		new String[] {
+//			"Artists"
+//		}
+//	));
 	
 	JPanel Albums = new JPanel();
 	tabbedPane.addTab("Albums", null, Albums, null);

@@ -3,7 +3,7 @@ package com.gutengmorgen.ShzTy.models.Artists.DtoArtists;
 import java.sql.Date;
 import java.util.Set;
 
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 //@NotBlank(message = "hello man")
 public record DtoCreateArtist(

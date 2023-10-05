@@ -37,6 +37,14 @@ public class Artist {
     private String biography;
     
     
+    public int getAllTracks() {
+	return 10;
+    }
+    
+    public int getAllAlbums() {
+	return 9;
+    }
+    
     @Override
     public String toString() {
 	return "Artist [id=" + id + ", name=" + name + ", born_date=" + born_date + ", gender=" + gender + ", country="

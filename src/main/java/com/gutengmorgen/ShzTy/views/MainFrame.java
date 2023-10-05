@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.gutengmorgen.ShzTy.DAOs.ArtistDAO;
 import com.gutengmorgen.ShzTy.Services.ArtistService;
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
@@ -133,26 +134,14 @@ public class MainFrame extends JFrame{
 
 	TablePopupMenu tablePopupMenu = new TablePopupMenu();
 	
-	ArtistService artistService = new ArtistService();
+//	ArtistService artistService = new ArtistService();
+	ArtistDAO artistDAO = new ArtistDAO();
 	
-	tableArtists = new JTable(new ArtistTableModel(artistService.getAllArtist()));
-//	NOTE: strategy name = table-{EntityName/ModelName}
-	tableArtists.setName("table-Artist");
+	tableArtists = new JTable(new ArtistTableModel(artistDAO.getSimpleArtistList()));
+	tableArtists.setAutoCreateRowSorter(true);
 	tableArtists.addMouseListener(new TableMouseListenir(tableArtists, tablePopupMenu, Artist.class));
 	tableArtists.setFillsViewportHeight(true);
 	scrollPane.setViewportView(tableArtists);
-//	tableArtists.setModel(new DefaultTableModel(
-//		new Object[][] {
-//			{"artista 1"},
-//			{"artista 2"},
-//			{"artista 3"},
-//			{"artista 4"},
-//			{"artista 5"},
-//		},
-//		new String[] {
-//			"Artists"
-//		}
-//	));
 	
 	JPanel Albums = new JPanel();
 	tabbedPane.addTab("Albums", null, Albums, null);
@@ -189,7 +178,6 @@ public class MainFrame extends JFrame{
 	Albums.add(scrollPane_1, gbc_scrollPane_1);
 	
 	tableAlbums = new JTable();
-	tableAlbums.setName("table-Album");
 	tableAlbums.addMouseListener(new TableMouseListenir(tableAlbums, tablePopupMenu, Album.class));
 	tableAlbums.setFillsViewportHeight(true);
 	tableAlbums.setModel(new DefaultTableModel(
@@ -241,7 +229,6 @@ public class MainFrame extends JFrame{
 	Tracks.add(scrollPane_2, gbc_scrollPane_2);
 	
 	tableTracks = new JTable();
-	tableTracks.setName("table-Track");
 	tableTracks.addMouseListener(new TableMouseListenir(tableTracks, tablePopupMenu, null));
 	tableTracks.setFillsViewportHeight(true);
 	scrollPane_2.setViewportView(tableTracks);

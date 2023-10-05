@@ -1,17 +1,24 @@
 package com.gutengmorgen.ShzTy.models.Albums;
 
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoReturnAlbum;
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
+import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.models.Tracks.Track;
 import com.gutengmorgen.ShzTy.views.DTO_MODEL;
 
 import lombok.AllArgsConstructor;
@@ -31,12 +38,17 @@ public class Album {
     @Column(name = "id_albums")
     private Long id;
     private String title;
-    private Date releaseDate;
+    private Date release_Date;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_artists")
+    private Artist artist;
     
-    @Override
-    public String toString() {
-	return "Album [id=" + id + ", title=" + title + ", releaseDate=" + releaseDate + "]";
+    @OneToMany(mappedBy = "album")
+    private Set<Track> tracks;
+    
+    public int tracksCount() {
+	return this.tracks.size();
     }
     
     public static Class<?> findDtoClassByModel(DTO_MODEL model) {

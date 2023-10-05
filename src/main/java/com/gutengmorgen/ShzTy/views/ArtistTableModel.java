@@ -4,22 +4,22 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleReturnArtist;
 
 public class ArtistTableModel extends AbstractTableModel {
-
     private static final long serialVersionUID = 2144749428898020008L;
 
-    private List<Artist> artists;
-    private String[] columnNames = { "ID", "Name", "Born Date", "Gender", "Country", "Biography" };
+    //NOTE: automatizar el proceso
+    private List<DtoSimpleReturnArtist> simepleReturnArtists;
+    private String[] columnNames = { "Name", "Gender", "Country", "Count Tracks", "Count Albums", "Languages", "Genres" };
 
-    public ArtistTableModel(List<Artist> artists) {
-	this.artists = artists;
+    public ArtistTableModel(List<DtoSimpleReturnArtist> simpleReturnArtists) {
+	this.simepleReturnArtists = simpleReturnArtists;
     }
 
     @Override
     public int getRowCount() {
-	return artists.size();
+	return simepleReturnArtists.size();
     }
 
     @Override
@@ -28,27 +28,29 @@ public class ArtistTableModel extends AbstractTableModel {
     }
 
     @Override
-    public String getColumnName(int column) {
-	return columnNames[column];
+    public String getColumnName(int columnIndex) {
+	return columnNames[columnIndex];
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-	Artist artist = artists.get(rowIndex);
+	DtoSimpleReturnArtist simpleReturnArtist = simepleReturnArtists.get(rowIndex);
 
 	switch (columnIndex) {
 	case 0:
-	    return artist.getId();
+	    return simpleReturnArtist.Name();
 	case 1:
-	    return artist.getName();
+	    return simpleReturnArtist.Gender();
 	case 2:
-	    return artist.getBorn_date();
+	    return simpleReturnArtist.Country();
 	case 3:
-	    return artist.getGender();
+	    return simpleReturnArtist.CountTracks();
 	case 4:
-	    return artist.getCountry();
+	    return simpleReturnArtist.CountAlbums();
 	case 5:
-	    return artist.getBiography();
+	    return simpleReturnArtist.Languages().toString();
+	case 6:
+	    return simpleReturnArtist.Genres();
 	default:
 	    return null;
 	}

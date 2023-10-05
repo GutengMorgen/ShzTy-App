@@ -1,14 +1,17 @@
 package com.gutengmorgen.ShzTy.models.Artists;
 
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.views.DTO_MODEL;
@@ -36,20 +39,19 @@ public class Artist {
     private String country;
     private String biography;
     
+    @OneToMany(mappedBy = "artist")
+    private Set<Album> albums;
     
-    public int getAllTracks() {
-	return 10;
+    
+    public int tracksCount() {
+	return this.albums.stream().mapToInt(Album::tracksCount).sum();
     }
     
-    public int getAllAlbums() {
-	return 9;
+    public int albumsCount() {
+	return this.albums.size();
     }
     
-    @Override
-    public String toString() {
-	return "Artist [id=" + id + ", name=" + name + ", born_date=" + born_date + ", gender=" + gender + ", country="
-		+ country + ", biography=" + biography + "]";
-    }
+    
     
     public static Class<?> findDtoClassByModel(DTO_MODEL model) {
 	Class<?> dtoClass = null;
@@ -59,5 +61,11 @@ public class Artist {
 	else if (model == DTO_MODEL.RETURN) dtoClass = null;
 
 	return dtoClass;
+    }
+
+    @Override
+    public String toString() {
+	return "Artist [id=" + id + ", name=" + name + ", born_date=" + born_date + ", gender=" + gender + ", country="
+		+ country + ", biography=" + biography + ", albums=" + albums + "]";
     }
 }

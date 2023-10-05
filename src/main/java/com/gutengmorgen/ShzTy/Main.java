@@ -7,7 +7,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
 import com.gutengmorgen.ShzTy.factory.ConnectionBaseHibernate;
-import com.gutengmorgen.ShzTy.models.Artists.Artist;
 
 public class Main {
 

@@ -19,9 +19,9 @@ public record DtoSimpleReturnArtist(
 		artist.getName(),
 		artist.getGender(),
 		artist.getCountry(),
-		artist.getAllTracks(), 
-		artist.getAllAlbums(),
-		Set.of(),
+		artist.tracksCount(), 
+		artist.albumsCount(),
+		Set.of("fwefe", "ewfwef"),
 		Set.of());
     }
     

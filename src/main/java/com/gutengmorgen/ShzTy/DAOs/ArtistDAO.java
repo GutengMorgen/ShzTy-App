@@ -33,4 +33,10 @@ public class ArtistDAO {
 	
 	service.close();
     }
+    
+    public List<DtoSimpleReturnArtist> getSimpleArtistList() {
+	List<DtoSimpleReturnArtist> result = service.getAllSimpleArtist();
+	service.close();
+	return result;
+    }
 }

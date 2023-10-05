@@ -5,21 +5,30 @@ import java.awt.FlowLayout;
 import java.lang.reflect.Field;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AbstractDocument;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
+import com.toedter.calendar.JDateChooser;
+
 
 import javax.swing.JTextField;
-import javax.swing.JTextArea;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class CustomDialog extends JDialog {
+public class CustomDialog extends JDialog implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private final JPanel contentPanel = new JPanel();
+    private JButton okButton;
+    private JButton cancelButton;
 
     /**
      * Launch the application.
@@ -28,6 +37,7 @@ public class CustomDialog extends JDialog {
 	try {
 	    CustomDialog dialog = new CustomDialog("Custom Dialog");
 	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	    dialog.autoFill(DtoCreateAlbum.class);
 	    dialog.setVisible(true);
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -44,39 +54,93 @@ public class CustomDialog extends JDialog {
 	contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	getContentPane().add(contentPanel, BorderLayout.CENTER);
 	contentPanel.setLayout(new GridLayout(0, 2, 0, 0));
-	
+
 	{
 	    JPanel buttonPane = new JPanel();
 	    buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	    {
-		JButton okButton = new JButton("OK");
+		okButton = new JButton("OK");
 		okButton.setActionCommand("OK");
+		okButton.addActionListener(this);
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 	    }
 	    {
-		JButton cancelButton = new JButton("Cancel");
+		cancelButton = new JButton("Cancel");
 		cancelButton.setActionCommand("Cancel");
+		cancelButton.addActionListener(this);
 		buttonPane.add(cancelButton);
 	    }
 	}
     }
-    
+
     public void autoFill(Class<?> classToRead) {
 	Field[] fields = classToRead.getDeclaredFields();
-	
-	for(Field field : fields) {
+
+	for (Field field : fields) {
 	    String fieldName = field.getName();
-	    Class<?> fieldType = field.getType(); //TODO: for create a different input component
-	    //TODO: add something to read validation annotation
-	    
-	    JLabel label = new JLabel(fieldName);
-	    JTextField textField = new JTextField(10);
+	    Class<?> fieldType = field.getType();
+
+	    JLabel label = new JLabel(hasValidAnnotations(field) ? fieldName + " *" : fieldName);
 	    contentPanel.add(label);
-	    contentPanel.add(textField);
-	    
-	    System.out.println(fieldName + ", Tipo: " + fieldType.getName());
+
+	    if (fieldType.getSimpleName().equals("String")) {
+		JTextField textField = new JTextField(10);
+		contentPanel.add(textField);
+		
+	    } else if (fieldType.getSimpleName().equals("Long") | fieldType.getSimpleName().equals("int")) {
+		JTextField textField = new JTextField(10);
+		((AbstractDocument) textField.getDocument()).setDocumentFilter(new FilterOnlyNumbers());
+		contentPanel.add(textField);
+		
+	    } else if (fieldType.getSimpleName().equals("Date")) {
+//		JTextField textField = new JTextField(10);
+//		((AbstractDocument) textField.getDocument()).setDocumentFilter(new FilterDateFormat());
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString("yyyy-MM-dd");
+		contentPanel.add(dateChooser);
+		
+	    } else if (fieldType.getSimpleName().equals("Set")) {
+		//NOTE: obtener los nombres e ids de un modelo
+		//crear un query para que obtenga solo los nombres e ids de un modelo
+		//crear un controller para que facilite la llamada ese query
+		//el controller devolvera una lista de objectos con dos parametros {nombre, id}
+		String[] options = { "option 1", "option 2", "option 3", "option 4" };
+		JComboBox<String> comboBox = new JComboBox<String>(options);
+		contentPanel.add(comboBox);
+	    }
+
+//	    System.out.println(fieldName + ", Tipo: " + fieldType.getName());
 	}
+    }
+
+    private boolean hasValidAnnotations(Field field) {
+	if (field.isAnnotationPresent(NotNull.class))
+	    return true;
+	else if (field.isAnnotationPresent(NotBlank.class))
+	    return true;
+	else
+	    return false;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+	if (e.getSource().equals(okButton)) {
+	    okAction();
+	} else if (e.getSource().equals(cancelButton)) {
+	    cancelAction();
+	}
+
+    }
+
+    private void okAction() {
+	// TODO Auto-generated method stub
+
+    }
+
+    private void cancelAction() {
+	// TODO Auto-generated method stub
+
     }
 }

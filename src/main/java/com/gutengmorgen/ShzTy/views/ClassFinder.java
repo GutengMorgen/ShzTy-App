@@ -8,24 +8,24 @@ public class ClassFinder {
     public static void main(String[] args) throws ClassNotFoundException, Exception {
 	String className = "package-info";
 	String packageName = "com.gutengmorgen.ShzTy.models";
-//	List<Class<?>> classes = findClassesInPackage(packageName);
+	List<Class<?>> classes = findClassesInPackage(packageName);
 
-	/*
-	 * for (Class<?> clazz : classes) { if(clazz.getSimpleName().equals(clazzName))
-	 * { // System.out.println(clazz.getName());
-	 * 
-	 * 
-	 * System.out.println(clazz.getAnnotations()); Annotation[] annotations =
-	 * clazz.getAnnotations(); for (Annotation annotation : annotations) {
-	 * if(annotation instanceof NotBlank) { NotBlank notBlank = (NotBlank)
-	 * annotation; System.out.println("esta es mi anotacion: " +
-	 * notBlank.message());
-	 * 
-	 * } }
-	 * 
-	 * } System.out.println("Clases: " + clazz.getName() + " \nsimple: " +
-	 * clazz.getSimpleName()); }
-	 */
+	
+//	  for (Class<?> clazz : classes) { 
+//	      if(clazz.getSimpleName().equals(className))
+//	      { 
+//    	  	Annotation[] annotations = clazz.getAnnotations(); 
+//    	  	for (Annotation annotation : annotations) {
+//    	  	    if(annotation instanceof NotBlank) { 
+//    	  		NotBlank notBlank = (NotBlank) annotation; 
+//    	  	    	System.out.println("esta es mi anotacion: " + notBlank.message());
+//    	  	    }
+//	  	}
+//	      }
+//	      
+//	      System.out.println("Clases: " + clazz.getName() + " \nsimple: " + clazz.getSimpleName()); 
+//	  }
+	 
 	
 	findClassInPackage(packageName, className);
     }

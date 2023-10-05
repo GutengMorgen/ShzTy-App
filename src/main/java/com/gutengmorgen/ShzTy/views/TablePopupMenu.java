@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 
+import com.gutengmorgen.ShzTy.models.Artists.Artist;
+
 public class TablePopupMenu extends JPopupMenu implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -17,6 +19,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem menuItemRemove;
     private JMenuItem menuItemAdd;
     private JTable table;
+    private Class<?> classModel;
 
     public TablePopupMenu() {
 	menuItemInfo = new JMenuItem("Show More Info");
@@ -48,8 +51,9 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	
     }
     
-    public void show(MouseEvent event, JTable table) {
-	this.table = table;
+    public void show(MouseEvent event, Class<?> clazz) {
+	this.table = (JTable) event.getComponent();
+	this.classModel = clazz;
 	
 	int currentRow = table.getSelectedRow();
 	int rowHeight = table.getRowHeight(currentRow);
@@ -69,11 +73,12 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	    table.setRowHeight(currentRow, 50);
     }
     
+    
     private void updateItem() {
 	//TODO: para crear y editar se usaran el mismo frame
 	
 	CustomDialog dialog = new CustomDialog("Update Current Item");
-	dialog.autoFill(DtoMapper.map(table.getName(), DTO_MODEL.UPDATE));
+	dialog.autoFill(DtoMapper.map(classModel, DTO_MODEL.UPDATE));
 	dialog.setVisible(true);
     }
     
@@ -81,8 +86,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	//TODO: para crear y editar se usaran el mismo frame
 	
 	CustomDialog dialog = new CustomDialog("Add New Item");
-//	dialog.autoFill(DtoCreateArtist.class);
-	dialog.autoFill(DtoMapper.map(table.getName(), DTO_MODEL.CREATE));
+	dialog.autoFill(DtoMapper.map(classModel, DTO_MODEL.CREATE));
 	dialog.setVisible(true);
     }
     
@@ -93,5 +97,10 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	if(a == JOptionPane.YES_OPTION){
 	    System.out.println("Se elemino el Artist");
 	}
+    }
+
+    public Object setModelClass(Class<Artist> class1) {
+	// TODO Auto-generated method stub
+	return null;
     }
 }

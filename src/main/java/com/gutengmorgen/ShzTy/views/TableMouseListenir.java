@@ -7,25 +7,29 @@ import javax.swing.JTable;
 
 public class TableMouseListenir extends MouseAdapter {
     JTable table;
-    TablePopupMenu popupMenu;
+    TablePopupMenu tablePopupMenu;
+    Class<?> clazz;
     
-    public TableMouseListenir(JTable table, TablePopupMenu popupMenu) {
+    public TableMouseListenir(JTable table, TablePopupMenu tablePopupMenu, Class<?> clazz) {
 	this.table = table;
-	this.popupMenu = popupMenu;
+	this.tablePopupMenu = tablePopupMenu;
+	this.clazz = clazz;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-	super.mouseReleased(e);
 	
 	if(e.isPopupTrigger()) {
 		int row = table.rowAtPoint(e.getPoint());
 		
-		if(row >= 0 && row < table.getRowCount()) {
+		if(isValidRow(row)) {
 		    table.setRowSelectionInterval(row, row);
-		    popupMenu.show(e, table);
+		    tablePopupMenu.show(e, clazz);
 		}
 	    }
     }
 
+    private boolean isValidRow(int row) {
+        return row >= 0 && row < table.getRowCount();
+    }
 }

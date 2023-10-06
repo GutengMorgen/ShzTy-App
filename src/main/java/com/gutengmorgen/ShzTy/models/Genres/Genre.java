@@ -1,5 +1,6 @@
 package com.gutengmorgen.ShzTy.models.Genres;
 
+import java.sql.Date;
 import java.util.Set;
 
 import javax.persistence.Column;

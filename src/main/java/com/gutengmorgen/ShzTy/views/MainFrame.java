@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.gutengmorgen.ShzTy.DAOs.ArtistDAO;
-import com.gutengmorgen.ShzTy.Services.ArtistService;
+import com.gutengmorgen.ShzTy.Repositories.ArtistRepository;
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 
@@ -137,7 +137,7 @@ public class MainFrame extends JFrame{
 //	ArtistService artistService = new ArtistService();
 	ArtistDAO artistDAO = new ArtistDAO();
 	
-	tableArtists = new JTable(new ArtistTableModel(artistDAO.getSimpleArtistList()));
+	tableArtists = new JTable(new ArtistTableModel(artistDAO.getSimpleList()));
 	tableArtists.setAutoCreateRowSorter(true);
 	tableArtists.addMouseListener(new TableMouseListenir(tableArtists, tablePopupMenu, Artist.class));
 	tableArtists.setFillsViewportHeight(true);

@@ -102,7 +102,7 @@ public class Artist {
     }
     
     public int tracksCount() {
-	return this.albums.stream().mapToInt(Album::tracksCount).sum();
+	return 0;
     }
     
     public int albumsCount() {
@@ -122,6 +122,7 @@ public class Artist {
     @Override
     public String toString() {
 	return "Artist [id=" + id + ", name=" + name + ", born_date=" + born_date + ", gender=" + gender + ", country="
-		+ country + ", biography=" + biography + ", albums=" + albums + "]";
+		+ country + ", biography=" + biography + ", albums=" + albums + ", genres=" + genres + ", languages="
+		+ languages + "]";
     }
 }

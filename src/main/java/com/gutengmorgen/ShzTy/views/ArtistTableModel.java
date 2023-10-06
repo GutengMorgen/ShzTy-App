@@ -11,7 +11,7 @@ public class ArtistTableModel extends AbstractTableModel {
 
     //NOTE: automatizar el proceso
     private List<DtoSimpleReturnArtist> simepleReturnArtists;
-    private String[] columnNames = { "Name", "Gender", "Country", "Count Tracks", "Count Albums", "Languages", "Genres" };
+    private String[] columnNames = { "Name", "Gender", "Country", "Count Albums", "Languages", "Genres" };
 
     public ArtistTableModel(List<DtoSimpleReturnArtist> simpleReturnArtists) {
 	this.simepleReturnArtists = simpleReturnArtists;
@@ -44,12 +44,10 @@ public class ArtistTableModel extends AbstractTableModel {
 	case 2:
 	    return simpleReturnArtist.Country();
 	case 3:
-	    return simpleReturnArtist.CountTracks();
-	case 4:
 	    return simpleReturnArtist.CountAlbums();
+	case 4:
+	    return simpleReturnArtist.Languages();
 	case 5:
-	    return simpleReturnArtist.Languages().toString();
-	case 6:
 	    return simpleReturnArtist.Genres();
 	default:
 	    return null;

@@ -2,21 +2,22 @@ package com.gutengmorgen.ShzTy;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-import com.gutengmorgen.ShzTy.factory.ConnectionBaseHibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.gutengmorgen.ShzTy.factory.HibernateUtils;
 
 public class Main {
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-	EntityManagerFactory emf = ConnectionBaseHibernate.getManagerFactory();
-	EntityManager em = emf.createEntityManager();
+	SessionFactory sFactory = HibernateUtils.getSessionFactory();
+	Session session = sFactory.openSession();
 	
         String jpql = "SELECT a.name FROM Artist a";
-        Query query = em.createQuery(jpql);
+        Query query = session.createQuery(jpql);
 
         List<String> artistList = query.getResultList();
 
@@ -24,8 +25,8 @@ public class Main {
 	    System.out.println(artist.toString());
 	}
 	
-	em.close();
-	ConnectionBaseHibernate.closeManagerFactory();
+	session.close();
+	HibernateUtils.closeSessionFactory();
     }
 
 }

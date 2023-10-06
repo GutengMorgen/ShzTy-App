@@ -11,7 +11,7 @@ public record DtoSimpleReturnArtist(
 	String Name,
         String Gender,
         String Country,
-        int CountTracks, //cuando se haga click en la celda, conducira a tracks y buscara todos los track de este artista
+//        int CountTracks, //cuando se haga click en la celda, conducira a tracks y buscara todos los track de este artista
         int CountAlbums,
         Set<String> Languages,
         Set<String> Genres) {
@@ -21,11 +21,9 @@ public record DtoSimpleReturnArtist(
 		artist.getName(),
 		artist.getGender(),
 		artist.getCountry(),
-		artist.tracksCount(), 
 		artist.albumsCount(),
-		artist.getLanguages().stream().map(Language::getName).collect(Collectors.toSet()),
-		artist.getGenres().stream().map(Genre::getName).collect(Collectors.toSet())
+		artist.getLanguages().stream().map(language -> language.getName()).collect(Collectors.toSet()),
+		artist.getGenres().stream().map(genre -> genre.getName()).collect(Collectors.toSet())
 	);
     }
-    
 }

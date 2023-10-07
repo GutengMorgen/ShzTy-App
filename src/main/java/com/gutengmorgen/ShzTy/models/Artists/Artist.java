@@ -49,11 +49,11 @@ public class Artist {
     @OneToMany(mappedBy = "artist")
     private Set<Album> albums;
     
-    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "artists_genres", joinColumns = @JoinColumn(name = "artist_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
     
-    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "artists_languages", joinColumns = @JoinColumn(name = "artist_id"), inverseJoinColumns = @JoinColumn(name = "language_id"))
     private Set<Language> languages = new HashSet<>();
     
@@ -79,10 +79,10 @@ public class Artist {
     }
     public void removeGenre(Genre genre) {
         this.genres.remove(genre);
-        genre.getArtists().remove(this);
+        genre.removeArtist(this);
     }
     public void removeGenres() {
-        for (Genre genre : new HashSet<>(genres)) {
+        for (Genre genre : genres) {
             removeGenre(genre);
         }
     }
@@ -93,10 +93,10 @@ public class Artist {
     }
     public void removeLanguage(Language language) {
         this.languages.remove(language);
-        language.getArtists().remove(this);
+        language.removeArtist(this);
     }
     public void removeLanguages() {
-        for (Language language : new HashSet<>(languages)) {
+        for (Language language : languages) {
             removeLanguage(language);
         }
     }

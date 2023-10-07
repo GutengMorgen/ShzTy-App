@@ -9,11 +9,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.gutengmorgen.ShzTy.factory.HibernateUtils;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleReturnArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleTestingArtist;
+import com.gutengmorgen.ShzTy.models.Genres.Genre;
 
 public class ArtistRepository implements RepositoryBase<Artist> {
     private final Session sess;
@@ -70,13 +73,40 @@ public class ArtistRepository implements RepositoryBase<Artist> {
 
     @Override
     public void save(Artist entity) {
+	Transaction tx = null;
 	try {
-	    sess.getTransaction().begin();
+	    tx = sess.beginTransaction();
 	    sess.persist(entity);
-	    sess.getTransaction().commit();
+	    tx.commit();
 	} catch (Exception e) {
-	    sess.getTransaction().rollback();
-	    System.out.println(e.getMessage());
+	    if (tx != null) {
+		tx.rollback();
+		System.out.println(e.getMessage());
+	    }
+	} finally {
+//	    sess.close();
+	}
+    }
+    
+    public void save(Artist a, DtoCreateArtist dto) {
+	Transaction tx = null;
+	try {
+	    tx = sess.beginTransaction();
+	    
+//	    for (Long genreID : dto.GenreIDs()) {
+//		Genre genre = genreRepository.findById(genreID);
+//		    if (genre == null)
+//			throw new RuntimeException(String.format("Genre with id <%d> not found", genreID));
+//		    a.addGenre(genre);
+//	    }
+	    
+	    sess.persist(a);
+	    tx.commit();
+	} catch (Exception e) {
+	    if (tx != null) {
+		tx.rollback();
+		System.out.println(e.getMessage());
+	    }
 	} finally {
 	    sess.close();
 	}

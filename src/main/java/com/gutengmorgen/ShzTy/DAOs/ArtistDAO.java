@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
+
 import com.gutengmorgen.ShzTy.Repositories.ArtistRepository;
 import com.gutengmorgen.ShzTy.Repositories.GenreRepository;
 import com.gutengmorgen.ShzTy.Repositories.LanguageRepository;
@@ -23,8 +25,8 @@ public class ArtistDAO {
 //	artistDAO.ValidName("Moritz Sancraft");
 //	artistDAO.getSimpleArtistList();
 //	artistDAO.getId(1L);
-	artistDAO.getSimpleList();
 //	artistDAO.saveArtist();
+	artistDAO.getSimpleList();
     }
 
     public Artist getArtistById(Long id) {
@@ -49,36 +51,37 @@ public class ArtistDAO {
     }
 
     public void saveArtist() {
-	DtoCreateArtist dto = new DtoCreateArtist("Moritz Sancraft", new Date(3434423), "Male", "Spain",
+	DtoCreateArtist dto = new DtoCreateArtist("Enrique Iglesias", new Date(3434423), "Male", "Spain",
 		"usa una gorra", Set.of(1L, 2L), Set.of(1L, 2L));
 
 	ValidName(dto.Name());
 
 	Artist artist = new Artist(dto);
+	associateGenres(dto.GenreIDs(), artist);
+	associateLanguages(dto.LanguageIDs(), artist);
 	artistRepository.save(artist);
     }
 
     private void associateLanguages(Set<Long> languageIDs, Artist artist) {
 	for (Long languageID : languageIDs) {
 	    Language language = languageRepository.findById(languageID);
-	    if (language == null) {
+	    if (language == null)
 		throw new RuntimeException(String.format("Language with id <%d> not found", languageID));
-	    }
+	    
 	    artist.addLanguage(language);
-	    language.getArtists().add(artist);
-	    languageRepository.save(language);
+//	    language.getArtists().add(artist);
+//	    languageRepository.save(language);
 	}
     }
 
     private void associateGenres(Set<Long> genreIDs, Artist artist) {
 	for (Long genreID : genreIDs) {
 	    Genre genre = genreRepository.findById(genreID);
-	    if (genre == null) {
+	    if (genre == null)
 		throw new RuntimeException(String.format("Genre with id <%d> not found", genreID));
-	    }
 	    artist.addGenre(genre);
-	    genre.getArtists().add(artist);
-	    genreRepository.save(genre);
+//	    genre.getArtists().add(artist);
+//	    genreRepository.save(genre);
 	}
     }
 

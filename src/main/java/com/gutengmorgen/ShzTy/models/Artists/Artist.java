@@ -65,7 +65,7 @@ public class Artist {
         this.biography = dto.Biography();
     }
     
-    public Artist(DtoUpdateArtist dto) {
+    public void update(DtoUpdateArtist dto) {
 	if(dto.Name() != null) this.name = dto.Name();
         if(dto.BornDate() != null) this.born_date = dto.BornDate();
         if(dto.Gender() != null) this.gender = dto.Gender();

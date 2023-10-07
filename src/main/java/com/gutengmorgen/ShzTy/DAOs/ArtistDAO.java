@@ -10,6 +10,7 @@ import com.gutengmorgen.ShzTy.Repositories.LanguageRepository;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleReturnArtist;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Languages.Language;
 
@@ -22,7 +23,8 @@ public class ArtistDAO {
 	ArtistDAO artistDAO = new ArtistDAO();
 //	artistDAO.getSimpleArtistList();
 //	artistDAO.getId(1L);
-	artistDAO.saveArtist();
+//	artistDAO.saveArtist();
+	artistDAO.updateArtist(1213L);
 	artistDAO.getSimpleList();
     }
 
@@ -33,25 +35,23 @@ public class ArtistDAO {
     public List<Artist> getAllArtists() {
 	return artistRepository.findAll();
     }
-    
+
     public List<DtoSimpleReturnArtist> getSimpleList() {
-	List<DtoSimpleReturnArtist> result = artistRepository.findAll()
-		.stream()
-		.map(artist -> new DtoSimpleReturnArtist(artist))
-		.toList();
+	List<DtoSimpleReturnArtist> result = artistRepository.findAll().stream()
+		.map(artist -> new DtoSimpleReturnArtist(artist)).toList();
 
 	for (DtoSimpleReturnArtist dtoSimpleReturnArtist : result) {
 	    System.out.println(dtoSimpleReturnArtist.toString());
 	}
-	
+
 	return result;
     }
 
     public void saveArtist() {
-	DtoCreateArtist dto = new DtoCreateArtist("Mabbel Pines", new Date(3434423), "Female", "Spain",
-		"usa una gorra", Set.of(2L, 3L), Set.of(2L, 3L));
+	DtoCreateArtist dto = new DtoCreateArtist("Mabbel Pines", new Date(3434423), "Female", "Spain", "usa una gorra",
+		Set.of(2L, 3L), Set.of(2L, 3L));
 
-	ValidName(dto.Name());
+	validName(dto.Name());
 
 	Artist artist = new Artist(dto);
 	associateGenres(dto.GenreIDs(), artist);
@@ -59,12 +59,39 @@ public class ArtistDAO {
 	artistRepository.save(artist);
     }
 
+    public void updateArtist(Long id) {
+	DtoUpdateArtist dto = new DtoUpdateArtist(null, null, null, "USA", null, null, null);
+
+	Artist a = artistRepository.findById(id);
+
+	if (a == null)
+	    throw new RuntimeException(
+		    String.format("Artist with id <%d> doesnt exists or something else happened", id));
+
+	if (dto.Name() != null)
+	    validName(dto.Name());
+
+	a.update(dto);
+
+	if (dto.GenreIDs() != null) {
+	    a.getGenres().clear();
+	    associateGenres(dto.GenreIDs(), a);
+	}
+
+	if (dto.LanguageIDs() != null) {
+	    a.getLanguages().clear();
+	    associateLanguages(dto.LanguageIDs(), a);
+	}
+
+	artistRepository.update(a);
+    }
+
     private void associateLanguages(Set<Long> languageIDs, Artist artist) {
 	for (Long languageID : languageIDs) {
 	    Language language = languageRepository.findById(languageID);
 	    if (language == null)
 		throw new RuntimeException(String.format("Language with id <%d> not found", languageID));
-	    
+
 	    artist.getLanguages().add(language);
 	}
     }
@@ -74,13 +101,18 @@ public class ArtistDAO {
 	    Genre genre = genreRepository.findById(genreID);
 	    if (genre == null)
 		throw new RuntimeException(String.format("Genre with id <%d> not found", genreID));
-	    
+
 	    artist.getGenres().add(genre);
 	}
     }
 
-    private void ValidName(String name) {
+    private void validName(String name) {
 	if (artistRepository.existsByName(name))
 	    throw new RuntimeException(String.format("Artist with name <%s> already exists", name));
+    }
+
+    private void validId(Long id) {
+	if (!artistRepository.existsById(id))
+	    throw new RuntimeException(String.format("Artist with id <%d> doesnt exists", id));
     }
 }

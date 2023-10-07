@@ -15,15 +15,15 @@ import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleReturnArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleTestingArtist;
 
 public class ArtistRepository implements RepositoryBase<Artist> {
-    private final SessionFactory sFactory;
-    
+    private final SessionFactory factory;
+
     public ArtistRepository() {
-	this.sFactory = HibernateUtils.getSessionFactory();
+	this.factory = HibernateUtils.getSessionFactory();
     }
 
     @Override
     public List<Artist> findAll() {
-	try (Session sess = sFactory.openSession()) {
+	try (Session sess = factory.openSession()) {
 	    String jpql = "SELECT DISTINCT a FROM Artist a " + "LEFT JOIN FETCH a.albums " + "LEFT JOIN FETCH a.genres "
 		    + "LEFT JOIN FETCH a.languages ";
 	    return sess.createQuery(jpql, Artist.class).getResultList();
@@ -31,7 +31,7 @@ public class ArtistRepository implements RepositoryBase<Artist> {
     }
 
     public List<DtoSimpleReturnArtist> findAll_SimpleReturn() {
-	try (Session sess = sFactory.openSession()) {
+	try (Session sess = factory.openSession()) {
 	    String jpql = "SELECT a FROM Artist a LEFT JOIN FETCH a.albums";
 	    return sess.createQuery(jpql, Artist.class).getResultList().stream()
 		    .map(artist -> new DtoSimpleReturnArtist(artist)).toList();
@@ -41,21 +41,32 @@ public class ArtistRepository implements RepositoryBase<Artist> {
     @Override
     public void save(Artist entity) {
 	Transaction tx = null;
-	try (Session sess = sFactory.openSession()) {
+	try (Session sess = factory.openSession()) {
 	    tx = sess.beginTransaction();
 	    sess.persist(entity);
 	    tx.commit();
 	} catch (Exception e) {
 	    if (tx != null) {
-		tx.rollback();
 		System.out.println(e.getMessage());
+		tx.rollback();
 	    }
 	}
     }
 
     @Override
     public void update(Artist entity) {
-	// TODO Auto-generated method stub
+	Transaction tx = null;
+	try (Session sess = factory.openSession()) {
+	    tx = sess.beginTransaction();
+	    sess.update(entity);
+	    tx.commit();
+	} catch (Exception e) {
+	    if (tx != null) {
+		System.out.println("this error: " + e.getMessage());
+		e.printStackTrace();
+		tx.rollback();
+	    }
+	}
 
     }
 
@@ -67,20 +78,20 @@ public class ArtistRepository implements RepositoryBase<Artist> {
 
     @Override
     public Artist findById(Long id) {
-	try (Session sess = sFactory.openSession()) {
+	try (Session sess = factory.openSession()) {
 	    String jpql = "SELECT a FROM Artist a " + "LEFT JOIN FETCH a.albums " + "LEFT JOIN FETCH a.genres "
 		    + "LEFT JOIN FETCH a.languages " + "WHERE a.id = :artistId";
-	    Query query = sess.createQuery(jpql, Artist.class);
-	    query.setParameter("artistId", id);
-	    Artist artist = (Artist) query.getSingleResult();
-	    return artist;
+	    TypedQuery<Artist> query = sess.createQuery(jpql, Artist.class).setParameter("artistId", id);
+	    return query.getSingleResult();
+	} catch (Exception e) {
+	    return null;
 	}
     }
 
     // TODO: optimizar el query. aun no funciona, intentar crear diferentes queries
     // y luego unirlos
     public DtoSimpleTestingArtist findByIdReturn(Long id) {
-	try (Session sess = sFactory.openSession()) {
+	try (Session sess = factory.openSession()) {
 	    String jpql = "SELECT NEW com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleTestingArtist(a.name, a.gender, a.country, alb.title) "
 		    + "FROM Artist a " + "JOIN a.albums alb " + "WHERE a.id = :artistId";
 	    Query query = sess.createQuery(jpql, DtoSimpleTestingArtist.class);
@@ -91,14 +102,20 @@ public class ArtistRepository implements RepositoryBase<Artist> {
 
     @Override
     public boolean existsByName(String name) {
-	Session sess = sFactory.openSession();
+	try (Session sess = factory.openSession();) {
+	    String jpql = "SELECT COUNT(a) FROM Artist a WHERE a.name = :name";
+	    TypedQuery<Long> query = sess.createQuery(jpql, Long.class).setParameter("name", name);
 
-	String jpql = "SELECT COUNT(a) FROM Artist a WHERE a.name = :name";
-	TypedQuery<Long> query = sess.createQuery(jpql, Long.class);
-	query.setParameter("name", name);
+	    return query.getSingleResult() > 0;
+	}
+    }
 
-	Long count = query.getSingleResult();
+    public boolean existsById(Long id) {
+	try (Session sess = factory.openSession()) {
+	    String jpql = "SELECT COUNT(a) FROM Artist a WHERE a.id = :id";
+	    TypedQuery<Long> query = sess.createQuery(jpql, Long.class).setParameter("id", id);
 
-	return count > 0;
+	    return query.getSingleResult() > 0;
+	}
     }
 }

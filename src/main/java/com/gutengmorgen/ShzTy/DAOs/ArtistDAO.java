@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Hibernate;
-
 import com.gutengmorgen.ShzTy.Repositories.ArtistRepository;
 import com.gutengmorgen.ShzTy.Repositories.GenreRepository;
 import com.gutengmorgen.ShzTy.Repositories.LanguageRepository;
@@ -22,10 +20,9 @@ public class ArtistDAO {
 
     public static void main(String[] args) {
 	ArtistDAO artistDAO = new ArtistDAO();
-//	artistDAO.ValidName("Moritz Sancraft");
 //	artistDAO.getSimpleArtistList();
 //	artistDAO.getId(1L);
-//	artistDAO.saveArtist();
+	artistDAO.saveArtist();
 	artistDAO.getSimpleList();
     }
 
@@ -51,8 +48,8 @@ public class ArtistDAO {
     }
 
     public void saveArtist() {
-	DtoCreateArtist dto = new DtoCreateArtist("Enrique Iglesias", new Date(3434423), "Male", "Spain",
-		"usa una gorra", Set.of(1L, 2L), Set.of(1L, 2L));
+	DtoCreateArtist dto = new DtoCreateArtist("Mabbel Pines", new Date(3434423), "Female", "Spain",
+		"usa una gorra", Set.of(2L, 3L), Set.of(2L, 3L));
 
 	ValidName(dto.Name());
 
@@ -68,9 +65,7 @@ public class ArtistDAO {
 	    if (language == null)
 		throw new RuntimeException(String.format("Language with id <%d> not found", languageID));
 	    
-	    artist.addLanguage(language);
-//	    language.getArtists().add(artist);
-//	    languageRepository.save(language);
+	    artist.getLanguages().add(language);
 	}
     }
 
@@ -79,9 +74,8 @@ public class ArtistDAO {
 	    Genre genre = genreRepository.findById(genreID);
 	    if (genre == null)
 		throw new RuntimeException(String.format("Genre with id <%d> not found", genreID));
-	    artist.addGenre(genre);
-//	    genre.getArtists().add(artist);
-//	    genreRepository.save(genre);
+	    
+	    artist.getGenres().add(genre);
 	}
     }
 

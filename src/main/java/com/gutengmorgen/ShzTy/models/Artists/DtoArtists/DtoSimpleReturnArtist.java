@@ -4,8 +4,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
-import com.gutengmorgen.ShzTy.models.Genres.Genre;
-import com.gutengmorgen.ShzTy.models.Languages.Language;
 
 public record DtoSimpleReturnArtist(
 	String Name,

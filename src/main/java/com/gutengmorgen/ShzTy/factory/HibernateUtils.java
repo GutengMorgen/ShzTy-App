@@ -18,6 +18,7 @@ public class HibernateUtils {
 	return SESSION_FACTORY;
     }
 
+    //TODO: close this when the MainFrame will be close
     public static void closeSessionFactory() {
 	if (SESSION_FACTORY != null && !SESSION_FACTORY.isClosed()) {
 	    SESSION_FACTORY.close();

@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
-//@NotBlank(message = "hello man")
 public record DtoCreateArtist(
         @NotBlank(message = "Name is required")
         String Name,

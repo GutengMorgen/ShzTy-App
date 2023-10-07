@@ -32,16 +32,4 @@ public class Language {
     
     @ManyToMany(targetEntity = Artist.class, mappedBy = "languages")
     private Set<Artist> artists;
-    
-    public void addArtist(Artist a) {
-	this.artists.add(a);
-    }
-    public void removeArtist(Artist a) {
-	this.artists.remove(a);
-    }
-    public void removeArtists() {
-	for (Artist a : artists) {
-	    removeArtist(a);
-	}
-    }
 }

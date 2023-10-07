@@ -73,36 +73,16 @@ public class Artist {
         if(dto.Biography() != null) this.biography = dto.Biography();
     }
     
-    public void addGenre(Genre genre) {
-        this.genres.add(genre);
-        genre.getArtists().add(this);
-    }
-    public void removeGenre(Genre genre) {
-        this.genres.remove(genre);
-        genre.removeArtist(this);
-    }
-    public void removeGenres() {
+    public void removeAllGenres() {
         for (Genre genre : genres) {
-            removeGenre(genre);
-        }
-    }
-
-    public void addLanguage(Language language) {
-        this.languages.add(language);
-        language.getArtists().add(this);
-    }
-    public void removeLanguage(Language language) {
-        this.languages.remove(language);
-        language.removeArtist(this);
-    }
-    public void removeLanguages() {
-        for (Language language : languages) {
-            removeLanguage(language);
+            this.genres.remove(genre);
         }
     }
     
-    public int tracksCount() {
-	return 0;
+    public void removeAllLanguages() {
+        for (Language language : languages) {
+            this.languages.remove(language);
+        }
     }
     
     public int albumsCount() {

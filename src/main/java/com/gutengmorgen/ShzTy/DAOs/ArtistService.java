@@ -14,14 +14,16 @@ import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Languages.Language;
 
-public class ArtistDAO {
+public class ArtistService {
     ArtistRepository artistRepository = new ArtistRepository();
     LanguageRepository languageRepository = new LanguageRepository();
     GenreRepository genreRepository = new GenreRepository();
 
     public static void main(String[] args) {
-	ArtistDAO artistDAO = new ArtistDAO();
-	artistDAO.getSimpleList();
+	ArtistService artistService = new ArtistService();
+//	artistService.getSimpleList();
+	Artist a = artistService.getArtistById(1L);
+	System.out.println(a.toString());
     }
 
     public Artist getArtistById(Long id) {
@@ -30,7 +32,7 @@ public class ArtistDAO {
 
     public List<Artist> getAllArtists() {
 	List<Artist> list = artistRepository.findAll();
-
+	
 	for (Artist artist : list) {
 	    System.out.println(artist.getId());
 	}

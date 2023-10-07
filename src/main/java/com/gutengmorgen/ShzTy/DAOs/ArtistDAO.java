@@ -21,10 +21,6 @@ public class ArtistDAO {
 
     public static void main(String[] args) {
 	ArtistDAO artistDAO = new ArtistDAO();
-//	artistDAO.getSimpleArtistList();
-//	artistDAO.getId(1L);
-//	artistDAO.saveArtist();
-	artistDAO.updateArtist(1213L);
 	artistDAO.getSimpleList();
     }
 
@@ -33,7 +29,13 @@ public class ArtistDAO {
     }
 
     public List<Artist> getAllArtists() {
-	return artistRepository.findAll();
+	List<Artist> list = artistRepository.findAll();
+
+	for (Artist artist : list) {
+	    System.out.println(artist.getId());
+	}
+
+	return list;
     }
 
     public List<DtoSimpleReturnArtist> getSimpleList() {
@@ -86,6 +88,19 @@ public class ArtistDAO {
 	artistRepository.update(a);
     }
 
+    public void deleteArtist(Long id) {
+	Artist a = artistRepository.findById(id);
+	if (a == null)
+	    throw new RuntimeException(
+		    String.format("Artist with id <%d> doesnt exists or something else happened", id));
+	if (a.albumsCount() != 0) {
+	    throw new RuntimeException(String.format("This artist with id <%d> " + 
+		    "cannot be deleted because has related albums, " +
+		    "first delete all albums by this artist", id));
+	}
+	artistRepository.delete(a);
+    }
+
     private void associateLanguages(Set<Long> languageIDs, Artist artist) {
 	for (Long languageID : languageIDs) {
 	    Language language = languageRepository.findById(languageID);
@@ -109,10 +124,5 @@ public class ArtistDAO {
     private void validName(String name) {
 	if (artistRepository.existsByName(name))
 	    throw new RuntimeException(String.format("Artist with name <%s> already exists", name));
-    }
-
-    private void validId(Long id) {
-	if (!artistRepository.existsById(id))
-	    throw new RuntimeException(String.format("Artist with id <%d> doesnt exists", id));
     }
 }

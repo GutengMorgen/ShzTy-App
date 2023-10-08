@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleReturnArtist;
+import com.gutengmorgen.ShzTy.services.ArtistService;
 
 public class ArtistTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 2144749428898020008L;
@@ -13,8 +14,9 @@ public class ArtistTableModel extends AbstractTableModel {
     private List<DtoSimpleReturnArtist> simepleReturnArtists;
     private String[] columnNames = { "Name", "Gender", "Country", "Count Albums", "Languages", "Genres" };
 
-    public ArtistTableModel(List<DtoSimpleReturnArtist> simpleReturnArtists) {
-	this.simepleReturnArtists = simpleReturnArtists;
+    public ArtistTableModel() {
+	ArtistService artistService = new ArtistService();
+	this.simepleReturnArtists = artistService.getSimpleList();
     }
 
     @Override

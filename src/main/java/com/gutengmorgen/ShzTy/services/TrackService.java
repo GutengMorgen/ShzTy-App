@@ -42,7 +42,7 @@ public class TrackService {
     }
 
     public List<DtoReturnTrack> getSimpleList() {
-	return null;
+	return trackRepository.findAll().stream().map(track -> new DtoReturnTrack(track)).toList();
     }
 
     public void saveTrack() {
@@ -93,8 +93,7 @@ public class TrackService {
 
     public void deleteTrack(Long id) {
 	Track t = validTrack(id);
-	//NOTE: tambien eliminar de la tabla tracks_genres y todos los relacionados
-	t.getGenres().clear();
+	t.getGenres().clear(); //NOTE: tambien eliminar de la tabla tracks_genres y todos los relacionados
 	trackRepository.delete(t);
     }
 

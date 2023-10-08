@@ -10,13 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Tracks.Track;
-import com.gutengmorgen.ShzTy.repositories.ArtistRepository;
-import com.gutengmorgen.ShzTy.services.ArtistService;
 
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
@@ -28,8 +25,8 @@ import java.awt.Insets;
 import javax.swing.JScrollPane;
 
 public class MainFrame extends JFrame{
-
     private static final long serialVersionUID = 1L;
+    
     private JPanel contentPane;
     private JTable tableArtists;
     private JTextField textSearchArtists;
@@ -135,10 +132,7 @@ public class MainFrame extends JFrame{
 
 	TablePopupMenu tablePopupMenu = new TablePopupMenu();
 	
-//	ArtistService artistService = new ArtistService();
-	ArtistService artistService = new ArtistService();
-	
-	tableArtists = new JTable(new ArtistTableModel(artistService.getSimpleList()));
+	tableArtists = new JTable(new ArtistTableModel());
 	tableArtists.setAutoCreateRowSorter(true);
 	tableArtists.addMouseListener(new TableMouseListenir(tableArtists, tablePopupMenu, Artist.class));
 	tableArtists.setFillsViewportHeight(true);
@@ -178,21 +172,9 @@ public class MainFrame extends JFrame{
 	gbc_scrollPane_1.gridy = 1;
 	Albums.add(scrollPane_1, gbc_scrollPane_1);
 	
-	tableAlbums = new JTable();
+	tableAlbums = new JTable(new AlbumTableModel());
 	tableAlbums.addMouseListener(new TableMouseListenir(tableAlbums, tablePopupMenu, Album.class));
 	tableAlbums.setFillsViewportHeight(true);
-	tableAlbums.setModel(new DefaultTableModel(
-		new Object[][] {
-			{"Album 1"},
-			{"Album 2"},
-			{"Album 3"},
-			{"Album 4"},
-			{"Album 5"},
-		},
-		new String[] {
-			"Albums"
-		}
-	));
 	scrollPane_1.setViewportView(tableAlbums);
 	
 	JPanel Tracks = new JPanel();
@@ -229,22 +211,10 @@ public class MainFrame extends JFrame{
 	gbc_scrollPane_2.gridy = 1;
 	Tracks.add(scrollPane_2, gbc_scrollPane_2);
 	
-	tableTracks = new JTable();
+	tableTracks = new JTable(new TrackTableModel());
 	tableTracks.addMouseListener(new TableMouseListenir(tableTracks, tablePopupMenu, Track.class));
 	tableTracks.setFillsViewportHeight(true);
 	scrollPane_2.setViewportView(tableTracks);
-	tableTracks.setModel(new DefaultTableModel(
-		new Object[][] {
-			{"Track 1"},
-			{"Track 2"},
-			{"Track 3"},
-			{"Track 4"},
-			{"Track 5"},
-		},
-		new String[] {
-			"Tracks"
-		}
-	));
 	
 	JPanel Search = new JPanel();
 	tabbedPane.addTab("Search", null, Search, null);

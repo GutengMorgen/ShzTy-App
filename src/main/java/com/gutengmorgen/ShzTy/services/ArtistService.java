@@ -1,6 +1,5 @@
 package com.gutengmorgen.ShzTy.services;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -31,30 +30,16 @@ public class ArtistService {
     }
 
     public List<Artist> getAllArtists() {
-	List<Artist> list = artistRepository.findAll();
-
-	for (Artist artist : list) {
-	    System.out.println(artist.getId());
-	}
-
-	return list;
+	return artistRepository.findAll();
     }
 
     public List<DtoSimpleReturnArtist> getSimpleList() {
-	List<DtoSimpleReturnArtist> result = artistRepository.findAll().stream()
-		.map(artist -> new DtoSimpleReturnArtist(artist)).toList();
-
-	for (DtoSimpleReturnArtist dtoSimpleReturnArtist : result) {
-	    System.out.println(dtoSimpleReturnArtist.toString());
-	}
-
-	return result;
+	return artistRepository.findAll().stream().map(artist -> new DtoSimpleReturnArtist(artist)).toList();
     }
 
-    public void saveArtist() {
-	DtoCreateArtist dto = new DtoCreateArtist("Mabbel Pines", new Date(3434423), "Female", "Spain", "usa una gorra",
-		Set.of(2L, 3L), Set.of(2L, 3L));
-
+    // DtoCreateArtist dto = new DtoCreateArtist("Mabbel Pines", new Date(3434423),
+    // "Female", "Spain", "usa una gorra",Set.of(2L, 3L), Set.of(2L, 3L));
+    public void saveArtist(DtoCreateArtist dto) {
 	validName(dto.Name());
 
 	Artist artist = new Artist(dto);
@@ -63,13 +48,9 @@ public class ArtistService {
 	artistRepository.save(artist);
     }
 
-    public void updateArtist(Long id) {
-	DtoUpdateArtist dto = new DtoUpdateArtist(null, null, null, "USA", null, null, null);
-
-	Artist a = artistRepository.findById(id);
-
-	if (a == null)
-	    throw new RuntimeException("Artist with id <" + id + "> doesnt exists or something else happened");
+    //DtoUpdateArtist dto = new DtoUpdateArtist(null, null, null, "USA", null, null, null);
+    public void updateArtist(DtoUpdateArtist dto, Long id) {
+	Artist a = validArtist(id);
 
 	if (dto.Name() != null)
 	    validName(dto.Name());
@@ -89,9 +70,8 @@ public class ArtistService {
     }
 
     public void deleteArtist(Long id) {
-	Artist a = artistRepository.findById(id);
-	if (a == null)
-	    throw new RuntimeException("Artist with id <" + id + "> doesnt exists or something else happened");
+	Artist a = validArtist(id);
+	
 	if (a.albumsCount() != 0) {
 	    throw new RuntimeException("This artist with id <" + id + "> "
 		    + "cannot be deleted because has related albums, " + "first delete all albums by this artist");
@@ -99,6 +79,15 @@ public class ArtistService {
 	artistRepository.delete(a);
     }
 
+    private Artist validArtist(Long id) {
+	Artist a = artistRepository.findById(id);
+	if (a == null)
+	    throw new RuntimeException("Artist with id <" + id + "> doesnt exists or something else happened");
+	else {
+	    return a;
+	}
+    }
+    
     private void associateLanguages(Set<Long> languageIDs, Artist artist) {
 	for (Long languageID : languageIDs) {
 	    Language language = languageRepository.findById(languageID);

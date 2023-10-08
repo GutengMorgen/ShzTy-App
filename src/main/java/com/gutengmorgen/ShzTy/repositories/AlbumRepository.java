@@ -31,15 +31,6 @@ public class AlbumRepository extends RepositoryBase<Album> {
 	}
     }
 
-    public boolean existsByName(String name) {
-	try (Session se = factory.openSession()) {
-	    String jpql = "SELECT COUNT(al) FROM Album al WHERE al.title = :title";
-	    TypedQuery<Long> query = se.createQuery(jpql, Long.class).setParameter("title", name);
-
-	    return query.getSingleResult() > 0;
-	}
-    }
-
     public boolean existsByNameInArtist(String name, Artist a) {
 	try (Session se = factory.openSession()) {
 	    String jpql = "SELECT COUNT(al) FROM Album al WHERE al.title = :title AND al.artist = :artist";
@@ -50,5 +41,4 @@ public class AlbumRepository extends RepositoryBase<Album> {
 	    return query.getSingleResult() > 0;
 	}
     }
-
 }

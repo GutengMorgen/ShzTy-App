@@ -62,11 +62,6 @@ public class Album {
 	this.release_date = dto.releaseDate();
     }
     
-    public void update(DtoUpdateAlbum dtoUpdateAlbum) {
-        if(dtoUpdateAlbum.title() != null) this.title = dtoUpdateAlbum.title();
-        if(dtoUpdateAlbum.releaseDate() != null) this.release_date = dtoUpdateAlbum.releaseDate();
-    }
-    
     public int tracksCount() {
 	return this.tracks.size();
     }

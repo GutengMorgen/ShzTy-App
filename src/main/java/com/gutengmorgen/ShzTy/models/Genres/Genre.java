@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.models.Tracks.Track;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +35,8 @@ public class Genre {
     private Set<Artist> artists;
     @ManyToMany(targetEntity = Album.class, mappedBy = "genres")
     private Set<Album> albums;
+    @ManyToMany(targetEntity = Track.class, mappedBy = "genres")
+    private Set<Album> tracks;
     
     @Override
     public String toString() {

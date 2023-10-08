@@ -1,6 +1,5 @@
 package com.gutengmorgen.ShzTy.services;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -44,9 +43,8 @@ public class AlbumService {
 	return albumRepository.findAll().stream().map(album -> new DtoReturnAlbum(album)).toList();
     }
 
-    public void saveArtist() {
-	DtoCreateAlbum dto = new DtoCreateAlbum("Nightmare", new Date(3434423), 1L, 1L, Set.of(2L, 3L));
-
+    //DtoCreateAlbum dto = new DtoCreateAlbum("Nightmare", new Date(3434423), 1L, 1L, Set.of(2L, 3L));
+    public void saveArtist(DtoCreateAlbum dto) {
 	Artist a = validArtist(dto.artistId());
 
 	validNameInArtist(dto.title(), a);
@@ -60,9 +58,8 @@ public class AlbumService {
 	albumRepository.save(alb);
     }
 
-    public void updateAlbum(Long id) {
-	DtoUpdateAlbum dto = new DtoUpdateAlbum("Love and Thunder", null, null, null, null);
-
+    //DtoUpdateAlbum dto = new DtoUpdateAlbum("Love and Thunder", null, null, null, null);
+    public void updateAlbum(DtoUpdateAlbum dto, Long id) {
 	Album al = validAlbum(id);
 
 	if (dto.artistId() != null) {
@@ -101,7 +98,6 @@ public class AlbumService {
 	    throw new RuntimeException("This album with id <" + id + "> "
 		    + "cannot be deleted because has related tracks, " + "first delete all tracks by this album");
 	}
-	
 	albumRepository.delete(al);
     }
     

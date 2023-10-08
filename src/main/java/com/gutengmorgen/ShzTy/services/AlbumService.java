@@ -44,13 +44,12 @@ public class AlbumService {
     }
 
     //DtoCreateAlbum dto = new DtoCreateAlbum("Nightmare", new Date(3434423), 1L, 1L, Set.of(2L, 3L));
-    public void saveArtist(DtoCreateAlbum dto) {
+    public void saveAlbum(DtoCreateAlbum dto) {
 	Artist a = validArtist(dto.artistId());
+	AlbumFormat af = validAlbumFormat(dto.albumFormatId());
 
 	validNameInArtist(dto.title(), a);
 	Album alb = new Album(dto);
-
-	AlbumFormat af = validAlbumFormat(dto.albumFormatId());
 
 	alb.setArtist(a);
 	alb.setAlbumFormat(af);

@@ -6,6 +6,7 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
+import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Tracks.Track;
 
@@ -15,7 +16,7 @@ public class TrackRepository extends RepositoryBase<Track> {
     // relacionada en el toString como: album.getId()
     public List<Track> findAll() {
 	try (Session se = factory.openSession()) {
-	    String jpql = "SELECT DISTINCT t FROM Track t" + "LEFT JOIN FETCH t.genres ";
+	    String jpql = "SELECT DISTINCT t FROM Track t " + "LEFT JOIN FETCH t.genres ";
 	    return se.createQuery(jpql, Track.class).getResultList();
 	}
     }
@@ -30,11 +31,11 @@ public class TrackRepository extends RepositoryBase<Track> {
 	}
     }
 
-    public boolean existsByNameInArtist(String name, Artist a) {
+    public boolean existsByNameInAlbum(String name, Album al) {
 	try (Session se = factory.openSession()) {
-	    String jpql = "SELECT COUNT(al) FROM Album al WHERE al.title = :title AND al.artist = :artist";
-	    TypedQuery<Long> query = se.createQuery(jpql, Long.class).setParameter("title", name).setParameter("artist",
-		    a);
+	    String jpql = "SELECT COUNT(t) FROM Track t WHERE t.title = :title AND t.album = :album";
+	    TypedQuery<Long> query = se.createQuery(jpql, Long.class).setParameter("title", name).setParameter("album",
+		    al);
 
 	    return query.getSingleResult() > 0;
 	}

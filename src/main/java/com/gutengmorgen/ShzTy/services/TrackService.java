@@ -91,8 +91,10 @@ public class TrackService {
 	trackRepository.update(t);
     }
 
-    public void deleteTrack() {
-
+    public void deleteTrack(Long id) {
+	Track t = validTrack(id);
+	//NOTE: tambien eliminar de la tabla tracks_genres y todos los relacionados
+	trackRepository.delete(t);
     }
 
     private void associateGenres(Set<Long> genreIDs, Track track) {

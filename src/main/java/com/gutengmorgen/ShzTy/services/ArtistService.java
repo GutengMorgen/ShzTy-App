@@ -1,18 +1,18 @@
-package com.gutengmorgen.ShzTy.DAOs;
+package com.gutengmorgen.ShzTy.services;
 
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.gutengmorgen.ShzTy.Repositories.ArtistRepository;
-import com.gutengmorgen.ShzTy.Repositories.GenreRepository;
-import com.gutengmorgen.ShzTy.Repositories.LanguageRepository;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleReturnArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Languages.Language;
+import com.gutengmorgen.ShzTy.repositories.ArtistRepository;
+import com.gutengmorgen.ShzTy.repositories.GenreRepository;
+import com.gutengmorgen.ShzTy.repositories.LanguageRepository;
 
 public class ArtistService {
     ArtistRepository artistRepository = new ArtistRepository();
@@ -21,9 +21,9 @@ public class ArtistService {
 
     public static void main(String[] args) {
 	ArtistService artistService = new ArtistService();
-//	artistService.getSimpleList();
-	Artist a = artistService.getArtistById(1L);
-	System.out.println(a.toString());
+	artistService.getSimpleList();
+//	Artist a = artistService.getArtistById(1L);
+//	System.out.println(a.toString());
     }
 
     public Artist getArtistById(Long id) {

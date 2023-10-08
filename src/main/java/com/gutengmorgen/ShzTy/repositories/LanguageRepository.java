@@ -1,4 +1,4 @@
-package com.gutengmorgen.ShzTy.Repositories;
+package com.gutengmorgen.ShzTy.repositories;
 
 import java.util.List;
 

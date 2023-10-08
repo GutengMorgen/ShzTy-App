@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
+import com.gutengmorgen.ShzTy.models.PlayLists.PlayList;
+import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoCreateTrack;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,8 +36,22 @@ public class Track {
     private Date release_date;
     private int play_time;
     private String notes;
-    
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_albums")
     private Album album;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_playlists")
+    private PlayList playList;
+    
+    public Track(DtoCreateTrack dto) {
+        this.title = dto.title();
+        this.release_date = dto.releaseDate();
+        this.play_time = dto.playTime();
+        this.notes = dto.notes();
+    }
+
+    @Override
+    public String toString() {
+	return "Track [id=" + id + ", title=" + title + "]";
+    }
 }

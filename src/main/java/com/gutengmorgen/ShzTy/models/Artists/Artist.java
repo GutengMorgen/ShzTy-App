@@ -45,14 +45,11 @@ public class Artist {
     private String gender;
     private String country;
     private String biography;
-    
     @OneToMany(mappedBy = "artist")
     private Set<Album> albums;
-    
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "artists_genres", joinColumns = @JoinColumn(name = "artist_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
-    
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "artists_languages", joinColumns = @JoinColumn(name = "artist_id"), inverseJoinColumns = @JoinColumn(name = "language_id"))
     private Set<Language> languages = new HashSet<>();

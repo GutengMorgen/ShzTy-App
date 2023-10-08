@@ -20,5 +20,7 @@
     <mapping class="com.gutengmorgen.ShzTy.models.Genres.Genre"/>
     <mapping class="com.gutengmorgen.ShzTy.models.Albums.Album"/>
     <mapping class="com.gutengmorgen.ShzTy.models.Tracks.Track"/>
+    <mapping class="com.gutengmorgen.ShzTy.models.AlbumFormats.AlbumFormat"/>
+    <mapping class="com.gutengmorgen.ShzTy.models.PlayLists.PlayList"/>
   </session-factory>
 </hibernate-configuration>

@@ -12,10 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.gutengmorgen.ShzTy.DAOs.ArtistService;
-import com.gutengmorgen.ShzTy.Repositories.ArtistRepository;
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.repositories.ArtistRepository;
+import com.gutengmorgen.ShzTy.services.ArtistService;
 
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;

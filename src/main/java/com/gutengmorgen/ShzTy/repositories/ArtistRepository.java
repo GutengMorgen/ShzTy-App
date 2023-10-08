@@ -1,4 +1,4 @@
-package com.gutengmorgen.ShzTy.Repositories;
+package com.gutengmorgen.ShzTy.repositories;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleTestingArtist;
 
 public class ArtistRepository extends RepositoryBase<Artist> {
 
@@ -31,15 +30,15 @@ public class ArtistRepository extends RepositoryBase<Artist> {
     }
 
     // TODO: optimizar el query. aun no funciona, intentar crear diferentes queries y luego unirlos
-    public DtoSimpleTestingArtist findByIdReturn(Long id) {
-	try (Session sess = factory.openSession()) {
-	    String jpql = "SELECT NEW com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleTestingArtist(a.name, a.gender, a.country, alb.title) "
-		    + "FROM Artist a " + "JOIN a.albums alb " + "WHERE a.id = :artistId";
-	    TypedQuery<DtoSimpleTestingArtist> query = sess.createQuery(jpql, DtoSimpleTestingArtist.class);
-	    query.setParameter("artistId", id);
-	    return query.getSingleResult();
-	}
-    }
+//    public DtoSimpleTestingArtist findByIdReturn(Long id) {
+//	try (Session sess = factory.openSession()) {
+//	    String jpql = "SELECT NEW com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleTestingArtist(a.name, a.gender, a.country, alb.title) "
+//		    + "FROM Artist a " + "JOIN a.albums alb " + "WHERE a.id = :artistId";
+//	    TypedQuery<DtoSimpleTestingArtist> query = sess.createQuery(jpql, DtoSimpleTestingArtist.class);
+//	    query.setParameter("artistId", id);
+//	    return query.getSingleResult();
+//	}
+//    }
 
     public boolean existsByName(String name) {
 	try (Session sess = factory.openSession()) {

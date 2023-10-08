@@ -1,4 +1,4 @@
-package com.gutengmorgen.ShzTy.models.Genres;
+package com.gutengmorgen.ShzTy.models.AlbumFormats;
 
 import java.util.Set;
 
@@ -7,11 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
-import com.gutengmorgen.ShzTy.models.Artists.Artist;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,24 +18,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "genres")
+@Table(name = "album_formats")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Genre {
+public class AlbumFormat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_genres")
+    @Column(name = "id_album_formats")
     private Long id;
     private String name;
-    @ManyToMany(targetEntity = Artist.class, mappedBy = "genres")
-    private Set<Artist> artists;
-    @ManyToMany(targetEntity = Album.class, mappedBy = "genres")
+
+    @OneToMany(mappedBy = "albumFormat")
     private Set<Album> albums;
-    
+
     @Override
     public String toString() {
-	return "Genre [id=" + id + ", name=" + name + "]";
+	return "AlbumFormat [id=" + id + ", name=" + name + "]";
     }
 }

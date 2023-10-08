@@ -26,7 +26,7 @@ public class AlbumService {
 	AlbumService service = new AlbumService();
 
 //	service.saveArtist();
-	service.updateAlbum(3L);
+//	service.deleteAlbum(1L);
 	for (Object object : service.getAllAlbums()) {
 	    System.out.println(object.toString());
 	}
@@ -63,10 +63,7 @@ public class AlbumService {
     public void updateAlbum(Long id) {
 	DtoUpdateAlbum dto = new DtoUpdateAlbum("Love and Thunder", null, null, null, null);
 
-	Album al = albumRepository.findById(id);
-
-	if (al == null)
-	    throw new RuntimeException("Album with id <" + id + "> doesnt exists or something else happened");
+	Album al = validAlbum(id);
 
 	if (dto.artistId() != null) {
 	    al.setArtist(validArtist(dto.artistId()));
@@ -97,6 +94,17 @@ public class AlbumService {
 	albumRepository.update(al);
     }
 
+    public void deleteAlbum(Long id) {
+	Album al = validAlbum(id);
+	
+	if(al.tracksCount() != 0) {
+	    throw new RuntimeException("This album with id <" + id + "> "
+		    + "cannot be deleted because has related tracks, " + "first delete all tracks by this album");
+	}
+	
+	albumRepository.delete(al);
+    }
+    
     private void associateGenres(Set<Long> genreIDs, Album album) {
 	for (Long genreID : genreIDs) {
 	    Genre genre = genreRepository.findById(genreID);
@@ -107,6 +115,15 @@ public class AlbumService {
 	}
     }
 
+    private Album validAlbum(Long id) {
+	Album al = albumRepository.findById(id);
+	if (al == null)
+	    throw new RuntimeException("Album with id <" + id + "> doesnt exists or something else happened");
+	else {
+	    return al;
+	}
+    }
+    
     private Artist validArtist(Long id) {
 	Artist a = artistRepository.findById(id);
 	if (a == null)

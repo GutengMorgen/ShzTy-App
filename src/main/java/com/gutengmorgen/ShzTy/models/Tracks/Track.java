@@ -17,9 +17,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.PlayLists.PlayList;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoCreateTrack;
+import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoUpdateTrack;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -56,6 +58,13 @@ public class Track {
         this.release_date = dto.releaseDate();
         this.play_time = dto.playTime();
         this.notes = dto.notes();
+    }
+    
+    public void update(DtoUpdateTrack dto) {
+	if(dto.title() != null) this.title = dto.title();
+	if(dto.releaseDate() != null) this.release_date = dto.releaseDate();
+	if(dto.playTime() != 0) this.play_time = dto.playTime();
+	if(dto.notes() != null) this.notes = dto.notes();
     }
     
     public void removeAllGenres() {

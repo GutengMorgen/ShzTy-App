@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
-import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.PlayLists.PlayList;
 import com.gutengmorgen.ShzTy.models.Tracks.Track;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoCreateTrack;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoReturnTrack;
+import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoUpdateTrack;
 import com.gutengmorgen.ShzTy.repositories.AlbumRepository;
 import com.gutengmorgen.ShzTy.repositories.GenreRepository;
 import com.gutengmorgen.ShzTy.repositories.PlayListRepository;
@@ -25,7 +25,8 @@ public class TrackService {
     public static void main(String[] args) {
 	TrackService service = new TrackService();
 
-	service.saveTrack();
+//	service.saveTrack();
+	service.updateTrack(4L);
 	for (Object object : service.getAllTracks()) {
 	    System.out.println(object.toString());
 	}
@@ -59,8 +60,35 @@ public class TrackService {
 	trackRepository.save(t);
     }
 
-    public void updateTrack() {
-
+    public void updateTrack(Long id) {
+	DtoUpdateTrack dto = new DtoUpdateTrack("Piano Man", null, 0, null, null, null, null);
+	
+	Track t = validTrack(id);
+	
+	if(dto.albumId() != null) {
+	    t.setAlbum(validAlbum(dto.albumId()));
+	}
+	
+	if(dto.playListId() != null) {
+	    t.setPlayList(validPlayList(dto.playListId()));
+	}
+	
+	if(dto.genreIDs() != null) {
+	    t.getGenres().clear();
+	    associateGenres(dto.genreIDs(), t);
+	}
+	
+	if (dto.title() != null) {
+	    if (dto.albumId() != null) {
+		Album al = validAlbum(dto.albumId());
+		t.setTitle(validTitleInAlbum(dto.title(), al));
+	    } else {
+		t.setTitle(validTitleInAlbum(dto.title(), t.getAlbum()));
+	    }
+	}
+	
+	t.update(dto);
+	trackRepository.update(t);
     }
 
     public void deleteTrack() {

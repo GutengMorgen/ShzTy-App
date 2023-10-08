@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.models.Tracks.Track;
 import com.gutengmorgen.ShzTy.repositories.ArtistRepository;
 import com.gutengmorgen.ShzTy.services.ArtistService;
 
@@ -229,7 +230,7 @@ public class MainFrame extends JFrame{
 	Tracks.add(scrollPane_2, gbc_scrollPane_2);
 	
 	tableTracks = new JTable();
-	tableTracks.addMouseListener(new TableMouseListenir(tableTracks, tablePopupMenu, null));
+	tableTracks.addMouseListener(new TableMouseListenir(tableTracks, tablePopupMenu, Track.class));
 	tableTracks.setFillsViewportHeight(true);
 	scrollPane_2.setViewportView(tableTracks);
 	tableTracks.setModel(new DefaultTableModel(

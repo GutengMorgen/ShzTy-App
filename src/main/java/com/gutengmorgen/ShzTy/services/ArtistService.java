@@ -48,7 +48,8 @@ public class ArtistService {
 	artistRepository.save(artist);
     }
 
-    //DtoUpdateArtist dto = new DtoUpdateArtist(null, null, null, "USA", null, null, null);
+    // DtoUpdateArtist dto = new DtoUpdateArtist(null, null, null, "USA", null,
+    // null, null);
     public void updateArtist(DtoUpdateArtist dto, Long id) {
 	Artist a = validArtist(id);
 
@@ -71,12 +72,17 @@ public class ArtistService {
 
     public void deleteArtist(Long id) {
 	Artist a = validArtist(id);
-	
+
 	if (a.albumsCount() != 0) {
 	    throw new RuntimeException("This artist with id <" + id + "> "
 		    + "cannot be deleted because has related albums, " + "first delete all albums by this artist");
+	} else {
+
+	    a.getGenres().clear();
+	    a.getLanguages().clear();
+	    
+	    artistRepository.delete(a);
 	}
-	artistRepository.delete(a);
     }
 
     private Artist validArtist(Long id) {
@@ -87,7 +93,7 @@ public class ArtistService {
 	    return a;
 	}
     }
-    
+
     private void associateLanguages(Set<Long> languageIDs, Artist artist) {
 	for (Long languageID : languageIDs) {
 	    Language language = languageRepository.findById(languageID);

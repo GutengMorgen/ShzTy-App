@@ -17,11 +17,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoReturnAlbum;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.PlayLists.PlayList;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoCreateTrack;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoUpdateTrack;
+import com.gutengmorgen.ShzTy.views.DTO_MODEL;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -71,6 +75,15 @@ public class Track {
         for (Genre genre : genres) {
             this.genres.remove(genre);
         }
+    }
+    
+    public static Class<?> findDtoClassByModel(DTO_MODEL model) {
+	Class<?> dtoClass = null;
+
+	if (model == DTO_MODEL.CREATE) dtoClass = DtoCreateTrack.class;
+	else if (model == DTO_MODEL.UPDATE) dtoClass = DtoUpdateTrack.class;
+
+	return dtoClass;
     }
 
     @Override

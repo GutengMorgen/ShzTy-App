@@ -43,7 +43,8 @@ public class AlbumService {
 	return albumRepository.findAll().stream().map(album -> new DtoReturnAlbum(album)).toList();
     }
 
-    //DtoCreateAlbum dto = new DtoCreateAlbum("Nightmare", new Date(3434423), 1L, 1L, Set.of(2L, 3L));
+    // DtoCreateAlbum dto = new DtoCreateAlbum("Nightmare", new Date(3434423), 1L,
+    // 1L, Set.of(2L, 3L));
     public void saveAlbum(DtoCreateAlbum dto) {
 	Artist a = validArtist(dto.artistId());
 	AlbumFormat af = validAlbumFormat(dto.albumFormatId());
@@ -57,7 +58,8 @@ public class AlbumService {
 	albumRepository.save(alb);
     }
 
-    //DtoUpdateAlbum dto = new DtoUpdateAlbum("Love and Thunder", null, null, null, null);
+    // DtoUpdateAlbum dto = new DtoUpdateAlbum("Love and Thunder", null, null, null,
+    // null);
     public void updateAlbum(DtoUpdateAlbum dto, Long id) {
 	Album al = validAlbum(id);
 
@@ -92,14 +94,16 @@ public class AlbumService {
 
     public void deleteAlbum(Long id) {
 	Album al = validAlbum(id);
-	
-	if(al.tracksCount() != 0) {
+
+	if (al.tracksCount() != 0) {
 	    throw new RuntimeException("This album with id <" + id + "> "
 		    + "cannot be deleted because has related tracks, " + "first delete all tracks by this album");
+	} else {
+	    al.getGenres().clear();
+	    albumRepository.delete(al);
 	}
-	albumRepository.delete(al);
     }
-    
+
     private void associateGenres(Set<Long> genreIDs, Album album) {
 	for (Long genreID : genreIDs) {
 	    Genre genre = genreRepository.findById(genreID);
@@ -118,7 +122,7 @@ public class AlbumService {
 	    return al;
 	}
     }
-    
+
     private Artist validArtist(Long id) {
 	Artist a = artistRepository.findById(id);
 	if (a == null)

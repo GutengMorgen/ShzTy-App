@@ -94,6 +94,7 @@ public class TrackService {
     public void deleteTrack(Long id) {
 	Track t = validTrack(id);
 	//NOTE: tambien eliminar de la tabla tracks_genres y todos los relacionados
+	t.getGenres().clear();
 	trackRepository.delete(t);
     }
 

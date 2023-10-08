@@ -24,9 +24,9 @@ public class AlbumService {
 
     public static void main(String[] args) {
 	AlbumService service = new AlbumService();
-	
+
 //	service.saveArtist();
-	service.updateAlbum(1L);
+	service.updateAlbum(3L);
 	for (Object object : service.getAllAlbums()) {
 	    System.out.println(object.toString());
 	}
@@ -67,21 +67,33 @@ public class AlbumService {
 
 	if (al == null)
 	    throw new RuntimeException("Album with id <" + id + "> doesnt exists or something else happened");
-	
-	if(dto.artistId() != null) {
+
+	if (dto.artistId() != null) {
 	    al.setArtist(validArtist(dto.artistId()));
 	}
-	
-	if(dto.albumFormatId() != null) {
+
+	if (dto.albumFormatId() != null) {
 	    al.setAlbumFormat(validAlbumFormat(dto.albumFormatId()));
 	}
-	
-	if(dto.genresId() != null) {
+
+	if (dto.genresId() != null) {
 	    al.getGenres().clear();
 	    associateGenres(dto.genresId(), al);
 	}
-	
-	al.update(dto);
+
+	if (dto.title() != null) {
+	    if (dto.artistId() != null) {
+		Artist artist = validArtist(dto.artistId());
+		al.setTitle(validNameInArtist(dto.title(), artist));
+	    } else {
+		al.setTitle(validNameInArtist(dto.title(), al.getArtist()));
+	    }
+	}
+
+	if (dto.releaseDate() != null) {
+	    al.setRelease_date(dto.releaseDate());
+	}
+
 	albumRepository.update(al);
     }
 
@@ -98,26 +110,26 @@ public class AlbumService {
     private Artist validArtist(Long id) {
 	Artist a = artistRepository.findById(id);
 	if (a == null)
-	    throw new RuntimeException(
-		    "Artist with id <" + id + "> doesnt exists or something else happened");
+	    throw new RuntimeException("Artist with id <" + id + "> doesnt exists or something else happened");
 	else {
 	    return a;
 	}
     }
-    
+
     private AlbumFormat validAlbumFormat(Long id) {
 	AlbumFormat af = albumFormatRepository.findById(id);
 	if (af == null)
-	    throw new RuntimeException(
-		    "AlbumFormat with id <" + id + "> doesnt exists or something else happened");
+	    throw new RuntimeException("AlbumFormat with id <" + id + "> doesnt exists or something else happened");
 	else {
 	    return af;
 	}
     }
-    
-    private void validNameInArtist(String name, Artist a) {
+
+    private String validNameInArtist(String name, Artist a) {
 	if (albumRepository.existsByNameInArtist(name, a))
 	    throw new RuntimeException(
 		    "Album with title <" + name + "> already exists in Artist with id <" + a.getId() + ">");
+	else
+	    return name;
     }
 }

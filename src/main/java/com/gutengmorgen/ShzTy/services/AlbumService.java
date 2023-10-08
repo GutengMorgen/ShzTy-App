@@ -8,6 +8,7 @@ import com.gutengmorgen.ShzTy.models.AlbumFormats.AlbumFormat;
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoReturnAlbum;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.repositories.AlbumFormatRepository;
@@ -23,10 +24,9 @@ public class AlbumService {
 
     public static void main(String[] args) {
 	AlbumService service = new AlbumService();
-//	for (Object object : service.getSimpleList()) {
-//	    System.out.println(object.toString());
-//	}
-	service.saveArtist();
+	
+//	service.saveArtist();
+	service.updateAlbum(1L);
 	for (Object object : service.getAllAlbums()) {
 	    System.out.println(object.toString());
 	}
@@ -47,23 +47,42 @@ public class AlbumService {
     public void saveArtist() {
 	DtoCreateAlbum dto = new DtoCreateAlbum("Nightmare", new Date(3434423), 1L, 1L, Set.of(2L, 3L));
 
-	Artist a = artistRepository.findById(dto.artistId());
-	if (a == null)
-	    throw new RuntimeException(
-		    "Artist with id <" + dto.artistId() + "> doesnt exists or something else happened");
+	Artist a = validArtist(dto.artistId());
 
 	validNameInArtist(dto.title(), a);
 	Album alb = new Album(dto);
 
-	AlbumFormat af = albumFormatRepository.findById(dto.albumFormatId());
-	if (af == null)
-	    throw new RuntimeException(
-		    "AlbumFormat with id <" + dto.albumFormatId() + "> doesnt exists or something else happened");
+	AlbumFormat af = validAlbumFormat(dto.albumFormatId());
 
 	alb.setArtist(a);
 	alb.setAlbumFormat(af);
 	associateGenres(dto.genresId(), alb);
 	albumRepository.save(alb);
+    }
+
+    public void updateAlbum(Long id) {
+	DtoUpdateAlbum dto = new DtoUpdateAlbum("Love and Thunder", null, null, null, null);
+
+	Album al = albumRepository.findById(id);
+
+	if (al == null)
+	    throw new RuntimeException("Album with id <" + id + "> doesnt exists or something else happened");
+	
+	if(dto.artistId() != null) {
+	    al.setArtist(validArtist(dto.artistId()));
+	}
+	
+	if(dto.albumFormatId() != null) {
+	    al.setAlbumFormat(validAlbumFormat(dto.albumFormatId()));
+	}
+	
+	if(dto.genresId() != null) {
+	    al.getGenres().clear();
+	    associateGenres(dto.genresId(), al);
+	}
+	
+	al.update(dto);
+	albumRepository.update(al);
     }
 
     private void associateGenres(Set<Long> genreIDs, Album album) {
@@ -76,6 +95,26 @@ public class AlbumService {
 	}
     }
 
+    private Artist validArtist(Long id) {
+	Artist a = artistRepository.findById(id);
+	if (a == null)
+	    throw new RuntimeException(
+		    "Artist with id <" + id + "> doesnt exists or something else happened");
+	else {
+	    return a;
+	}
+    }
+    
+    private AlbumFormat validAlbumFormat(Long id) {
+	AlbumFormat af = albumFormatRepository.findById(id);
+	if (af == null)
+	    throw new RuntimeException(
+		    "AlbumFormat with id <" + id + "> doesnt exists or something else happened");
+	else {
+	    return af;
+	}
+    }
+    
     private void validNameInArtist(String name, Artist a) {
 	if (albumRepository.existsByNameInArtist(name, a))
 	    throw new RuntimeException(

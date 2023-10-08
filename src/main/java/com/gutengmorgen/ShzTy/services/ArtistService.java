@@ -32,7 +32,7 @@ public class ArtistService {
 
     public List<Artist> getAllArtists() {
 	List<Artist> list = artistRepository.findAll();
-	
+
 	for (Artist artist : list) {
 	    System.out.println(artist.getId());
 	}
@@ -69,13 +69,10 @@ public class ArtistService {
 	Artist a = artistRepository.findById(id);
 
 	if (a == null)
-	    throw new RuntimeException(
-		    String.format("Artist with id <%d> doesnt exists or something else happened", id));
+	    throw new RuntimeException("Artist with id <" + id + "> doesnt exists or something else happened");
 
 	if (dto.Name() != null)
 	    validName(dto.Name());
-
-	a.update(dto);
 
 	if (dto.GenreIDs() != null) {
 	    a.getGenres().clear();
@@ -87,18 +84,17 @@ public class ArtistService {
 	    associateLanguages(dto.LanguageIDs(), a);
 	}
 
+	a.update(dto);
 	artistRepository.update(a);
     }
 
     public void deleteArtist(Long id) {
 	Artist a = artistRepository.findById(id);
 	if (a == null)
-	    throw new RuntimeException(
-		    String.format("Artist with id <%d> doesnt exists or something else happened", id));
+	    throw new RuntimeException("Artist with id <" + id + "> doesnt exists or something else happened");
 	if (a.albumsCount() != 0) {
-	    throw new RuntimeException(String.format("This artist with id <%d> " + 
-		    "cannot be deleted because has related albums, " +
-		    "first delete all albums by this artist", id));
+	    throw new RuntimeException("This artist with id <" + id + "> "
+		    + "cannot be deleted because has related albums, " + "first delete all albums by this artist");
 	}
 	artistRepository.delete(a);
     }
@@ -107,7 +103,7 @@ public class ArtistService {
 	for (Long languageID : languageIDs) {
 	    Language language = languageRepository.findById(languageID);
 	    if (language == null)
-		throw new RuntimeException(String.format("Language with id <%d> not found", languageID));
+		throw new RuntimeException("Language with id <" + languageID + "> not found");
 
 	    artist.getLanguages().add(language);
 	}
@@ -117,7 +113,7 @@ public class ArtistService {
 	for (Long genreID : genreIDs) {
 	    Genre genre = genreRepository.findById(genreID);
 	    if (genre == null)
-		throw new RuntimeException(String.format("Genre with id <%d> not found", genreID));
+		throw new RuntimeException("Genre with id <" + genreID + "> not found");
 
 	    artist.getGenres().add(genre);
 	}
@@ -125,6 +121,6 @@ public class ArtistService {
 
     private void validName(String name) {
 	if (artistRepository.existsByName(name))
-	    throw new RuntimeException(String.format("Artist with name <%s> already exists", name));
+	    throw new RuntimeException("Artist with name <" + name + "> already exists");
     }
 }

@@ -23,18 +23,32 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
 
-public class MainFrame extends JFrame{
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Font;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JComboBox;
+import javax.swing.BoxLayout;
+import java.awt.CardLayout;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JSeparator;
+import javax.swing.border.MatteBorder;
+import javax.swing.JLayeredPane;
+import javax.swing.table.DefaultTableModel;
+
+public class MainFrame extends JFrame {
     private static final long serialVersionUID = 1L;
-    
+
     private JPanel contentPane;
-    private JTable tableArtists;
-    private JTextField textSearchArtists;
-    private JTextField textSearchAlbums;
-    private JTextField textSearchTracks;
-    private JTable tableTracks;
     private JTextField textSearchAnything;
-    private JTable tableAlbums;
+    private JTextField textField_1;
+    private JTable tableArtist;
+    private JTable tableAlbum;
+    private JTable tableTrack;
 
     /**
      * Launch the application.
@@ -56,30 +70,30 @@ public class MainFrame extends JFrame{
      * Create the frame.
      */
     public MainFrame() {
-    	setResizable(false);
-    	setTitle("ShzTy - Desktop App");
+	setResizable(false);
+	setTitle("ShzTy - Desktop App");
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	setBounds(100, 100, 617, 427);
+	setBounds(100, 100, 800, 460);
 	contentPane = new JPanel();
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 	setContentPane(contentPane);
 	contentPane.setLayout(null);
-	
+
 	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 	tabbedPane.setAutoscrolls(true);
-	tabbedPane.setBounds(0, 0, 601, 388);
+	tabbedPane.setBounds(0, 0, 784, 388);
 	contentPane.add(tabbedPane);
-	
+
 	JPanel Home = new JPanel();
 	tabbedPane.addTab("Home", null, Home, null);
 	GridBagLayout gbl_Home = new GridBagLayout();
-	gbl_Home.columnWidths = new int[]{596, 0};
-	gbl_Home.rowHeights = new int[] {70, 244, 0};
-	gbl_Home.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-	gbl_Home.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+	gbl_Home.columnWidths = new int[] { 721, 0 };
+	gbl_Home.rowHeights = new int[] { 70, 244, 0 };
+	gbl_Home.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+	gbl_Home.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 	Home.setLayout(gbl_Home);
-	
+
 	JLabel lblNewLabel = new JLabel("About");
 	lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 	lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -89,170 +103,231 @@ public class MainFrame extends JFrame{
 	gbc_lblNewLabel.gridx = 0;
 	gbc_lblNewLabel.gridy = 0;
 	Home.add(lblNewLabel, gbc_lblNewLabel);
-	
+
 	JTextArea textArea = new JTextArea();
 	GridBagConstraints gbc_textArea = new GridBagConstraints();
 	gbc_textArea.fill = GridBagConstraints.BOTH;
 	gbc_textArea.gridx = 0;
 	gbc_textArea.gridy = 1;
 	Home.add(textArea, gbc_textArea);
-	
-	JPanel Artists = new JPanel();
-	tabbedPane.addTab("Artists", null, Artists, null);
-	GridBagLayout gbl_Artists = new GridBagLayout();
-	gbl_Artists.columnWidths = new int[] {206, 70};
-	gbl_Artists.rowHeights = new int[] {38, 0};
-	gbl_Artists.columnWeights = new double[]{1.0, 0.0};
-	gbl_Artists.rowWeights = new double[]{0.0, 1.0};
-	Artists.setLayout(gbl_Artists);
-	
-	textSearchArtists = new JTextField();
-	GridBagConstraints gbc_textSearchArtists = new GridBagConstraints();
-	gbc_textSearchArtists.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textSearchArtists.insets = new Insets(0, 0, 5, 5);
-	gbc_textSearchArtists.gridx = 0;
-	gbc_textSearchArtists.gridy = 0;
-	Artists.add(textSearchArtists, gbc_textSearchArtists);
-	textSearchArtists.setColumns(10);
-	
-	JButton btnSearchArtists = new JButton("Go");
-	GridBagConstraints gbc_btnSearchArtists = new GridBagConstraints();
-	gbc_btnSearchArtists.insets = new Insets(0, 0, 5, 0);
-	gbc_btnSearchArtists.gridx = 1;
-	gbc_btnSearchArtists.gridy = 0;
-	Artists.add(btnSearchArtists, gbc_btnSearchArtists);
-	
-	JScrollPane scrollPane = new JScrollPane();
-	GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-	gbc_scrollPane.gridwidth = 2;
-	gbc_scrollPane.fill = GridBagConstraints.BOTH;
-	gbc_scrollPane.gridx = 0;
-	gbc_scrollPane.gridy = 1;
-	Artists.add(scrollPane, gbc_scrollPane);
 
 	TablePopupMenu tablePopupMenu = new TablePopupMenu();
+	JScrollPane sArtist = new JScrollPane();
+	tabbedPane.addTab("Artist", null, sArtist, null);
+
+	tableArtist = new JTable();
+	tableArtist.setModel(new DefaultTableModel(
+		new Object[][] { { "efe", "2", "3", "78" }, { "few", "1", "4", "78" }, { "we", "er", "5", "687" },
+			{ "er", "re", "6", "7" }, },
+		new String[] { "New column", "New column", "New column", "New column" }));
+	tableArtist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	tableArtist.setFillsViewportHeight(true);
+	tableArtist.setAutoCreateRowSorter(true);
+
+//	tableArtists.setModel(new ArtistTableModel());
+	tableArtist.addMouseListener(new TableMouseListenir(tableArtist, tablePopupMenu, Artist.class));
+	sArtist.setViewportView(tableArtist);
 	
-	tableArtists = new JTable(new ArtistTableModel());
-	tableArtists.setAutoCreateRowSorter(true);
-	tableArtists.addMouseListener(new TableMouseListenir(tableArtists, tablePopupMenu, Artist.class));
-	tableArtists.setFillsViewportHeight(true);
-	scrollPane.setViewportView(tableArtists);
+	JScrollPane sAlbum = new JScrollPane();
+	tabbedPane.addTab("Album", null, sAlbum, null);
 	
-	JPanel Albums = new JPanel();
-	tabbedPane.addTab("Albums", null, Albums, null);
-	GridBagLayout gbl_Albums = new GridBagLayout();
-	gbl_Albums.columnWidths = new int[] {100, 70};
-	gbl_Albums.rowHeights = new int[]{0, 0, 0};
-	gbl_Albums.columnWeights = new double[]{1.0, 0.0};
-	gbl_Albums.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-	Albums.setLayout(gbl_Albums);
+	tableAlbum = new JTable();
+	tableAlbum.setFillsViewportHeight(true);
+	tableAlbum.setModel(new DefaultTableModel(
+		new Object[][] {
+			{"3234", "213122", "123"},
+			{"54556567", "353542", "2344"},
+			{"7657", "7567", null},
+		},
+		new String[] {
+			"New column", "New column", "New column"
+		}
+	));
+	sAlbum.setViewportView(tableAlbum);
 	
-	textSearchAlbums = new JTextField();
-	GridBagConstraints gbc_textSearchAlbums = new GridBagConstraints();
-	gbc_textSearchAlbums.insets = new Insets(0, 0, 5, 5);
-	gbc_textSearchAlbums.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textSearchAlbums.gridx = 0;
-	gbc_textSearchAlbums.gridy = 0;
-	Albums.add(textSearchAlbums, gbc_textSearchAlbums);
-	textSearchAlbums.setColumns(10);
+	JScrollPane sTrack = new JScrollPane();
+	tabbedPane.addTab("Track", null, sTrack, null);
 	
-	JButton btnSearchAlbums = new JButton("Go");
-	GridBagConstraints gbc_btnSearchAlbums = new GridBagConstraints();
-	gbc_btnSearchAlbums.insets = new Insets(0, 0, 5, 0);
-	gbc_btnSearchAlbums.gridx = 1;
-	gbc_btnSearchAlbums.gridy = 0;
-	Albums.add(btnSearchAlbums, gbc_btnSearchAlbums);
-	
-	JScrollPane scrollPane_1 = new JScrollPane();
-	GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-	gbc_scrollPane_1.gridwidth = 2;
-	gbc_scrollPane_1.insets = new Insets(0, 0, 0, 5);
-	gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-	gbc_scrollPane_1.gridx = 0;
-	gbc_scrollPane_1.gridy = 1;
-	Albums.add(scrollPane_1, gbc_scrollPane_1);
-	
-	tableAlbums = new JTable(new AlbumTableModel());
-	tableAlbums.addMouseListener(new TableMouseListenir(tableAlbums, tablePopupMenu, Album.class));
-	tableAlbums.setFillsViewportHeight(true);
-	scrollPane_1.setViewportView(tableAlbums);
-	
-	JPanel Tracks = new JPanel();
-	tabbedPane.addTab("Tracks", null, Tracks, null);
-	GridBagLayout gbl_Tracks = new GridBagLayout();
-	gbl_Tracks.columnWidths = new int[] {100, 70};
-	gbl_Tracks.rowHeights = new int[]{0, 0, 0};
-	gbl_Tracks.columnWeights = new double[]{1.0, 0.0};
-	gbl_Tracks.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-	Tracks.setLayout(gbl_Tracks);
-	
-	textSearchTracks = new JTextField();
-	GridBagConstraints gbc_textSearchTracks = new GridBagConstraints();
-	gbc_textSearchTracks.insets = new Insets(0, 0, 5, 5);
-	gbc_textSearchTracks.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textSearchTracks.gridx = 0;
-	gbc_textSearchTracks.gridy = 0;
-	Tracks.add(textSearchTracks, gbc_textSearchTracks);
-	textSearchTracks.setColumns(10);
-	
-	JButton btnSearchTracks = new JButton("Go");
-	GridBagConstraints gbc_btnSearchTracks = new GridBagConstraints();
-	gbc_btnSearchTracks.insets = new Insets(0, 0, 5, 0);
-	gbc_btnSearchTracks.gridx = 1;
-	gbc_btnSearchTracks.gridy = 0;
-	Tracks.add(btnSearchTracks, gbc_btnSearchTracks);
-	
-	JScrollPane scrollPane_2 = new JScrollPane();
-	GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
-	gbc_scrollPane_2.gridwidth = 2;
-	gbc_scrollPane_2.insets = new Insets(0, 0, 0, 5);
-	gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
-	gbc_scrollPane_2.gridx = 0;
-	gbc_scrollPane_2.gridy = 1;
-	Tracks.add(scrollPane_2, gbc_scrollPane_2);
-	
-	tableTracks = new JTable(new TrackTableModel());
-	tableTracks.addMouseListener(new TableMouseListenir(tableTracks, tablePopupMenu, Track.class));
-	tableTracks.setFillsViewportHeight(true);
-	scrollPane_2.setViewportView(tableTracks);
-	
+	tableTrack = new JTable();
+	tableTrack.setFillsViewportHeight(true);
+	sTrack.setViewportView(tableTrack);
+
 	JPanel Search = new JPanel();
 	tabbedPane.addTab("Search", null, Search, null);
 	GridBagLayout gbl_Search = new GridBagLayout();
-	gbl_Search.columnWidths = new int[] {100, 70};
-	gbl_Search.rowHeights = new int[] {30};
-	gbl_Search.columnWeights = new double[]{1.0, 0.0};
-	gbl_Search.rowWeights = new double[]{0.0, 1.0};
+	gbl_Search.columnWidths = new int[] { 100 };
+	gbl_Search.rowHeights = new int[] { 30 };
+	gbl_Search.columnWeights = new double[] { 1.0 };
+	gbl_Search.rowWeights = new double[] { 0.0, 1.0 };
 	Search.setLayout(gbl_Search);
-	
+
 	textSearchAnything = new JTextField();
 	GridBagConstraints gbc_textSearchAnything = new GridBagConstraints();
-	gbc_textSearchAnything.insets = new Insets(0, 0, 5, 5);
+	gbc_textSearchAnything.insets = new Insets(0, 0, 5, 0);
 	gbc_textSearchAnything.fill = GridBagConstraints.HORIZONTAL;
 	gbc_textSearchAnything.gridx = 0;
 	gbc_textSearchAnything.gridy = 0;
 	Search.add(textSearchAnything, gbc_textSearchAnything);
 	textSearchAnything.setColumns(10);
-	
-	JButton btnSearchAnything = new JButton("Go");
-	GridBagConstraints gbc_btnSearchAnything = new GridBagConstraints();
-	gbc_btnSearchAnything.insets = new Insets(0, 0, 5, 0);
-	gbc_btnSearchAnything.gridx = 1;
-	gbc_btnSearchAnything.gridy = 0;
-	Search.add(btnSearchAnything, gbc_btnSearchAnything);
-	
+
 	JScrollPane scrollPaneSearch = new JScrollPane();
 	GridBagConstraints gbc_scrollPaneSearch = new GridBagConstraints();
-	gbc_scrollPaneSearch.gridwidth = 2;
 	gbc_scrollPaneSearch.fill = GridBagConstraints.BOTH;
 	gbc_scrollPaneSearch.gridx = 0;
 	gbc_scrollPaneSearch.gridy = 1;
 	Search.add(scrollPaneSearch, gbc_scrollPaneSearch);
-	
+
 	JPanel ContentSearch = new JPanel();
 	scrollPaneSearch.setViewportView(ContentSearch);
-	
-	JPanel Settings = new JPanel();
-	tabbedPane.addTab("Settings", null, Settings, null);
+
+	JScrollPane Setting = new JScrollPane();
+	Setting.setViewportBorder(null);
+	Setting.setVerifyInputWhenFocusTarget(false);
+	Setting.setRequestFocusEnabled(false);
+	Setting.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+	Setting.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	Setting.setFocusable(false);
+	Setting.setFocusTraversalKeysEnabled(false);
+	Setting.setBorder(null);
+	tabbedPane.addTab("Setting", null, Setting, null);
+
+	textField_1 = new JTextField();
+	Setting.setColumnHeaderView(textField_1);
+	textField_1.setColumns(10);
+
+	JPanel panel_1 = new JPanel();
+	panel_1.setBorder(new LineBorder(new Color(240, 240, 240), 5));
+	Setting.setViewportView(panel_1);
+	GridBagLayout gbl_panel_1 = new GridBagLayout();
+	gbl_panel_1.columnWidths = new int[] { 470 };
+	gbl_panel_1.rowHeights = new int[] { 0, 51, 30, 0 };
+	gbl_panel_1.columnWeights = new double[] { 0.0 };
+	gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+	panel_1.setLayout(gbl_panel_1);
+
+	JPanel panel_2 = new JPanel();
+	panel_2.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+	GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+	gbc_panel_2.insets = new Insets(0, 0, 5, 0);
+	gbc_panel_2.fill = GridBagConstraints.HORIZONTAL;
+	gbc_panel_2.anchor = GridBagConstraints.NORTH;
+	gbc_panel_2.gridx = 0;
+	gbc_panel_2.gridy = 0;
+	panel_1.add(panel_2, gbc_panel_2);
+	GridBagLayout gbl_panel_2 = new GridBagLayout();
+	gbl_panel_2.columnWidths = new int[] { 75, 198, 51, 60, 75, 71, 61, 95, 0 };
+	gbl_panel_2.rowHeights = new int[] { 15, 15, 0 };
+	gbl_panel_2.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+	gbl_panel_2.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+	panel_2.setLayout(gbl_panel_2);
+
+	JLabel lName = new JLabel("Name:");
+	lName.setFont(new Font("Consolas", Font.BOLD, 10));
+	GridBagConstraints gbc_lName = new GridBagConstraints();
+	gbc_lName.anchor = GridBagConstraints.WEST;
+	gbc_lName.insets = new Insets(0, 0, 5, 5);
+	gbc_lName.gridx = 0;
+	gbc_lName.gridy = 0;
+	panel_2.add(lName, gbc_lName);
+
+	JLabel llName = new JLabel("Red Hot Chilli Peppers");
+	llName.setFont(new Font("Consolas", Font.PLAIN, 10));
+	GridBagConstraints gbc_IIName = new GridBagConstraints();
+	gbc_IIName.anchor = GridBagConstraints.WEST;
+	gbc_IIName.insets = new Insets(0, 0, 5, 5);
+	gbc_IIName.gridx = 1;
+	gbc_IIName.gridy = 0;
+	panel_2.add(llName, gbc_IIName);
+
+	JLabel lGender = new JLabel("Gender:");
+	lGender.setFont(new Font("Consolas", Font.BOLD, 10));
+	GridBagConstraints gbc_IGender = new GridBagConstraints();
+	gbc_IGender.anchor = GridBagConstraints.WEST;
+	gbc_IGender.insets = new Insets(0, 0, 5, 5);
+	gbc_IGender.gridx = 2;
+	gbc_IGender.gridy = 0;
+	panel_2.add(lGender, gbc_IGender);
+
+	JLabel llGender = new JLabel("Female");
+	llGender.setFont(new Font("Consolas", Font.PLAIN, 10));
+	GridBagConstraints gbc_lblNewLabel_14_1 = new GridBagConstraints();
+	gbc_lblNewLabel_14_1.anchor = GridBagConstraints.WEST;
+	gbc_lblNewLabel_14_1.insets = new Insets(0, 0, 5, 5);
+	gbc_lblNewLabel_14_1.gridx = 3;
+	gbc_lblNewLabel_14_1.gridy = 0;
+	panel_2.add(llGender, gbc_lblNewLabel_14_1);
+
+	JLabel lnAlbum = new JLabel("Nº Albums:");
+	lnAlbum.setFont(new Font("Consolas", Font.BOLD, 10));
+	GridBagConstraints gbc_lblNewLabel_3_1 = new GridBagConstraints();
+	gbc_lblNewLabel_3_1.anchor = GridBagConstraints.WEST;
+	gbc_lblNewLabel_3_1.insets = new Insets(0, 0, 5, 5);
+	gbc_lblNewLabel_3_1.gridx = 4;
+	gbc_lblNewLabel_3_1.gridy = 0;
+	panel_2.add(lnAlbum, gbc_lblNewLabel_3_1);
+
+	JLabel lblNewLabel_13_1 = new JLabel("New label");
+	lblNewLabel_13_1.setFont(new Font("Consolas", Font.PLAIN, 10));
+	GridBagConstraints gbc_lblNewLabel_13_1 = new GridBagConstraints();
+	gbc_lblNewLabel_13_1.anchor = GridBagConstraints.WEST;
+	gbc_lblNewLabel_13_1.insets = new Insets(0, 0, 5, 5);
+	gbc_lblNewLabel_13_1.gridx = 5;
+	gbc_lblNewLabel_13_1.gridy = 0;
+	panel_2.add(lblNewLabel_13_1, gbc_lblNewLabel_13_1);
+
+	JLabel lCountry = new JLabel("Country:");
+	lCountry.setFont(new Font("Consolas", Font.BOLD, 10));
+	GridBagConstraints gbc_lblNewLabel_6_1 = new GridBagConstraints();
+	gbc_lblNewLabel_6_1.anchor = GridBagConstraints.WEST;
+	gbc_lblNewLabel_6_1.insets = new Insets(0, 0, 5, 5);
+	gbc_lblNewLabel_6_1.gridx = 6;
+	gbc_lblNewLabel_6_1.gridy = 0;
+	panel_2.add(lCountry, gbc_lblNewLabel_6_1);
+
+	JLabel lblNewLabel_15_1 = new JLabel("New label");
+	lblNewLabel_15_1.setFont(new Font("Consolas", Font.PLAIN, 10));
+	GridBagConstraints gbc_lblNewLabel_15_1 = new GridBagConstraints();
+	gbc_lblNewLabel_15_1.anchor = GridBagConstraints.WEST;
+	gbc_lblNewLabel_15_1.insets = new Insets(0, 0, 5, 0);
+	gbc_lblNewLabel_15_1.gridx = 7;
+	gbc_lblNewLabel_15_1.gridy = 0;
+	panel_2.add(lblNewLabel_15_1, gbc_lblNewLabel_15_1);
+
+	JLabel lblNewLabel_2_1 = new JLabel("Languages:");
+	lblNewLabel_2_1.setFont(new Font("Consolas", Font.BOLD, 10));
+	GridBagConstraints gbc_lblNewLabel_2_1 = new GridBagConstraints();
+	gbc_lblNewLabel_2_1.anchor = GridBagConstraints.WEST;
+	gbc_lblNewLabel_2_1.insets = new Insets(0, 0, 0, 5);
+	gbc_lblNewLabel_2_1.gridx = 0;
+	gbc_lblNewLabel_2_1.gridy = 1;
+	panel_2.add(lblNewLabel_2_1, gbc_lblNewLabel_2_1);
+
+	JLabel lblNewLabel_8_1 = new JLabel("New label");
+	lblNewLabel_8_1.setFont(new Font("Consolas", Font.PLAIN, 10));
+	GridBagConstraints gbc_lblNewLabel_8_1 = new GridBagConstraints();
+	gbc_lblNewLabel_8_1.anchor = GridBagConstraints.WEST;
+	gbc_lblNewLabel_8_1.insets = new Insets(0, 0, 0, 5);
+	gbc_lblNewLabel_8_1.gridx = 1;
+	gbc_lblNewLabel_8_1.gridy = 1;
+	panel_2.add(lblNewLabel_8_1, gbc_lblNewLabel_8_1);
+
+	JLabel lblNewLabel_5_1 = new JLabel("Genres:");
+	lblNewLabel_5_1.setFont(new Font("Consolas", Font.BOLD, 10));
+	GridBagConstraints gbc_lblNewLabel_5_1 = new GridBagConstraints();
+	gbc_lblNewLabel_5_1.anchor = GridBagConstraints.WEST;
+	gbc_lblNewLabel_5_1.insets = new Insets(0, 0, 0, 5);
+	gbc_lblNewLabel_5_1.gridx = 2;
+	gbc_lblNewLabel_5_1.gridy = 1;
+	panel_2.add(lblNewLabel_5_1, gbc_lblNewLabel_5_1);
+
+	JLabel lblNewLabel_11_1 = new JLabel("New label");
+	lblNewLabel_11_1.setFont(new Font("Consolas", Font.PLAIN, 10));
+	GridBagConstraints gbc_lblNewLabel_11_1 = new GridBagConstraints();
+	gbc_lblNewLabel_11_1.anchor = GridBagConstraints.WEST;
+	gbc_lblNewLabel_11_1.gridwidth = 5;
+	gbc_lblNewLabel_11_1.insets = new Insets(0, 0, 0, 5);
+	gbc_lblNewLabel_11_1.gridx = 3;
+	gbc_lblNewLabel_11_1.gridy = 1;
+	panel_2.add(lblNewLabel_11_1, gbc_lblNewLabel_11_1);
     }
 }

@@ -54,7 +54,7 @@ public class AlbumService {
 
 	alb.setArtist(a);
 	alb.setAlbumFormat(af);
-	associateGenres(dto.genresId(), alb);
+	associateGenres(dto.genreIDs(), alb);
 	albumRepository.save(alb);
     }
 

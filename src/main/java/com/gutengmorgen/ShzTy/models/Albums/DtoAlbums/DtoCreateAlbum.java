@@ -15,5 +15,5 @@ public record DtoCreateAlbum(
         Long artistId,
         @NotNull(message = "Album format is required")
         Long albumFormatId,
-        Set<Long> genresId) {
+        Set<Long> genreIDs) {
 }

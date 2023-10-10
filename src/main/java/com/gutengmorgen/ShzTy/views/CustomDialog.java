@@ -3,20 +3,26 @@ package com.gutengmorgen.ShzTy.views;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.lang.reflect.Field;
+import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.AbstractDocument;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.gutengmorgen.ShzTy.controller.MainController;
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
+import com.gutengmorgen.ShzTy.models.Genres.Genre;
+import com.gutengmorgen.ShzTy.services.GenreService;
 import com.toedter.calendar.JDateChooser;
-
 
 import javax.swing.JTextField;
 import java.awt.GridLayout;
@@ -77,51 +83,49 @@ public class CustomDialog extends JDialog implements ActionListener {
 
     public void autoFill(Class<?> classToRead) {
 	Field[] fields = classToRead.getDeclaredFields();
+	MainController controller = new MainController();
 
 	for (Field field : fields) {
 	    String fieldName = field.getName();
-	    Class<?> fieldType = field.getType();
 
-	    JLabel label = new JLabel(hasValidAnnotations(field) ? fieldName + " *" : fieldName);
+	    JLabel label = new JLabel(hasValidAnnotations(field, fieldName));
 	    contentPanel.add(label);
 
-	    if (fieldType.getSimpleName().equals("String")) {
-		JTextField textField = new JTextField(10);
-		contentPanel.add(textField);
-		
-	    } else if (fieldType.getSimpleName().equals("Long") | fieldType.getSimpleName().equals("int")) {
-		JTextField textField = new JTextField(10);
-		((AbstractDocument) textField.getDocument()).setDocumentFilter(new FilterOnlyNumbers());
-		contentPanel.add(textField);
-		
-	    } else if (fieldType.getSimpleName().equals("Date")) {
+	    if (fieldName.contains("Id")) {
+		// NOTE: fieldType.getSimpleName().equals("int")
+//		JTextField textField = new JTextField(10);
+//		((AbstractDocument) textField.getDocument()).setDocumentFilter(new FilterOnlyNumbers());
+//		contentPanel.add(textField);
+		GenreService service = new GenreService();
+		List<Genre> list = service.getAllGenres();
+		DefaultComboBoxModel<Genre> model = new DefaultComboBoxModel<>();
+		for (Genre genre : list) {
+		    model.addElement(genre);
+		}
+		contentPanel.add(new JComboBox<>(model));
+
+	    } else if (fieldName.contains("Date")) {
 //		JTextField textField = new JTextField(10);
 //		((AbstractDocument) textField.getDocument()).setDocumentFilter(new FilterDateFormat());
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 		contentPanel.add(dateChooser);
-		
-	    } else if (fieldType.getSimpleName().equals("Set")) {
-		//NOTE: obtener los nombres e ids de un modelo
-		//crear un query para que obtenga solo los nombres e ids de un modelo
-		//crear un controller para que facilite la llamada ese query
-		//el controller devolvera una lista de objectos con dos parametros {nombre, id}
-		String[] options = { "option 1", "option 2", "option 3", "option 4" };
-		JComboBox<String> comboBox = new JComboBox<String>(options);
-		contentPanel.add(comboBox);
-	    }
 
-//	    System.out.println(fieldName + ", Tipo: " + fieldType.getName());
+	    } else if (fieldName.contains("IDs")) {
+		// el controller devolvera una lista de objectos con dos parametros {nombre, id}
+		contentPanel.add(controller.getGenreScrollList());
+	    } else {
+		JTextField textField = new JTextField(10);
+		contentPanel.add(textField);
+	    }
 	}
     }
 
-    private boolean hasValidAnnotations(Field field) {
-	if (field.isAnnotationPresent(NotNull.class))
-	    return true;
-	else if (field.isAnnotationPresent(NotBlank.class))
-	    return true;
+    private String hasValidAnnotations(Field field, String text) {
+	if (field.isAnnotationPresent(NotNull.class) || field.isAnnotationPresent(NotBlank.class))
+	    return text + " *";
 	else
-	    return false;
+	    return text;
     }
 
     @Override
@@ -131,7 +135,6 @@ public class CustomDialog extends JDialog implements ActionListener {
 	} else if (e.getSource().equals(cancelButton)) {
 	    cancelAction();
 	}
-
     }
 
     private void okAction() {

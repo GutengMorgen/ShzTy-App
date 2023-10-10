@@ -12,7 +12,7 @@ public class ArtistTableModel extends AbstractTableModel {
 
     //NOTE: automatizar el proceso
     private List<DtoSimpleReturnArtist> simepleReturnArtists;
-    private String[] columnNames = { "Name", "Gender", "Country", "Count Albums", "Languages", "Genres" };
+    private String[] columnNames = { "Name", "Gender", "Country", "Nº Albums", "Languages", "Genres" };
 
     public ArtistTableModel() {
 	ArtistService artistService = new ArtistService();
@@ -34,6 +34,8 @@ public class ArtistTableModel extends AbstractTableModel {
 	return columnNames[columnIndex];
     }
 
+//    TableColumn
+    
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 	DtoSimpleReturnArtist simpleReturnArtist = simepleReturnArtists.get(rowIndex);

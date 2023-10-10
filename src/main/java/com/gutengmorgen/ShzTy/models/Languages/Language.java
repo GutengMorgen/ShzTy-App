@@ -32,4 +32,9 @@ public class Language {
     
     @ManyToMany(targetEntity = Artist.class, mappedBy = "languages")
     private Set<Artist> artists;
+
+    @Override
+    public String toString() {
+	return "Language [id=" + id + ", name=" + name + "]";
+    }
 }

@@ -20,3 +20,8 @@
 		- create o update los datos segun el DtoModel
 		- implementar el delete el item de la tabla
 		- implementar el get para cada tabla
+		
+		
+- obtener el id de row de la tabla
+- obtener informacion del service
+- crear un customdialog para mostrar esa info

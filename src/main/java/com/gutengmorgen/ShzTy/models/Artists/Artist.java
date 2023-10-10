@@ -21,7 +21,6 @@ import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Languages.Language;
-import com.gutengmorgen.ShzTy.views.DTO_MODEL;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -84,16 +83,6 @@ public class Artist {
     
     public int albumsCount() {
 	return this.albums.size();
-    } 
-    
-    public static Class<?> findDtoClassByModel(DTO_MODEL model) {
-	Class<?> dtoClass = null;
-	
-	if (model == DTO_MODEL.CREATE) dtoClass = DtoCreateArtist.class;
-	else if (model == DTO_MODEL.UPDATE) dtoClass = DtoUpdateArtist.class;
-	else if (model == DTO_MODEL.RETURN) dtoClass = null;
-
-	return dtoClass;
     }
 
     @Override

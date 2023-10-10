@@ -6,14 +6,11 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -30,8 +27,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CustomDialog extends JDialog implements ActionListener {
-
     private static final long serialVersionUID = 1L;
+    
     private final JPanel contentPanel = new JPanel();
     private JButton okButton;
     private JButton cancelButton;
@@ -145,5 +142,10 @@ public class CustomDialog extends JDialog implements ActionListener {
     private void cancelAction() {
 	// TODO Auto-generated method stub
 
+    }
+
+    public void autoFillReturn(String map) {
+	System.out.println(map);
+	
     }
 }

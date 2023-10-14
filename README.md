@@ -25,3 +25,8 @@
 - obtener el id de row de la tabla
 - obtener informacion del service
 - crear un customdialog para mostrar esa info
+
+
+- agregar un custom jtextfield para poder acceder a los record de una entidad y poder agregar varios de ellos
+	- agregar un autocompletador que use los nombres de los records de una entidad usando documentfilter
+- guardar los record de una entidad para no llamar cada rato al service de esa entidad

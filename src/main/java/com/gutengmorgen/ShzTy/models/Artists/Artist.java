@@ -54,19 +54,19 @@ public class Artist {
     private Set<Language> languages = new HashSet<>();
     
     public Artist(DtoCreateArtist dto) {
-	this.name = dto.Name();
-        this.born_date = dto.BornDate();
-        this.gender = dto.Gender();
-        this.country = dto.Country();
-        this.biography = dto.Biography();
+	this.name = dto.name();
+        this.born_date = dto.bornDate();
+        this.gender = dto.gender();
+        this.country = dto.country();
+        this.biography = dto.biography();
     }
     
     public void update(DtoUpdateArtist dto) {
-	if(dto.Name() != null) this.name = dto.Name();
-        if(dto.BornDate() != null) this.born_date = dto.BornDate();
-        if(dto.Gender() != null) this.gender = dto.Gender();
-        if(dto.Country() != null) this.country = dto.Country();
-        if(dto.Biography() != null) this.biography = dto.Biography();
+	if(dto.name() != null) this.name = dto.name();
+        if(dto.bornDate() != null) this.born_date = dto.bornDate();
+        if(dto.gender() != null) this.gender = dto.gender();
+        if(dto.country() != null) this.country = dto.country();
+        if(dto.biography() != null) this.biography = dto.biography();
     }
     
     public void removeAllGenres() {

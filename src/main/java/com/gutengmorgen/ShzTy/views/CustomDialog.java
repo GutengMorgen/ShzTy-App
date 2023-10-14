@@ -1,21 +1,18 @@
 package com.gutengmorgen.ShzTy.views;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import com.gutengmorgen.ShzTy.controller.MainController;
@@ -31,7 +28,6 @@ import java.awt.event.ActionListener;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.AbstractListModel;
 
 public class CustomDialog extends JDialog {
     private static final long serialVersionUID = 1L;
@@ -41,16 +37,12 @@ public class CustomDialog extends JDialog {
     private JButton okButton;
     private JButton cancelButton;
 
-    private int columnIndex = 0;
     private int rowIndex = 0;
-    private JScrollPane scrollPane;
-    private JList list_1;
 
     public static void main(String[] args) {
 	try {
 	    CustomDialog dialog = new CustomDialog("Custom Dialog");
 	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//	    dialog.autoFill(DtoCreateAlbum.class);
 	    dialog.setVisible(true);
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -62,33 +54,9 @@ public class CustomDialog extends JDialog {
 	setBounds(100, 100, 480, 175);
 
 	cPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-	getContentPane().add(cPanel, BorderLayout.CENTER);
+	getContentPane().add(cPanel, BorderLayout.WEST);
 	GridBagLayout gbl_cPanel = new GridBagLayout();
-	gbl_cPanel.columnWidths = new int[]{0, 0, 145};
-	gbl_cPanel.rowWeights = new double[]{0.0};
-	gbl_cPanel.columnWeights = new double[]{0.0, 0.0, 0.0};
 	cPanel.setLayout(gbl_cPanel);
-	{
-		scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 2;
-		gbc_scrollPane.gridy = 0;
-		cPanel.add(scrollPane, gbc_scrollPane);
-		{
-			list_1 = new JList();
-			list_1.setModel(new AbstractListModel() {
-				String[] values = new String[] {"gwgege", "23523534", "tyuy", "jyjykj"};
-				public int getSize() {
-					return values.length;
-				}
-				public Object getElementAt(int index) {
-					return values[index];
-				}
-			});
-			scrollPane.setViewportView(list_1);
-		}
-	}
 
 	{
 	    JPanel buttonPane = new JPanel();
@@ -114,10 +82,79 @@ public class CustomDialog extends JDialog {
 	}
     }
 
+    public void autoFillV2(Object obj) {
+	Class<?> class1 = obj.getClass();
+	Field[] fields = class1.getDeclaredFields();
+
+	for (Field field : fields) {
+	    field.setAccessible(true);
+	    
+	    if (!field.isAnnotationPresent(ForGUI.class))
+		break;
+
+	    ForGUI forGUI = field.getAnnotation(ForGUI.class);
+	    
+	    try {
+		String name = forGUI.name();
+		Object value = field.get(obj);
+		JComponent component = null;
+		
+		if (forGUI.type() == PropertieType.SIMPLE_TEXT) {
+		    component = new JLabel(value.toString());
+		} else if (forGUI.type() == PropertieType.SINGLE_OPTION) {
+		    DefaultComboBoxModel<String> lm = new DefaultComboBoxModel<>();
+		    lm.addAll((Collection<? extends String>) value);
+		    component = new JComboBox<>(lm);
+		}
+
+		addComponent(name, component);
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	}
+
+	closeAutoFill();
+    }
+
+    public Object autoFillMineV2(Class<?> cl) {
+	Field[] fields = cl.getDeclaredFields();
+	MainController controller = new MainController();
+	
+	for (Field field : fields) {
+	    
+	    field.setAccessible(true);
+	    if(!field.isAnnotationPresent(ForGUI.class))
+		break;
+	    
+	    ForGUI forGUI = field.getAnnotation(ForGUI.class);
+	    
+	    try {
+		String name = forGUI.name();
+		JComponent comp = null;
+		
+		if(forGUI.type() == PropertieType.SINGLE_OPTION) {
+		    comp = controller.genreCB();
+		}
+		else if(forGUI.type() == PropertieType.MULTI_OPTION) {
+		    comp = new JTextField();
+		    comp.setToolTipText("para agregar mas optiones utilizar < ; >");
+		}
+		else {
+		    comp = new JTextField(10);
+		}
+		
+		addComponent(name, comp);
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	}
+	closeAutoFill();
+	return null;
+    }
+    
     public void autoFill(Class<?> classToRead) {
 	Field[] fields = classToRead.getDeclaredFields();
 	MainController controller = new MainController();
-
 	for (Field field : fields) {
 	    String fieldName = field.getName();
 
@@ -146,58 +183,19 @@ public class CustomDialog extends JDialog {
 
 	    } else if (fieldName.contains("IDs")) {
 		// el controller devolvera una lista de objectos con dos parametros {nombre, id}
-		cPanel.add(controller.getGenreScrollList());
+		cPanel.add(controller.genreScrollPane());
 	    } else {
 		JTextField textField = new JTextField(10);
 		cPanel.add(textField);
 	    }
 	}
     }
-
-    private void addComponent(JComponent component) {
-	constraints.gridx = columnIndex;
-	constraints.gridy = rowIndex;
-	constraints.gridwidth = 1;
-	constraints.gridheight = 1;
-	constraints.insets = new Insets(5, 5, 5, 10);
-
-	cPanel.add(component, constraints);
-
-	columnIndex++;
-	if (columnIndex >= 2) {
-	    columnIndex = 0;
-	    rowIndex++;
-	}
-
-	cPanel.revalidate();
-	pack();
-	cPanel.repaint();
-    }
-
-    private void addComponent(String name, JComponent comp) {
-	constraints.gridx = 0;
-	constraints.gridy = rowIndex;
-	constraints.gridwidth = 1;
-	constraints.gridheight = 1;
-	constraints.insets = new Insets(5, 5, 5, 10);
-	constraints.fill = GridBagConstraints.NONE;
-
-	cPanel.add(new JLabel(name), constraints);
-
-	constraints.gridx = 1;
-	cPanel.add(comp, constraints);
-
-	rowIndex++;
-
-	cPanel.revalidate();
-	cPanel.repaint();
-    }
-
+    
     public void autoFillReturn(DtoReturnArtist dto) {
 	JLabel ll1 = new JLabel(dto.id().toString());
 	addComponent("Id:", ll1);
 
-	JLabel ll2 = new JLabel(dto.name().toString());
+	JLabel ll2 = new JLabel(dto.name());
 	addComponent("Name:", ll2);
 
 	JLabel ll3 = new JLabel(dto.bornDate().toString());
@@ -212,21 +210,44 @@ public class CustomDialog extends JDialog {
 	JLabel ll6 = new JLabel(dto.biography());
 	addComponent("Biography:", ll6);
 
-	JScrollPane sll7 = new JScrollPane();
-	JList<String> ll7 = new JList<>();
-	sll7.setViewportView(ll7);
-	
-	DefaultListModel<String> ll7m = new DefaultListModel<>();
+	DefaultComboBoxModel<String> ll7m = new DefaultComboBoxModel<>();
 	ll7m.addAll(dto.albums());
-	ll7.setModel(ll7m);
-	
-	addComponent("Albums:", sll7);
+	addComponent("Albums:", new JComboBox<>(ll7m));
 
-	JLabel ll8 = new JLabel(dto.languages().toString());
-	addComponent("Languages:", ll8);
+	DefaultComboBoxModel<String> ll8m = new DefaultComboBoxModel<>();
+	ll8m.addAll(dto.languages());
+	addComponent("Languages:", new JComboBox<>(ll8m));
 
-	JLabel ll9 = new JLabel(dto.genres().toString());
-	addComponent("Genres:", ll9);
+	DefaultComboBoxModel<String> ll9m = new DefaultComboBoxModel<>();
+	ll9m.addAll(dto.genres());
+	addComponent("Genres:", new JComboBox<>(ll9m));
+
+	closeAutoFill();
+    }
+
+    private void addComponent(String name, JComponent comp) {
+	constraints.gridx = 0;
+	constraints.gridy = rowIndex;
+	constraints.gridwidth = 1;
+	constraints.gridheight = 1;
+	constraints.insets = new Insets(5, 5, 5, 5);
+	constraints.fill = GridBagConstraints.BOTH;
+	constraints.anchor = GridBagConstraints.WEST;
+
+	cPanel.add(new JLabel(name), constraints);
+
+	constraints.gridx = 1;
+//	comp.setFocusable(false);
+	cPanel.add(comp, constraints);
+
+	rowIndex++;
+    }
+
+    private void closeAutoFill() {
+	rowIndex = 0;
+	cPanel.revalidate();
+	cPanel.repaint();
+	pack();
 
 	okButton.addActionListener(new ActionListener() {
 	    @Override
@@ -234,7 +255,5 @@ public class CustomDialog extends JDialog {
 		dispose();
 	    }
 	});
-
-	pack();
     }
 }

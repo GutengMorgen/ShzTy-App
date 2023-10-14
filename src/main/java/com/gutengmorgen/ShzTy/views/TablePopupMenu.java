@@ -10,7 +10,7 @@ import javax.swing.JTable;
 
 public class TablePopupMenu extends JPopupMenu implements ActionListener {
     private static final long serialVersionUID = 1L;
-    
+
     private JMenuItem menuItemInfo;
     private JMenuItem menuItemUpdate;
     private JMenuItem menuItemRemove;
@@ -21,7 +21,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
     public TablePopupMenu(JTable table, int row) {
 	this.table = table;
 	this.rowId = (Long) table.getValueAt(row, 0);
-	
+
 	menuItemInfo = new JMenuItem("Show More Info");
 	menuItemInfo.addActionListener(this);
 	menuItemUpdate = new JMenuItem("Update Current Row");
@@ -30,7 +30,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	menuItemRemove.addActionListener(this);
 	menuItemAdd = new JMenuItem("Add New Row");
 	menuItemAdd.addActionListener(this);
-	
+
 	add(menuItemInfo);
 	add(menuItemUpdate);
 	add(menuItemRemove);
@@ -39,42 +39,38 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == menuItemInfo) {
+	if (e.getSource() == menuItemInfo)
 	    showInfo();
-	} else if (e.getSource() == menuItemUpdate) {
+	else if (e.getSource() == menuItemUpdate)
 	    updateItem();
-	} else if (e.getSource() == menuItemRemove) {
+	else if (e.getSource() == menuItemRemove)
 	    removeItem();
-	} else if (e.getSource() == menuItemAdd) {
+	else if (e.getSource() == menuItemAdd)
 	    addItem();
-	}
-	
     }
 
     private void showInfo() {
 	CustomDialog dialog = new CustomDialog("Info of Current Row");
-	DtoMapper.map(table.getName(), rowId, dialog);
+	DtoMapper.mapReturn(table.getName(), rowId, dialog, DTO_MODEL.RETURN);
 	dialog.setVisible(true);
     }
-    
-    
+
     private void updateItem() {
-	//TODO: para crear y editar se usaran el mismo frame
-//	CustomDialog dialog = new CustomDialog("Update Current Item");
-//	dialog.autoFill(DtoMapper.map(DTO_MODEL.UPDATE));
-//	dialog.setVisible(true);
+	CustomDialog dialog = new CustomDialog("Update Current Row");
+	DtoMapper.mapReturn(table.getName(), rowId, dialog, DTO_MODEL.UPDATE);
+	dialog.setVisible(true);
     }
-    
+
     private void addItem() {
-	//TODO: para crear y editar se usaran el mismo frame
+	// TODO: para crear y editar se usaran el mismo frame
 //	CustomDialog dialog = new CustomDialog("Add New Item");
 //	dialog.autoFill(DtoMapper.map(DTO_MODEL.CREATE));
 //	dialog.setVisible(true);
     }
-    
+
     private void removeItem() {
 	int a = JOptionPane.showConfirmDialog(table, "Are you sure?");
-	if(a == JOptionPane.YES_OPTION){
+	if (a == JOptionPane.YES_OPTION) {
 	    System.out.println("Se elimino el Artist");
 	}
     }

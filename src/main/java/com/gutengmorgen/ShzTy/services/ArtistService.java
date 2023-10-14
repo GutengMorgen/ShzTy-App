@@ -45,11 +45,11 @@ public class ArtistService {
     // DtoCreateArtist dto = new DtoCreateArtist("Mabbel Pines", new Date(3434423),
     // "Female", "Spain", "usa una gorra",Set.of(2L, 3L), Set.of(2L, 3L));
     public void saveArtist(DtoCreateArtist dto) {
-	validName(dto.Name());
+	validName(dto.name());
 
 	Artist artist = new Artist(dto);
-	associateGenres(dto.GenreIDs(), artist);
-	associateLanguages(dto.LanguageIDs(), artist);
+	associateGenres(dto.genreIDs(), artist);
+	associateLanguages(dto.languageIDs(), artist);
 	artistRepository.save(artist);
     }
 
@@ -58,17 +58,17 @@ public class ArtistService {
     public void updateArtist(DtoUpdateArtist dto, Long id) {
 	Artist a = validArtist(id);
 
-	if (dto.Name() != null)
-	    validName(dto.Name());
+	if (dto.name() != null)
+	    validName(dto.name());
 
-	if (dto.GenreIDs() != null) {
+	if (dto.genreIDs() != null) {
 	    a.getGenres().clear();
-	    associateGenres(dto.GenreIDs(), a);
+	    associateGenres(dto.genreIDs(), a);
 	}
 
-	if (dto.LanguageIDs() != null) {
+	if (dto.languageIDs() != null) {
 	    a.getLanguages().clear();
-	    associateLanguages(dto.LanguageIDs(), a);
+	    associateLanguages(dto.languageIDs(), a);
 	}
 
 	a.update(dto);

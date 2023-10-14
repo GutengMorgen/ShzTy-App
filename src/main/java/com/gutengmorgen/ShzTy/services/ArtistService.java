@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoReturnArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleReturnArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
@@ -27,6 +28,10 @@ public class ArtistService {
 
     public Artist getArtistById(Long id) {
 	return artistRepository.findById(id);
+    }
+    
+    public DtoReturnArtist getReturnArtistById(Long id) {
+	return new DtoReturnArtist(artistRepository.findById(id));
     }
 
     public List<Artist> getAllArtists() {

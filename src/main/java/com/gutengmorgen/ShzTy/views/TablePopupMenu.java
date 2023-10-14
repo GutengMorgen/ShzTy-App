@@ -53,7 +53,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 
     private void showInfo() {
 	CustomDialog dialog = new CustomDialog("Info of Current Row");
-	dialog.autoFillReturn(DtoMapper.map(table.getName(), rowId));
+	DtoMapper.map(table.getName(), rowId, dialog);
 	dialog.setVisible(true);
     }
     
@@ -75,7 +75,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
     private void removeItem() {
 	int a = JOptionPane.showConfirmDialog(table, "Are you sure?");
 	if(a == JOptionPane.YES_OPTION){
-	    System.out.println("Se elemino el Artist");
+	    System.out.println("Se elimino el Artist");
 	}
     }
 }

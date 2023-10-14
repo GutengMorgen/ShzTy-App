@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.gutengmorgen.ShzTy.controller.MainController;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoReturnArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.services.GenreService;
 import com.toedter.calendar.JDateChooser;
@@ -82,6 +81,7 @@ public class CustomDialog extends JDialog {
 	}
     }
 
+    @SuppressWarnings("unchecked")
     public void autoFillV2(Object obj) {
 	Class<?> class1 = obj.getClass();
 	Field[] fields = class1.getDeclaredFields();
@@ -140,7 +140,7 @@ public class CustomDialog extends JDialog {
 		    comp.setToolTipText("para agregar mas optiones utilizar < ; >");
 		}
 		else {
-		    comp = new JTextField(10);
+		    comp = new JTextField(13);
 		}
 		
 		addComponent(name, comp);
@@ -183,48 +183,14 @@ public class CustomDialog extends JDialog {
 
 	    } else if (fieldName.contains("IDs")) {
 		// el controller devolvera una lista de objectos con dos parametros {nombre, id}
-		cPanel.add(controller.genreScrollPane());
+		cPanel.add(controller.genreCB());
 	    } else {
 		JTextField textField = new JTextField(10);
 		cPanel.add(textField);
 	    }
 	}
     }
-    
-    public void autoFillReturn(DtoReturnArtist dto) {
-	JLabel ll1 = new JLabel(dto.id().toString());
-	addComponent("Id:", ll1);
-
-	JLabel ll2 = new JLabel(dto.name());
-	addComponent("Name:", ll2);
-
-	JLabel ll3 = new JLabel(dto.bornDate().toString());
-	addComponent("Born Date:", ll3);
-
-	JLabel ll4 = new JLabel(dto.gender());
-	addComponent("Gender:", ll4);
-
-	JLabel ll5 = new JLabel(dto.country());
-	addComponent("Country:", ll5);
-
-	JLabel ll6 = new JLabel(dto.biography());
-	addComponent("Biography:", ll6);
-
-	DefaultComboBoxModel<String> ll7m = new DefaultComboBoxModel<>();
-	ll7m.addAll(dto.albums());
-	addComponent("Albums:", new JComboBox<>(ll7m));
-
-	DefaultComboBoxModel<String> ll8m = new DefaultComboBoxModel<>();
-	ll8m.addAll(dto.languages());
-	addComponent("Languages:", new JComboBox<>(ll8m));
-
-	DefaultComboBoxModel<String> ll9m = new DefaultComboBoxModel<>();
-	ll9m.addAll(dto.genres());
-	addComponent("Genres:", new JComboBox<>(ll9m));
-
-	closeAutoFill();
-    }
-
+   
     private void addComponent(String name, JComponent comp) {
 	constraints.gridx = 0;
 	constraints.gridy = rowIndex;

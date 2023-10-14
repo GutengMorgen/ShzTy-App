@@ -17,7 +17,7 @@ public record DtoUpdateArtist(
         String country,
 	@ForGUI(name = "Biography:")
         String biography,
-	@ForGUI(name = "Languages:", type = PropertieType.SINGLE_OPTION)
+	@ForGUI(name = "Languages:", type = PropertieType.MULTI_OPTION)
         Set<Long> languageIDs,
 	@ForGUI(name = "Genres:", type = PropertieType.MULTI_OPTION)
         Set<Long> genreIDs) {

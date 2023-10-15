@@ -12,5 +12,5 @@ public @interface ForGUI {
     int Class = 0;
     String name();
     PropertieType type() default PropertieType.SIMPLE_TEXT;
-    String shareClass() default "";
+    String useEntity() default "";
 }

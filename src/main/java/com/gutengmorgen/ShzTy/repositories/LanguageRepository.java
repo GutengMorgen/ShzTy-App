@@ -6,13 +6,17 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
+import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Languages.Language;
 
 public class LanguageRepository extends RepositoryBase<Language> {
 
     public List<Language> findAll() {
-	// TODO Auto-generated method stub
-	return null;
+	try(Session sess = factory.openSession()){
+	    String jpql = "SELECT l FROM Language l";
+	    TypedQuery<Language> query = sess.createQuery(jpql,Language.class);
+	    return query.getResultList();
+	}
     }
 
     public Language findById(Long id) {

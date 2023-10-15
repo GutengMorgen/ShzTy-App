@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AbstractDocument;
 
 import com.gutengmorgen.ShzTy.controller.MainController;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
@@ -88,17 +89,17 @@ public class CustomDialog extends JDialog {
 
 	for (Field field : fields) {
 	    field.setAccessible(true);
-	    
+
 	    if (!field.isAnnotationPresent(ForGUI.class))
 		break;
 
 	    ForGUI forGUI = field.getAnnotation(ForGUI.class);
-	    
+
 	    try {
 		String name = forGUI.name();
 		Object value = field.get(obj);
 		JComponent component = null;
-		
+
 		if (forGUI.type() == PropertieType.SIMPLE_TEXT) {
 		    component = new JLabel(value.toString());
 		} else if (forGUI.type() == PropertieType.SINGLE_OPTION) {
@@ -116,33 +117,38 @@ public class CustomDialog extends JDialog {
 	closeAutoFill();
     }
 
-    public Object autoFillMineV2(Class<?> cl) {
+    public Object autoFillToInsert(Class<?> cl) {
 	Field[] fields = cl.getDeclaredFields();
 	MainController controller = new MainController();
-	
+
 	for (Field field : fields) {
-	    
+
 	    field.setAccessible(true);
-	    if(!field.isAnnotationPresent(ForGUI.class))
+	    if (!field.isAnnotationPresent(ForGUI.class))
 		break;
-	    
+
 	    ForGUI forGUI = field.getAnnotation(ForGUI.class);
-	    
+
 	    try {
 		String name = forGUI.name();
 		JComponent comp = null;
-		
-		if(forGUI.type() == PropertieType.SINGLE_OPTION) {
-		    comp = controller.genreCB();
-		}
-		else if(forGUI.type() == PropertieType.MULTI_OPTION) {
-		    comp = new JTextField();
+
+		if (forGUI.type() == PropertieType.SINGLE_OPTION) {
+//		    comp = controller.entityInCB(forGUI.useEntity());
+		    JTextField text = new JTextField();
+		    ((AbstractDocument) text.getDocument()).setDocumentFilter(new FilterDateFormat());
+		    text.setToolTipText("solo se permite una opcion");
+		    comp = text;
+		} else if (forGUI.type() == PropertieType.MULTI_OPTION) {
+		    JTextField text = new JTextField();
+		    ((AbstractDocument) text.getDocument()).setDocumentFilter(new FilterOnlyNumbers());
+
+		    comp = text;
 		    comp.setToolTipText("para agregar mas optiones utilizar < ; >");
-		}
-		else {
+		} else {
 		    comp = new JTextField(13);
 		}
-		
+
 		addComponent(name, comp);
 	    } catch (Exception e) {
 		e.printStackTrace();
@@ -151,7 +157,7 @@ public class CustomDialog extends JDialog {
 	closeAutoFill();
 	return null;
     }
-    
+
     public void autoFill(Class<?> classToRead) {
 	Field[] fields = classToRead.getDeclaredFields();
 	MainController controller = new MainController();
@@ -183,14 +189,14 @@ public class CustomDialog extends JDialog {
 
 	    } else if (fieldName.contains("IDs")) {
 		// el controller devolvera una lista de objectos con dos parametros {nombre, id}
-		cPanel.add(controller.genreCB());
+//		cPanel.add(controller.genreCB());
 	    } else {
 		JTextField textField = new JTextField(10);
 		cPanel.add(textField);
 	    }
 	}
     }
-   
+
     private void addComponent(String name, JComponent comp) {
 	constraints.gridx = 0;
 	constraints.gridy = rowIndex;

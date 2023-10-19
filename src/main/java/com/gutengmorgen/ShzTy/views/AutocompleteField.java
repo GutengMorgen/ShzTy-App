@@ -55,6 +55,8 @@ public final class AutocompleteField extends JTextField implements FocusListener
      * {@link #list} model.
      */
     private final ListModel model;
+    
+    private StringBuilder builder;
 
     /**
      * Constructs {@link AutocompleteField}.
@@ -71,6 +73,7 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	popup.setType(Window.Type.POPUP);
 	popup.setFocusableWindowState(false);
 	popup.setAlwaysOnTop(true);
+	builder = new StringBuilder();
 
 	model = new ListModel();
 	list = new JList<String>(model);
@@ -123,7 +126,9 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	    String split = ";";
 	    if (getText().contains(split)) {
 		String[] splited = getText().split(";");
-		String currentText = splited[splited.length -1];
+//		builder.append(splited);
+//		    builder.append(";");
+		String currentText = splited[splited.length - 1];
 		results.addAll(lookup.apply(currentText));
 	    } else {
 		results.addAll(lookup.apply(getText()));
@@ -154,7 +159,7 @@ public final class AutocompleteField extends JTextField implements FocusListener
     public void focusLost(final FocusEvent e) {
 	SwingUtilities.invokeLater(this::hideAutocompletePopup);
     }
-
+private int count = 0;
     @Override
     public void keyPressed(final KeyEvent e) {
 	if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -170,8 +175,18 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 	    //NOTE: hacer que se agrege el texto envez de reemplazarlo
 	    final String text = (String) list.getSelectedValue();
-	    setText(text);
-	    setCaretPosition(text.length());
+	    if(count == 0) {
+		builder.append(text);
+		count++;
+	    }
+	    else {
+		builder.append(";");
+		builder.append(text);
+	    }
+//	    builder.append(text);
+//	    builder.append("; ");
+	    setText(builder.toString());
+//	    setCaretPosition(text.length());
 	} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 	    hideAutocompletePopup();
 	}
@@ -231,7 +246,7 @@ public final class AutocompleteField extends JTextField implements FocusListener
      */
     public static void main(final String[] args) {
 	final JFrame frame = new JFrame("Sample autocomplete field");
-	GenreService service = new GenreService();
+//	GenreService service = new GenreService();
 
 	// Sample data list
 //	final List<String> values = service.getAllGenres().stream().map(g -> g.getName()).toList();
@@ -240,9 +255,10 @@ public final class AutocompleteField extends JTextField implements FocusListener
 //	final Function<String, List<String>> lookup = text -> values.stream()
 //		.filter(v -> !text.isEmpty() && v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text))
 //		.toList();
-	final List<String> values = service.getAllGenres().stream().map(g -> g.getName()).toList();
-
+//	final List<String> values = service.getAllGenres().stream().map(g -> g.getName()).toList();
 	// Simple lookup based on our data list
+        final List<String> values = Arrays.asList ( "Frame", "Dialog", "Label", "Tree", "Table", "List", "Field" );
+
 	final Function<String, List<String>> lookup = text -> values.stream()
 		.filter(v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();
 

@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
 
 import com.gutengmorgen.ShzTy.services.GenreService;
 
@@ -18,15 +19,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/**
- * @author Mikle Garin
- * @see https://stackoverflow.com/questions/45439231/implementing-autocomplete-with-jtextfield-and-jpopupmenu
- */
-
 public final class AutocompleteField extends JTextField implements FocusListener, DocumentListener, KeyListener {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -41,28 +35,14 @@ public final class AutocompleteField extends JTextField implements FocusListener
      */
     private final List<String> results;
 
-    /**
-     * {@link JWindow} used to display offered options.
-     */
     private final JWindow popup;
 
-    /**
-     * Lookup results {@link JList}.
-     */
     private final JList list;
 
-    /**
-     * {@link #list} model.
-     */
     private final ListModel model;
-    
+
     private StringBuilder builder;
 
-    /**
-     * Constructs {@link AutocompleteField}.
-     *
-     * @param lookup {@link Function} for text lookup
-     */
     public AutocompleteField(final Function<String, List<String>> lookup) {
 	super();
 	this.lookup = lookup;
@@ -92,18 +72,12 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	addKeyListener(this);
     }
 
-    /**
-     * Displays autocomplete popup at the correct location.
-     */
     private void showAutocompletePopup() {
 	final Point los = AutocompleteField.this.getLocationOnScreen();
 	popup.setLocation(los.x, los.y + getHeight());
 	popup.setVisible(true);
     }
 
-    /**
-     * Closes autocomplete popup.
-     */
     private void hideAutocompletePopup() {
 	popup.setVisible(false);
     }
@@ -117,23 +91,104 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	});
     }
 
+    @Override
+    public void focusLost(final FocusEvent e) {
+	SwingUtilities.invokeLater(this::hideAutocompletePopup);
+    }
+
+    private int count = 0;
+
+    @Override
+    public void keyPressed(final KeyEvent e) {
+	if (e.getKeyCode() == KeyEvent.VK_UP) {
+	    final int index = list.getSelectedIndex();
+	    if (index != -1 && index > 0) {
+		list.setSelectedIndex(index - 1);
+	    }
+	} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+	    final int index = list.getSelectedIndex();
+	    if (index != -1 && list.getModel().getSize() > index + 1) {
+		list.setSelectedIndex(index + 1);
+	    }
+	} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+	    // NOTE: hacer que se agrege el texto envez de reemplazarlo
+	    final String text = (String) list.getSelectedValue();
+	    if (count == 0) {
+		builder.append(text);
+		count++;
+	    } else {
+		builder.append(";");
+		builder.append(text);
+	    }
+//	    builder.append(text);
+//	    builder.append("; ");
+	    setText(builder.toString());
+//	    setCaretPosition(text.length());
+	} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+	    hideAutocompletePopup();
+	}
+    }
+
+    @Override
+    public void keyTyped(final KeyEvent e) {
+	// Do nothing
+    }
+
+    @Override
+    public void keyReleased(final KeyEvent e) {
+	// Do nothing
+    }
+
+    @Override
+    public void insertUpdate(final DocumentEvent e) {
+	documentChanged();
+//	System.out.println(e.toString());
+    }
+
+    @Override
+    public void removeUpdate(final DocumentEvent e) {
+	documentChanged();
+//	System.out.println(e.toString());
+    }
+
+    @Override
+    public void changedUpdate(final DocumentEvent e) {
+	documentChanged();
+//	System.out.println(e.toString());
+    }
+
+    private String textToApply() {
+	String text = "";
+	// ejecutara loopup cada vez que se ingrese nuevo texto al jtextfield
+	// NOTE: hacer que ignore los espacion en blanco
+	String split = ",";
+//	    System.out.println(getCaretPosition());
+
+	if (!getText().contains(split)) {
+	    results.addAll(lookup.apply(getText()));
+	} else {
+//		try {
+//		    int post = getText().
+//		    String posi = getText(count, getText().length());
+//		} catch (BadLocationException e) {
+//		    e.printStackTrace();
+//		}
+	    int post = getCaretPosition();
+	    String[] splited = getText().split(split);
+//		builder.append(splited);
+//		    builder.append(";");
+	    String currentText = splited[splited.length - 1];
+
+	}
+	return text;
+    }
+
     private void documentChanged() {
 	SwingUtilities.invokeLater(() -> {
 	    // Updating results list
 	    results.clear();
-	    // ejecutara loopup cada vez que se ingrese nuevo texto al jtextfield
-	    //NOTE: hacer que ignore los espacion en blanco
-	    String split = ";";
-	    if (getText().contains(split)) {
-		String[] splited = getText().split(";");
-//		builder.append(splited);
-//		    builder.append(";");
-		String currentText = splited[splited.length - 1];
-		results.addAll(lookup.apply(currentText));
-	    } else {
-		results.addAll(lookup.apply(getText()));
-	    }
 
+	    results.addAll(lookup.apply(textToApply()));
 	    // Updating list view
 	    model.updateView();
 	    list.setVisibleRowCount(Math.min(results.size(), 10));
@@ -155,71 +210,6 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	});
     }
 
-    @Override
-    public void focusLost(final FocusEvent e) {
-	SwingUtilities.invokeLater(this::hideAutocompletePopup);
-    }
-private int count = 0;
-    @Override
-    public void keyPressed(final KeyEvent e) {
-	if (e.getKeyCode() == KeyEvent.VK_UP) {
-	    final int index = list.getSelectedIndex();
-	    if (index != -1 && index > 0) {
-		list.setSelectedIndex(index - 1);
-	    }
-	} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-	    final int index = list.getSelectedIndex();
-	    if (index != -1 && list.getModel().getSize() > index + 1) {
-		list.setSelectedIndex(index + 1);
-	    }
-	} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-	    //NOTE: hacer que se agrege el texto envez de reemplazarlo
-	    final String text = (String) list.getSelectedValue();
-	    if(count == 0) {
-		builder.append(text);
-		count++;
-	    }
-	    else {
-		builder.append(";");
-		builder.append(text);
-	    }
-//	    builder.append(text);
-//	    builder.append("; ");
-	    setText(builder.toString());
-//	    setCaretPosition(text.length());
-	} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-	    hideAutocompletePopup();
-	}
-    }
-
-    @Override
-    public void insertUpdate(final DocumentEvent e) {
-	documentChanged();
-    }
-
-    @Override
-    public void removeUpdate(final DocumentEvent e) {
-	documentChanged();
-    }
-
-    @Override
-    public void changedUpdate(final DocumentEvent e) {
-	documentChanged();
-    }
-
-    @Override
-    public void keyTyped(final KeyEvent e) {
-	// Do nothing
-    }
-
-    @Override
-    public void keyReleased(final KeyEvent e) {
-	// Do nothing
-    }
-
-    /**
-     * Custom list model providing data and bridging view update call.
-     */
     private class ListModel extends AbstractListModel {
 	@Override
 	public int getSize() {
@@ -239,11 +229,6 @@ private int count = 0;
 	}
     }
 
-    /**
-     * Sample {@link AutocompleteField} usage.
-     *
-     * @param args run arguments
-     */
     public static void main(final String[] args) {
 	final JFrame frame = new JFrame("Sample autocomplete field");
 //	GenreService service = new GenreService();
@@ -257,7 +242,7 @@ private int count = 0;
 //		.toList();
 //	final List<String> values = service.getAllGenres().stream().map(g -> g.getName()).toList();
 	// Simple lookup based on our data list
-        final List<String> values = Arrays.asList ( "Frame", "Dialog", "Label", "Tree", "Table", "List", "Field" );
+	final List<String> values = Arrays.asList("Frame", "Dialog", "Label", "Tree", "Table", "List", "Field");
 
 	final Function<String, List<String>> lookup = text -> values.stream()
 		.filter(v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();

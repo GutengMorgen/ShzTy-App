@@ -96,8 +96,6 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	SwingUtilities.invokeLater(this::hideAutocompletePopup);
     }
 
-    private int count = 0;
-
     @Override
     public void keyPressed(final KeyEvent e) {
 	if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -111,19 +109,7 @@ public final class AutocompleteField extends JTextField implements FocusListener
 		list.setSelectedIndex(index + 1);
 	    }
 	} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-	    // NOTE: hacer que se agrege el texto envez de reemplazarlo
-	    final String text = (String) list.getSelectedValue();
-	    if (count == 0) {
-		builder.append(text);
-		count++;
-	    } else {
-		builder.append(";");
-		builder.append(text);
-	    }
-//	    builder.append(text);
-//	    builder.append("; ");
-	    setText(builder.toString());
-//	    setCaretPosition(text.length());
+	    replaceText((String) list.getSelectedValue());
 	} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 	    hideAutocompletePopup();
 	}
@@ -131,56 +117,55 @@ public final class AutocompleteField extends JTextField implements FocusListener
 
     @Override
     public void keyTyped(final KeyEvent e) {
-	// Do nothing
     }
 
     @Override
     public void keyReleased(final KeyEvent e) {
-	// Do nothing
     }
 
     @Override
     public void insertUpdate(final DocumentEvent e) {
 	documentChanged();
-//	System.out.println(e.toString());
     }
 
     @Override
     public void removeUpdate(final DocumentEvent e) {
 	documentChanged();
-//	System.out.println(e.toString());
     }
 
     @Override
     public void changedUpdate(final DocumentEvent e) {
 	documentChanged();
-//	System.out.println(e.toString());
+    }
+
+    private String split = ",";
+
+    private int[] findIndex(String txt, int caret) {
+	int s = txt.lastIndexOf(split, caret - 1);
+	int e = txt.indexOf(split, caret);
+
+	if (s >= 0)
+	    s++;
+	else
+	    s = 0;
+
+	if (e == -1)
+	    e = txt.length();
+
+	return new int[] { s, e };
     }
 
     private String textToApply() {
-	String text = "";
-	// ejecutara loopup cada vez que se ingrese nuevo texto al jtextfield
-	// NOTE: hacer que ignore los espacion en blanco
-	String split = ",";
-//	    System.out.println(getCaretPosition());
+	int[] indexes = findIndex(getText(), getCaretPosition());
+	return getText().substring(indexes[0], indexes[1]);
+    }
 
-	if (!getText().contains(split)) {
-	    results.addAll(lookup.apply(getText()));
-	} else {
-//		try {
-//		    int post = getText().
-//		    String posi = getText(count, getText().length());
-//		} catch (BadLocationException e) {
-//		    e.printStackTrace();
-//		}
-	    int post = getCaretPosition();
-	    String[] splited = getText().split(split);
-//		builder.append(splited);
-//		    builder.append(";");
-	    String currentText = splited[splited.length - 1];
+    private void replaceText(String text) {
+	int[] indexes = findIndex(getText(), getCaretPosition());
 
-	}
-	return text;
+	String result = getText().substring(0, indexes[0]) + text + getText().substring(indexes[1]);
+	setText(result);
+	setCaretPosition(indexes[0] + text.length());
     }
 
     private void documentChanged() {
@@ -189,6 +174,7 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	    results.clear();
 
 	    results.addAll(lookup.apply(textToApply()));
+
 	    // Updating list view
 	    model.updateView();
 	    list.setVisibleRowCount(Math.min(results.size(), 10));

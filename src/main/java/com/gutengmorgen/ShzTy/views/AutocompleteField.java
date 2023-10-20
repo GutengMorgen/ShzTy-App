@@ -4,9 +4,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
-
-import com.gutengmorgen.ShzTy.services.GenreService;
 
 import java.awt.*;
 import java.awt.event.FocusEvent;
@@ -17,10 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public final class AutocompleteField extends JTextField implements FocusListener, DocumentListener, KeyListener {
-
     private static final long serialVersionUID = 1L;
 
     /**
@@ -28,21 +23,12 @@ public final class AutocompleteField extends JTextField implements FocusListener
      * {@link String} for the text we are looking results for.
      */
     private final Function<String, List<String>> lookup;
-
-    /**
-     * {@link List} of lookup results. It is cached to optimize performance for more
-     * complex lookups.
-     */
     private final List<String> results;
-
     private final JWindow popup;
-
-    private final JList list;
-
+    private final JList<String> list;
     private final ListModel model;
 
-    private StringBuilder builder;
-
+    @SuppressWarnings("unchecked")
     public AutocompleteField(final Function<String, List<String>> lookup) {
 	super();
 	this.lookup = lookup;
@@ -53,12 +39,13 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	popup.setType(Window.Type.POPUP);
 	popup.setFocusableWindowState(false);
 	popup.setAlwaysOnTop(true);
-	builder = new StringBuilder();
 
 	model = new ListModel();
 	list = new JList<String>(model);
 
 	popup.add(new JScrollPane(list) {
+	    private static final long serialVersionUID = 1L;
+
 	    @Override
 	    public Dimension getPreferredSize() {
 		final Dimension ps = super.getPreferredSize();
@@ -179,16 +166,12 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	    model.updateView();
 	    list.setVisibleRowCount(Math.min(results.size(), 10));
 
-	    // Selecting first result
-	    if (results.size() > 0) {
-		list.setSelectedIndex(0);
-	    }
-
 	    // Ensure autocomplete popup has correct size
 	    popup.pack();
 
 	    // Display or hide popup depending on the results
 	    if (results.size() > 0) {
+		list.setSelectedIndex(0);
 		showAutocompletePopup();
 	    } else {
 		hideAutocompletePopup();
@@ -196,7 +179,10 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	});
     }
 
+    @SuppressWarnings("rawtypes")
     private class ListModel extends AbstractListModel {
+	private static final long serialVersionUID = -3681483652210212608L;
+
 	@Override
 	public int getSize() {
 	    return results.size();
@@ -207,9 +193,6 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	    return results.get(index);
 	}
 
-	/**
-	 * Properly updates list view.
-	 */
 	public void updateView() {
 	    super.fireContentsChanged(AutocompleteField.this, 0, getSize());
 	}

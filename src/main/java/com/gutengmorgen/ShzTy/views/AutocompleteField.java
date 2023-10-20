@@ -27,6 +27,8 @@ public final class AutocompleteField extends JTextField implements FocusListener
     private final JWindow popup;
     private final JList<String> list;
     private final ListModel model;
+    private String split = ",";
+    private boolean multiItems = false;
 
     @SuppressWarnings("unchecked")
     public AutocompleteField(final Function<String, List<String>> lookup) {
@@ -125,11 +127,9 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	documentChanged();
     }
 
-    private String split = ",";
-
     private int[] findIndex(String txt, int caret) {
-	int s = txt.lastIndexOf(split, caret - 1);
-	int e = txt.indexOf(split, caret);
+	int s = txt.lastIndexOf(getSplit(), caret - 1);
+	int e = txt.indexOf(getSplit(), caret);
 
 	if (s >= 0)
 	    s++;
@@ -143,8 +143,11 @@ public final class AutocompleteField extends JTextField implements FocusListener
     }
 
     private String textToApply() {
-	int[] indexes = findIndex(getText(), getCaretPosition());
-	return getText().substring(indexes[0], indexes[1]);
+	if (getMultiItems()) {
+	    int[] indexes = findIndex(getText(), getCaretPosition());
+	    return getText().substring(indexes[0], indexes[1]);
+	} else
+	    return getText();
     }
 
     private void replaceText(String text) {
@@ -164,6 +167,7 @@ public final class AutocompleteField extends JTextField implements FocusListener
 
 	    // Updating list view
 	    model.updateView();
+//	    list.setVisibleRowCount(results.size());
 	    list.setVisibleRowCount(Math.min(results.size(), 10));
 
 	    // Ensure autocomplete popup has correct size
@@ -198,26 +202,33 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	}
     }
 
+    public void setMultiItems(boolean flag) {
+	this.multiItems = flag;
+    }
+
+    public boolean getMultiItems() {
+	return this.multiItems;
+    }
+
+    public String getSplit() {
+	return this.split;
+    }
+
+    public void setSlipt(String split) {
+	this.split = split;
+    }
+
     public static void main(final String[] args) {
 	final JFrame frame = new JFrame("Sample autocomplete field");
-//	GenreService service = new GenreService();
 
-	// Sample data list
-//	final List<String> values = service.getAllGenres().stream().map(g -> g.getName()).toList();
-//	
-//	// Simple lookup based on our data list
-//	final Function<String, List<String>> lookup = text -> values.stream()
-//		.filter(v -> !text.isEmpty() && v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text))
-//		.toList();
-//	final List<String> values = service.getAllGenres().stream().map(g -> g.getName()).toList();
-	// Simple lookup based on our data list
 	final List<String> values = Arrays.asList("Frame", "Dialog", "Label", "Tree", "Table", "List", "Field");
 
 	final Function<String, List<String>> lookup = text -> values.stream()
 		.filter(v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();
 
-	// Autocomplete field itself
+	// NOTE: add multioptions boolean
 	final AutocompleteField field = new AutocompleteField(lookup);
+	field.setMultiItems(false);
 	field.setColumns(15);
 
 	final JPanel border = new JPanel(new BorderLayout());

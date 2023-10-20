@@ -64,13 +64,13 @@ public class CustomDialog extends JDialog {
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	    {
 		okButton = new JButton("OK");
-		okButton.setActionCommand("OK");
+//		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
-		getRootPane().setDefaultButton(okButton);
+//		getRootPane().setDefaultButton(okButton);
 	    }
 	    {
 		cancelButton = new JButton("Cancel");
-		cancelButton.setActionCommand("Cancel");
+//		cancelButton.setActionCommand("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -140,11 +140,8 @@ public class CustomDialog extends JDialog {
 		    text.setToolTipText("solo se permite una opcion");
 		    comp = text;
 		} else if (forGUI.type() == PropertieType.MULTI_OPTION) {
-		    JTextField text = new JTextField();
-		    ((AbstractDocument) text.getDocument()).setDocumentFilter(new FilterOnlyNumbers());
-
-		    comp = text;
-		    comp.setToolTipText("para agregar mas optiones utilizar < ; >");
+		    comp = controller.multiField();
+		    comp.setToolTipText("para agregar mas optiones utilizar < , >");
 		} else {
 		    comp = new JTextField(13);
 		}

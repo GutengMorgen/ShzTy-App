@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
-public final class AutocompleteField extends JTextField implements FocusListener, DocumentListener, KeyListener {
+public final class AutocompleteField extends JTextField {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -47,7 +47,7 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	list = new JList<String>(model);
 
 	popup.add(new JScrollPane(list) {
-	    private static final long serialVersionUID = 1L;
+	    private static final long serialVersionUID = -2387472513291367137L;
 
 	    @Override
 	    public Dimension getPreferredSize() {
@@ -56,10 +56,66 @@ public final class AutocompleteField extends JTextField implements FocusListener
 		return ps;
 	    }
 	});
+	getDocument().addDocumentListener(new DocumentListener() {
 
-	addFocusListener(this);
-	getDocument().addDocumentListener(this);
-	addKeyListener(this);
+	    @Override
+	    public void removeUpdate(DocumentEvent e) {
+		documentChanged();
+	    }
+
+	    @Override
+	    public void insertUpdate(DocumentEvent e) {
+		documentChanged();
+	    }
+
+	    @Override
+	    public void changedUpdate(DocumentEvent e) {
+		documentChanged();
+	    }
+	});
+	addFocusListener(new FocusListener() {
+
+	    @Override
+	    public void focusLost(FocusEvent e) {
+		SwingUtilities.invokeLater(() -> hideAutocompletePopup());
+	    }
+
+	    @Override
+	    public void focusGained(FocusEvent e) {
+		SwingUtilities.invokeLater(() -> {
+		    if (results.size() > 0)
+			showAutocompletePopup();
+		});
+	    }
+	});
+	addKeyListener(new KeyListener() {
+	    @Override
+	    public void keyPressed(final KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+		    final int index = list.getSelectedIndex();
+		    if (index != -1 && index > 0) {
+			list.setSelectedIndex(index - 1);
+		    }
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+		    final int index = list.getSelectedIndex();
+		    if (index != -1 && list.getModel().getSize() > index + 1) {
+			list.setSelectedIndex(index + 1);
+		    }
+		} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		    replaceText((String) list.getSelectedValue());
+		} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+		    hideAutocompletePopup();
+		}
+	    }
+
+	    @Override
+	    public void keyTyped(final KeyEvent e) {
+	    }
+
+	    @Override
+	    public void keyReleased(final KeyEvent e) {
+	    }
+	});
     }
 
     private void showAutocompletePopup() {
@@ -70,62 +126,6 @@ public final class AutocompleteField extends JTextField implements FocusListener
 
     private void hideAutocompletePopup() {
 	popup.setVisible(false);
-    }
-
-    @Override
-    public void focusGained(final FocusEvent e) {
-	SwingUtilities.invokeLater(() -> {
-	    if (results.size() > 0) {
-		showAutocompletePopup();
-	    }
-	});
-    }
-
-    @Override
-    public void focusLost(final FocusEvent e) {
-	SwingUtilities.invokeLater(this::hideAutocompletePopup);
-    }
-
-    @Override
-    public void keyPressed(final KeyEvent e) {
-	if (e.getKeyCode() == KeyEvent.VK_UP) {
-	    final int index = list.getSelectedIndex();
-	    if (index != -1 && index > 0) {
-		list.setSelectedIndex(index - 1);
-	    }
-	} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-	    final int index = list.getSelectedIndex();
-	    if (index != -1 && list.getModel().getSize() > index + 1) {
-		list.setSelectedIndex(index + 1);
-	    }
-	} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-	    replaceText((String) list.getSelectedValue());
-	} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-	    hideAutocompletePopup();
-	}
-    }
-
-    @Override
-    public void keyTyped(final KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(final KeyEvent e) {
-    }
-
-    @Override
-    public void insertUpdate(final DocumentEvent e) {
-	documentChanged();
-    }
-
-    @Override
-    public void removeUpdate(final DocumentEvent e) {
-	documentChanged();
-    }
-
-    @Override
-    public void changedUpdate(final DocumentEvent e) {
-	documentChanged();
     }
 
     private int[] findIndex(String txt, int caret) {
@@ -227,7 +227,6 @@ public final class AutocompleteField extends JTextField implements FocusListener
 	final Function<String, List<String>> lookup = text -> values.stream()
 		.filter(v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();
 
-	// NOTE: add multioptions boolean
 	final AutocompleteField field = new AutocompleteField(lookup, true);
 	field.setColumns(15);
 

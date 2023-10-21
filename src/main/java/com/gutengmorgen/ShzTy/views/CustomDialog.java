@@ -1,6 +1,7 @@
 package com.gutengmorgen.ShzTy.views;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.lang.reflect.Field;
 import java.sql.Date;
@@ -147,8 +148,10 @@ public class CustomDialog extends JDialog {
 		    comp = controller.textField(false);
 		} else if (forGUI.type() == GUIType.MULTI_OPTION) {
 		    comp = controller.textField(true);
+		} else if (forGUI.type() == GUIType.DATE) {
+		    comp = new CustomTextField(GUIType.DATE);
 		} else {
-		    comp = new JTextField(13);
+		    comp = new CustomTextField(GUIType.SIMPLE_TEXT);
 		}
 
 		addComponent(name, comp);
@@ -172,6 +175,8 @@ public class CustomDialog extends JDialog {
 
 	constraints.gridx = 1;
 //	comp.setFocusable(false);
+	if (comp instanceof JTextField)
+	    comp.setPreferredSize(new Dimension(150, comp.getPreferredSize().height));
 	cPanel.add(comp, constraints);
 
 	rowIndex++;
@@ -179,18 +184,23 @@ public class CustomDialog extends JDialog {
 
     private void closeAutoFill() {
 	rowIndex = 0;
-	cPanel.revalidate();
-	cPanel.repaint();
+//	cPanel.revalidate();
+//	cPanel.repaint();
 	pack();
     }
 
     // NOTE: los fields y textos de los jtextfield ya estan ordenandos porque se
     // extraen de la misma clase
-    private void convertType(Class<?> origin) {
-	Field[] fields = origin.getDeclaredFields();
+    public void getTypeTest() {
+	java.awt.Component[] comps = cPanel.getComponents();
+	Object type = null;
+	List<Object> result = new ArrayList<>();
 
-	for (Field field : fields) {
-//	   String type = field.getType();
+	for (java.awt.Component component : comps) {
+	    if (component instanceof JTextField) {
+		CustomTextField field = (CustomTextField) component;
+		System.out.println(field.getType());
+	    }
 	}
     }
 
@@ -202,30 +212,32 @@ public class CustomDialog extends JDialog {
 	for (java.awt.Component component : comps) {
 	    if (component instanceof JTextField) {
 //		String text = ((JTextField) component).getText();
-		CustomTextField cField = (CustomTextField) component;
+		CustomTextField field = (CustomTextField) component;
+		String typeField = field.getType();
+		String textField = field.getText();
 
-		if (cField.getType() == "Date") {
+		if (typeField == "Date") {
 		    try {
-			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-			java.util.Date date = format.parse(cField.getText());
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date(format.parse(textField).getTime());
 			type = date;
 		    } catch (ParseException e) {
 			e.printStackTrace();
 		    }
-		} else if (cField.getType() == "Set") {
+		} else if (typeField == "Set") {
 		    Set<Long> longs = new HashSet<>();
-		    if (cField.getText().contains(",")) {
-			String[] texts = cField.getText().split(",");
+		    if (textField.contains(",")) {
+			String[] texts = textField.split(",");
 			for (String obj : texts) {
 			    Long long1 = findNameReturnLong(obj);
 			    longs.add(long1);
 			}
 		    } else {
-			longs.add(findNameReturnLong(cField.getText()));
+			longs.add(findNameReturnLong(textField));
 		    }
 		    type = longs;
 		} else {
-		    type = cField.getText();
+		    type = textField;
 		}
 
 		result.add(type);

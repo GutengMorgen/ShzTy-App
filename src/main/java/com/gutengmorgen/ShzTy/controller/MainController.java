@@ -41,4 +41,12 @@ public class MainController {
 
 	return new AutocompleteField(lookup, multiItems);
     }
+
+    public Function<String, List<String>> lookup() {
+	final List<String> values = Arrays.asList("Frame", "Dialog", "Label", "Tree", "Table", "List", "Field");
+
+	final Function<String, List<String>> lookup = text -> values.stream()
+		.filter(v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();
+	return lookup;
+    }
 }

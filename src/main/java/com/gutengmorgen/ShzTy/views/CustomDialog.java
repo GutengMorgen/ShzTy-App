@@ -3,8 +3,14 @@ package com.gutengmorgen.ShzTy.views;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.lang.reflect.Field;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -16,7 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AbstractDocument;
 
+import org.hibernate.mapping.Component;
+import org.hibernate.mapping.Value;
+
 import com.gutengmorgen.ShzTy.controller.MainController;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.services.GenreService;
 import com.toedter.calendar.JDateChooser;
@@ -34,7 +44,7 @@ public class CustomDialog extends JDialog {
 
     private final JPanel cPanel = new JPanel();
     private final GridBagConstraints constraints = new GridBagConstraints();
-    private JButton okButton;
+    public JButton okButton;
     private JButton cancelButton;
 
     private int rowIndex = 0;
@@ -83,7 +93,7 @@ public class CustomDialog extends JDialog {
     }
 
     @SuppressWarnings("unchecked")
-    public void autoFillV2(Object obj) {
+    public void autoFillReturn(Object obj) {
 	Class<?> class1 = obj.getClass();
 	Field[] fields = class1.getDeclaredFields();
 
@@ -100,9 +110,9 @@ public class CustomDialog extends JDialog {
 		Object value = field.get(obj);
 		JComponent component = null;
 
-		if (forGUI.type() == PropertieType.SIMPLE_TEXT) {
+		if (forGUI.type() == GUIType.SIMPLE_TEXT) {
 		    component = new JLabel(value.toString());
-		} else if (forGUI.type() == PropertieType.SINGLE_OPTION) {
+		} else if (forGUI.type() == GUIType.SINGLE_OPTION) {
 		    DefaultComboBoxModel<String> lm = new DefaultComboBoxModel<>();
 		    lm.addAll((Collection<? extends String>) value);
 		    component = new JComboBox<>(lm);
@@ -117,7 +127,7 @@ public class CustomDialog extends JDialog {
 	closeAutoFill();
     }
 
-    public Object autoFillToInsert(Class<?> cl) {
+    public void autoFillToInsert(Class<?> cl) {
 	Field[] fields = cl.getDeclaredFields();
 	MainController controller = new MainController();
 
@@ -133,15 +143,10 @@ public class CustomDialog extends JDialog {
 		String name = forGUI.name();
 		JComponent comp = null;
 
-		if (forGUI.type() == PropertieType.SINGLE_OPTION) {
-//		    comp = controller.entityInCB(forGUI.useEntity());
-		    JTextField text = new JTextField();
-		    ((AbstractDocument) text.getDocument()).setDocumentFilter(new FilterDateFormat());
-		    text.setToolTipText("solo se permite una opcion");
-		    comp = text;
-		} else if (forGUI.type() == PropertieType.MULTI_OPTION) {
-		    comp = controller.multiField();
-		    comp.setToolTipText("para agregar mas optiones utilizar < , >");
+		if (forGUI.type() == GUIType.SINGLE_OPTION) {
+		    comp = controller.textField(false);
+		} else if (forGUI.type() == GUIType.MULTI_OPTION) {
+		    comp = controller.textField(true);
 		} else {
 		    comp = new JTextField(13);
 		}
@@ -152,46 +157,6 @@ public class CustomDialog extends JDialog {
 	    }
 	}
 	closeAutoFill();
-	return null;
-    }
-
-    public void autoFill(Class<?> classToRead) {
-	Field[] fields = classToRead.getDeclaredFields();
-	MainController controller = new MainController();
-	for (Field field : fields) {
-	    String fieldName = field.getName();
-
-	    JLabel label = new JLabel(fieldName);
-	    cPanel.add(label);
-
-	    if (fieldName.contains("Id")) {
-		// NOTE: fieldType.getSimpleName().equals("int")
-//		JTextField textField = new JTextField(10);
-//		((AbstractDocument) textField.getDocument()).setDocumentFilter(new FilterOnlyNumbers());
-//		contentPanel.add(textField);
-		GenreService service = new GenreService();
-		List<Genre> list = service.getAllGenres();
-		DefaultComboBoxModel<Genre> model = new DefaultComboBoxModel<>();
-		for (Genre genre : list) {
-		    model.addElement(genre);
-		}
-		cPanel.add(new JComboBox<>(model));
-
-	    } else if (fieldName.contains("Date")) {
-//		JTextField textField = new JTextField(10);
-//		((AbstractDocument) textField.getDocument()).setDocumentFilter(new FilterDateFormat());
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setDateFormatString("yyyy-MM-dd");
-		cPanel.add(dateChooser);
-
-	    } else if (fieldName.contains("IDs")) {
-		// el controller devolvera una lista de objectos con dos parametros {nombre, id}
-//		cPanel.add(controller.genreCB());
-	    } else {
-		JTextField textField = new JTextField(10);
-		cPanel.add(textField);
-	    }
-	}
     }
 
     private void addComponent(String name, JComponent comp) {
@@ -217,12 +182,59 @@ public class CustomDialog extends JDialog {
 	cPanel.revalidate();
 	cPanel.repaint();
 	pack();
+    }
 
-	okButton.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		dispose();
+    // NOTE: los fields y textos de los jtextfield ya estan ordenandos porque se
+    // extraen de la misma clase
+    private void convertType(Class<?> origin) {
+	Field[] fields = origin.getDeclaredFields();
+
+	for (Field field : fields) {
+//	   String type = field.getType();
+	}
+    }
+
+    public List<Object> getResult() {
+	java.awt.Component[] comps = cPanel.getComponents();
+	Object type = null;
+	List<Object> result = new ArrayList<>();
+
+	for (java.awt.Component component : comps) {
+	    if (component instanceof JTextField) {
+//		String text = ((JTextField) component).getText();
+		CustomTextField cField = (CustomTextField) component;
+
+		if (cField.getType() == "Date") {
+		    try {
+			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+			java.util.Date date = format.parse(cField.getText());
+			type = date;
+		    } catch (ParseException e) {
+			e.printStackTrace();
+		    }
+		} else if (cField.getType() == "Set") {
+		    Set<Long> longs = new HashSet<>();
+		    if (cField.getText().contains(",")) {
+			String[] texts = cField.getText().split(",");
+			for (String obj : texts) {
+			    Long long1 = findNameReturnLong(obj);
+			    longs.add(long1);
+			}
+		    } else {
+			longs.add(findNameReturnLong(cField.getText()));
+		    }
+		    type = longs;
+		} else {
+		    type = cField.getText();
+		}
+
+		result.add(type);
 	    }
-	});
+	}
+	return result;
+    }
+
+    private Long findNameReturnLong(String name) {
+	return 1L;
     }
 }

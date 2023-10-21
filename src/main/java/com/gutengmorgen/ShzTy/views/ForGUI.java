@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
 public @interface ForGUI {
     int Class = 0;
     String name();
-    PropertieType type() default PropertieType.SIMPLE_TEXT;
+    GUIType type() default GUIType.SIMPLE_TEXT;
     String useEntity() default "";
 }

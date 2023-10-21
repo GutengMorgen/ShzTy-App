@@ -4,12 +4,12 @@ import java.sql.Date;
 import java.util.Set;
 
 import com.gutengmorgen.ShzTy.views.ForGUI;
-import com.gutengmorgen.ShzTy.views.PropertieType;
+import com.gutengmorgen.ShzTy.views.GUIType;
 
 public record DtoUpdateArtist(
 	@ForGUI(name = "Name:")
         String name,
-	@ForGUI(name = "Born Date:")
+	@ForGUI(name = "Born Date:", type = GUIType.DATE)
         Date bornDate,
 	@ForGUI(name = "Gender:")
         String gender,
@@ -17,9 +17,9 @@ public record DtoUpdateArtist(
         String country,
 	@ForGUI(name = "Biography:")
         String biography,
-	@ForGUI(name = "Languages:", type = PropertieType.MULTI_OPTION, useEntity = "Language")
+	@ForGUI(name = "Languages:", type = GUIType.MULTI_OPTION, useEntity = "Language")
         Set<Long> languageIDs,
-	@ForGUI(name = "Genres:", type = PropertieType.SINGLE_OPTION, useEntity = "Genre")
+	@ForGUI(name = "Genres:", type = GUIType.SINGLE_OPTION, useEntity = "Genre")
         Set<Long> genreIDs) {
     
 }

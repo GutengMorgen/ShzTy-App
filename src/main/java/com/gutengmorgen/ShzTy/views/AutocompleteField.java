@@ -31,9 +31,10 @@ public final class AutocompleteField extends JTextField implements FocusListener
     private boolean multiItems = false;
 
     @SuppressWarnings("unchecked")
-    public AutocompleteField(final Function<String, List<String>> lookup) {
+    public AutocompleteField(final Function<String, List<String>> lookup, boolean multiItems) {
 	super();
 	this.lookup = lookup;
+	this.multiItems = multiItems;
 	this.results = new ArrayList<>();
 
 	final Window parent = SwingUtilities.getWindowAncestor(this);
@@ -227,8 +228,7 @@ public final class AutocompleteField extends JTextField implements FocusListener
 		.filter(v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();
 
 	// NOTE: add multioptions boolean
-	final AutocompleteField field = new AutocompleteField(lookup);
-	field.setMultiItems(false);
+	final AutocompleteField field = new AutocompleteField(lookup, true);
 	field.setColumns(15);
 
 	final JPanel border = new JPanel(new BorderLayout());

@@ -33,12 +33,12 @@ public class MainController {
 	return comp;
     }
     
-    public AutocompleteField multiField() {
+    public AutocompleteField textField(boolean multiItems) {
 	final List<String> values = Arrays.asList("Frame", "Dialog", "Label", "Tree", "Table", "List", "Field");
 
 	final Function<String, List<String>> lookup = text -> values.stream()
 		.filter(v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();
 
-	return new AutocompleteField(lookup);
+	return new AutocompleteField(lookup, multiItems);
     }
 }

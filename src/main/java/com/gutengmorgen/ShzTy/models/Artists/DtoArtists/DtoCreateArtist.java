@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 
 import com.gutengmorgen.ShzTy.views.ForGUI;
-import com.gutengmorgen.ShzTy.views.PropertieType;
+import com.gutengmorgen.ShzTy.views.GUIType;
 
 public record DtoCreateArtist(
 	@ForGUI(name = "Name*:")
@@ -21,8 +21,8 @@ public record DtoCreateArtist(
         String country,
 	@ForGUI(name = "Biography:")
         String biography,
-	@ForGUI(name = "Languages:", type = PropertieType.MULTI_OPTION)
+	@ForGUI(name = "Languages:", type = GUIType.MULTI_OPTION)
         Set<Long> languageIDs,
-	@ForGUI(name = "Genres:", type = PropertieType.MULTI_OPTION)
+	@ForGUI(name = "Genres:", type = GUIType.MULTI_OPTION)
         Set<Long> genreIDs) {
 }

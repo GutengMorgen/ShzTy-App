@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
-import com.gutengmorgen.ShzTy.views.PropertieType;
+import com.gutengmorgen.ShzTy.views.GUIType;
 import com.gutengmorgen.ShzTy.views.ForGUI;
 
 public record DtoReturnArtist(
@@ -22,11 +22,11 @@ public record DtoReturnArtist(
         String country,
 	@ForGUI(name = "Biography:")
         String biography,
-	@ForGUI(name = "Albums:", type = PropertieType.SINGLE_OPTION)
+	@ForGUI(name = "Albums:", type = GUIType.SINGLE_OPTION)
         List<String> albums,
-	@ForGUI(name = "Languages:", type = PropertieType.SINGLE_OPTION)
+	@ForGUI(name = "Languages:", type = GUIType.SINGLE_OPTION)
         Set<String> languages,
-	@ForGUI(name = "Genres:", type = PropertieType.SINGLE_OPTION)
+	@ForGUI(name = "Genres:", type = GUIType.SINGLE_OPTION)
         Set<String> genres) {
     
     public DtoReturnArtist(Artist artist) {

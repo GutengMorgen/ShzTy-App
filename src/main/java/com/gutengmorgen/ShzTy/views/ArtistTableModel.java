@@ -15,10 +15,12 @@ public class ArtistTableModel extends AbstractTableModel implements MainTableMod
     private List<DtoSimpleReturnArtist> list;
     private String[] columnNames = { "Id", "Name", "Country", "Languages", "Genres" };
 
-    public ArtistTableModel() {
+    public ArtistTableModel(boolean initModel) {
 	list = new ArrayList<>();
-	ArtistService artistService = new ArtistService();
-	this.list = new ArrayList<>(artistService.getSimpleList());
+	if (initModel) {
+	    ArtistService artistService = new ArtistService();
+	    this.list = new ArrayList<>(artistService.getSimpleList());
+	}
     }
 
     @Override

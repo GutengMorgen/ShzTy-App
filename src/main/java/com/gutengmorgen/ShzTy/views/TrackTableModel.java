@@ -1,5 +1,6 @@
 package com.gutengmorgen.ShzTy.views;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -7,15 +8,18 @@ import javax.swing.table.AbstractTableModel;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoReturnTrack;
 import com.gutengmorgen.ShzTy.services.TrackService;
 
-public class TrackTableModel extends AbstractTableModel {
+public class TrackTableModel extends AbstractTableModel implements MainTableModel<DtoReturnTrack> {
     private static final long serialVersionUID = -264696072105143647L;
 
     private List<DtoReturnTrack> list;
     private String[] columnNames = { "title", "releaseDate", "playTime", "notes", "genreIDs", "albumId", "playListId" };
-    
-    public TrackTableModel() {
-	TrackService trackService = new TrackService();
-	this.list = trackService.getSimpleList();
+
+    public TrackTableModel(boolean initMode) {
+	list = new ArrayList<>();
+	if (initMode) {
+	    TrackService trackService = new TrackService();
+	    this.list = new ArrayList<>(trackService.getSimpleList());
+	}
     }
 
     @Override
@@ -36,7 +40,7 @@ public class TrackTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 	DtoReturnTrack dto = list.get(rowIndex);
-	
+
 	switch (columnIndex) {
 	case 0:
 	    return dto.title();
@@ -57,4 +61,24 @@ public class TrackTableModel extends AbstractTableModel {
 	}
     }
 
+    @Override
+    public void UpdateRow(int rowIndex, DtoReturnTrack dto) {
+	list.set(rowIndex, dto);
+	fireTableRowsUpdated(rowIndex, rowIndex);
+    }
+
+    @Override
+    public void InsertRow(DtoReturnTrack dto) {
+	list.add(dto);
+	int lastRow = list.size() - 1;
+	fireTableRowsInserted(lastRow, lastRow);
+    }
+
+    @Override
+    public void DeleteRow(int rowIndex) {
+	if (rowIndex >= 0 && rowIndex < list.size()) {
+	    list.remove(rowIndex);
+	    fireTableRowsUpdated(rowIndex, rowIndex);
+	}
+    }
 }

@@ -18,8 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
-
 import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
@@ -29,24 +27,13 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 public class CustomDialog extends JDialog {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2988701719467147132L;
 
     private final JPanel cPanel = new JPanel();
     private final GridBagConstraints constraints = new GridBagConstraints();
     public JButton okButton;
     private JButton cancelButton;
-
     private int rowIndex = 0;
-
-    public static void main(String[] args) {
-	try {
-	    CustomDialog dialog = new CustomDialog("Custom Dialog");
-	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	    dialog.setVisible(true);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-    }
 
     public CustomDialog(String title) {
 	setTitle(title);
@@ -185,6 +172,7 @@ public class CustomDialog extends JDialog {
 	return result;
     }
     
+    //TODO: hacer que esto funcione
     public Object convert(Object test) {
 	Class<?> c = test.getClass();
 	Field[] fields = c.getDeclaredFields();

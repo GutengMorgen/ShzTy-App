@@ -8,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleReturnArtist;
 import com.gutengmorgen.ShzTy.services.ArtistService;
 
-public class ArtistTableModel extends AbstractTableModel {
+public class ArtistTableModel extends AbstractTableModel implements MainTableModel<DtoSimpleReturnArtist> {
     private static final long serialVersionUID = 2144749428898020008L;
 
     // NOTE: automatizar el proceso
@@ -56,19 +56,21 @@ public class ArtistTableModel extends AbstractTableModel {
 	}
     }
 
-    public void updateRow(int rowIndex, DtoSimpleReturnArtist dto) {
+    @Override
+    public void UpdateRow(int rowIndex, DtoSimpleReturnArtist dto) {
 	list.set(rowIndex, dto);
 	fireTableRowsUpdated(rowIndex, rowIndex);
-//	fireTableDataChanged();
     }
 
-    public void insertRow(DtoSimpleReturnArtist dto) {
+    @Override
+    public void InsertRow(DtoSimpleReturnArtist dto) {
 	list.add(dto);
 	int lastRow = list.size() - 1;
 	fireTableRowsInserted(lastRow, lastRow);
     }
 
-    public void deleteRow(int rowIndex, DtoSimpleReturnArtist dto) {
+    @Override
+    public void DeleteRow(int rowIndex) {
 	if (rowIndex >= 0 && rowIndex < list.size()) {
 	    list.remove(rowIndex);
 	    fireTableRowsUpdated(rowIndex, rowIndex);

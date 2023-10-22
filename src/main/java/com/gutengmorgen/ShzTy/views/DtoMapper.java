@@ -40,8 +40,8 @@ public class DtoMapper {
 			SwingUtilities.invokeLater(new Runnable() {
 			    @Override
 			    public void run() {
-				ArtistTableModel model = (ArtistTableModel) table.getModel();
-				model.updateRow(table.getSelectedRow(), reDto);
+				((MainTableModel<DtoSimpleReturnArtist>) table.getModel())
+					.UpdateRow(table.getSelectedRow(), reDto);
 			    }
 			});
 
@@ -65,8 +65,7 @@ public class DtoMapper {
 			SwingUtilities.invokeLater(new Runnable() {
 			    @Override
 			    public void run() {
-				ArtistTableModel model = (ArtistTableModel) table.getModel();
-				model.insertRow(reDto);
+				((MainTableModel<DtoSimpleReturnArtist>) table.getModel()).InsertRow(reDto);
 			    }
 			});
 

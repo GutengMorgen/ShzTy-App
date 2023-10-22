@@ -3,9 +3,7 @@ package com.gutengmorgen.ShzTy.views;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
@@ -48,19 +46,11 @@ public class MainFrame extends JFrame {
 	tabbedPane.setFocusable(false);
 	tabbedPane.setFocusTraversalKeysEnabled(false);
 	setContentPane(tabbedPane);
-
-	JPopupMenu popupMenu = new JPopupMenu();
-        JMenuItem menuItem = new JMenuItem("Refresh");
-        popupMenu.add(menuItem);
-
-        tabbedPane.setComponentPopupMenu(popupMenu);
 	
 	JScrollPane sArtist = new JScrollPane();
 	tabbedPane.addTab("Artist", null, sArtist, null);
 
-	// TODO: agregar un boolean para inicializar el modelo de la tabla en el start
-	// up
-	tableArtist = new CustomTable("tAr", new ArtistTableModel(true));
+	tableArtist = new CustomTable("tAr", new ArtistTableModel(false));
 	sArtist.setViewportView(tableArtist);
 
 	JScrollPane sAlbum = new JScrollPane();

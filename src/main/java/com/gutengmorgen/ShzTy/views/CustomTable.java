@@ -1,7 +1,6 @@
 package com.gutengmorgen.ShzTy.views;
 
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -32,20 +31,18 @@ public class CustomTable extends JTable {
 	setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	setFillsViewportHeight(true);
 	getTableHeader().setReorderingAllowed(false);
-//	tableArtist.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//	TableColumn column = tableArtist.getColumnModel().getColumn(1);
-//	column.setPreferredWidth(1);
 	addMouseListener(new MouseInputAdapter() {
 
 	    @Override
 	    public void mousePressed(MouseEvent e) {
-		super.mousePressed(e);
 		if (SwingUtilities.isRightMouseButton(e)) {
 		    int row = CustomTable.this.rowAtPoint(e.getPoint());
-
 		    if (isValidRow(row)) {
 			CustomTable.this.setRowSelectionInterval(row, row);
 			new TablePopupMenu(CustomTable.this, row).show(CustomTable.this, e.getX(), e.getY());
+		    } else {
+//		    System.out.println(row + " - " + isValidRow(row));
+			new TablePopupMenu(CustomTable.this).show(CustomTable.this, e.getX(), e.getY());;
 		    }
 		}
 	    }

@@ -59,24 +59,31 @@ public class ArtistTableModel extends AbstractTableModel implements MainTableMod
     }
 
     @Override
-    public void UpdateRow(int rowIndex, DtoSimpleReturnArtist dto) {
+    public void updateRow(int rowIndex, DtoSimpleReturnArtist dto) {
 	list.set(rowIndex, dto);
 	fireTableRowsUpdated(rowIndex, rowIndex);
     }
 
     @Override
-    public void InsertRow(DtoSimpleReturnArtist dto) {
+    public void insertRow(DtoSimpleReturnArtist dto) {
 	list.add(dto);
 	int lastRow = list.size() - 1;
 	fireTableRowsInserted(lastRow, lastRow);
     }
 
     @Override
-    public void DeleteRow(int rowIndex) {
+    public void deleteRow(int rowIndex) {
 	if (rowIndex >= 0 && rowIndex < list.size()) {
 	    list.remove(rowIndex);
 	    fireTableRowsUpdated(rowIndex, rowIndex);
 	}
+    }
+
+    @Override
+    public void refreshModel() {
+	ArtistService artistService = new ArtistService();
+	this.list = new ArrayList<>(artistService.getSimpleList());
+	fireTableDataChanged();
     }
 
 }

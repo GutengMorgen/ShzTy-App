@@ -41,7 +41,7 @@ public class DtoMapper {
 			    @Override
 			    public void run() {
 				((MainTableModel<DtoSimpleReturnArtist>) table.getModel())
-					.UpdateRow(table.getSelectedRow(), reDto);
+					.updateRow(table.getSelectedRow(), reDto);
 			    }
 			});
 
@@ -65,7 +65,7 @@ public class DtoMapper {
 			SwingUtilities.invokeLater(new Runnable() {
 			    @Override
 			    public void run() {
-				((MainTableModel<DtoSimpleReturnArtist>) table.getModel()).InsertRow(reDto);
+				((MainTableModel<DtoSimpleReturnArtist>) table.getModel()).insertRow(reDto);
 			    }
 			});
 

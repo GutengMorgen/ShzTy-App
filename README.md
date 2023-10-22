@@ -33,3 +33,4 @@
 
 
 - agregar un popup para el tab con la opcion de recargar la tabla
+- hacer que el refresh de la tabla se haga en un diferente threard

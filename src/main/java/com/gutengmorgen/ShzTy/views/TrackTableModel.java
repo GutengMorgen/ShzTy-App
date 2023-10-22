@@ -62,23 +62,29 @@ public class TrackTableModel extends AbstractTableModel implements MainTableMode
     }
 
     @Override
-    public void UpdateRow(int rowIndex, DtoReturnTrack dto) {
+    public void updateRow(int rowIndex, DtoReturnTrack dto) {
 	list.set(rowIndex, dto);
 	fireTableRowsUpdated(rowIndex, rowIndex);
     }
 
     @Override
-    public void InsertRow(DtoReturnTrack dto) {
+    public void insertRow(DtoReturnTrack dto) {
 	list.add(dto);
 	int lastRow = list.size() - 1;
 	fireTableRowsInserted(lastRow, lastRow);
     }
 
     @Override
-    public void DeleteRow(int rowIndex) {
+    public void deleteRow(int rowIndex) {
 	if (rowIndex >= 0 && rowIndex < list.size()) {
 	    list.remove(rowIndex);
 	    fireTableRowsUpdated(rowIndex, rowIndex);
 	}
+    }
+
+    @Override
+    public void refreshModel() {
+	TrackService trackService = new TrackService();
+	this.list = new ArrayList<>(trackService.getSimpleList());
     }
 }

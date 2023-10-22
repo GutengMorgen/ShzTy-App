@@ -59,4 +59,8 @@ public class GenreService {
 	    return name;
 	}
     }
+
+    public Long getIdByName(String t) {
+	return genreRepository.findIdByName(t);
+    }
 }

@@ -14,9 +14,15 @@ public class LanguageService {
 	for (Object string : service.getAllLanguages()) {
 	    System.out.println(string.toString());
 	}
+	
+	System.out.println("Id del nombre: " + service.getIdByName("English"));
     }
     
     public List<Language> getAllLanguages(){
 	return languageRepository.findAll(); 
+    }
+
+    public Long getIdByName(String t) {
+	return languageRepository.findIdByName(t);
     }
 }

@@ -4,14 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.lang.reflect.Field;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -64,13 +59,10 @@ public class CustomDialog extends JDialog {
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	    {
 		okButton = new JButton("OK");
-//		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
-//		getRootPane().setDefaultButton(okButton);
 	    }
 	    {
 		cancelButton = new JButton("Cancel");
-//		cancelButton.setActionCommand("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -133,9 +125,11 @@ public class CustomDialog extends JDialog {
 		JComponent comp = null;
 
 		if (forGUI.type() == GUIType.SINGLE_OPTION) {
-		    comp = new CustomTextField(GUIType.SINGLE_OPTION);
+		    CustomTextField c = new CustomTextField(GUIType.SINGLE_OPTION, forGUI.useEntity());
+		    comp = c;
 		} else if (forGUI.type() == GUIType.MULTI_OPTION) {
-		    comp = new CustomTextField(GUIType.MULTI_OPTION);
+		    CustomTextField c = new CustomTextField(GUIType.MULTI_OPTION, forGUI.useEntity());
+		    comp = c;
 		} else if (forGUI.type() == GUIType.DATE) {
 		    comp = new CustomTextField(GUIType.DATE);
 		} else {
@@ -162,7 +156,6 @@ public class CustomDialog extends JDialog {
 	cPanel.add(new JLabel(name), constraints);
 
 	constraints.gridx = 1;
-//	comp.setFocusable(false);
 	if (comp instanceof JTextField)
 	    comp.setPreferredSize(new Dimension(150, comp.getPreferredSize().height));
 	cPanel.add(comp, constraints);
@@ -172,68 +165,28 @@ public class CustomDialog extends JDialog {
 
     private void closeAutoFill() {
 	rowIndex = 0;
-//	cPanel.revalidate();
-//	cPanel.repaint();
 	pack();
     }
 
-    // NOTE: los fields y textos de los jtextfield ya estan ordenandos porque se
-    // extraen de la misma clase
-    public void getTypeTest() {
-	java.awt.Component[] comps = cPanel.getComponents();
-
-	for (java.awt.Component component : comps) {
-	    if (component instanceof JTextField) {
-		CustomTextField field = (CustomTextField) component;
-		System.out.println("type: " + field.getType() + " value: " + field.TextToType() + " valueT: "
-			+ field.TextToType().getClass());
-	    }
-	}
-    }
-
     public List<Object> getResult() {
-	java.awt.Component[] comps = cPanel.getComponents();
-	Object type = null;
 	List<Object> result = new ArrayList<>();
+	java.awt.Component[] comps = cPanel.getComponents();
 
 	for (java.awt.Component component : comps) {
 	    if (component instanceof JTextField) {
-//		String text = ((JTextField) component).getText();
 		CustomTextField field = (CustomTextField) component;
-		GUIType typeField = field.getType();
-		String textField = field.getText();
-
-		if (typeField == GUIType.DATE) {
-		    try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date(format.parse(textField).getTime());
-			type = date;
-		    } catch (ParseException e) {
-			e.printStackTrace();
-		    }
-		} else if (typeField == GUIType.MULTI_OPTION) {
-		    Set<Long> longs = new HashSet<>();
-		    if (textField.contains(",")) {
-			String[] texts = textField.split(",");
-			for (String obj : texts) {
-			    Long long1 = findNameReturnLong(obj);
-			    longs.add(long1);
-			}
-		    } else {
-			longs.add(findNameReturnLong(textField));
-		    }
-		    type = longs;
-		} else {
-		    type = textField;
-		}
-
-		result.add(type);
+		result.add(field.TextToType());
+//		if (!field.getText().isEmpty())
+//		    System.out.println("type: " + field.getType() + " value: " + field.TextToType() + " valueT: "
+//			    + field.TextToType().getClass());
 	    }
 	}
+	
 	return result;
     }
-
-    private Long findNameReturnLong(String name) {
-	return 1L;
+    
+    public Object convert(Class<?> origin) throws NoSuchMethodException, SecurityException {
+	Object obj = origin.getDeclaredConstructor();
+	return obj;
     }
 }

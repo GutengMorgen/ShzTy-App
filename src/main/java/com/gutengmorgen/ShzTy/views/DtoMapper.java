@@ -25,19 +25,19 @@ public class DtoMapper {
 
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-//			List<Object> result = dialog.getResult();
-//			DtoUpdateArtist dto = new DtoUpdateArtist(
-//				(String) result.get(0), 
-//				(java.sql.Date) result.get(1), 
-//				(String) result.get(2),
-//				(String) result.get(3), 
-//				(String) result.get(4), 
-//				(Set<Long>) result.get(5), 
-//				(Set<Long>) result.get(6));
-//			System.out.println(dto);
-//			se.updateArtist(dto, rowId);
-//			dialog.dispose();
-			dialog.getTypeTest();
+			List<Object> result = dialog.getResult();
+			DtoUpdateArtist dto = new DtoUpdateArtist(
+				(String) result.get(0), 
+				(java.sql.Date) result.get(1), 
+				(String) result.get(2),
+				(String) result.get(3), 
+				(String) result.get(4), 
+				(Set<Long>) result.get(5), 
+				(Set<Long>) result.get(6));
+			System.out.println(dto);
+			se.updateArtist(dto, rowId);
+			dialog.dispose();
+//			dialog.getResult();
 		    }
 		});
 	    } else if (model == DTO_MODEL.CREATE) {

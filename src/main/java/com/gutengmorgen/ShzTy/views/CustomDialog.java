@@ -21,17 +21,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.AbstractDocument;
-
-import org.hibernate.mapping.Component;
-import org.hibernate.mapping.Value;
-
-import com.gutengmorgen.ShzTy.controller.MainController;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
-import com.gutengmorgen.ShzTy.models.Genres.Genre;
-import com.gutengmorgen.ShzTy.services.GenreService;
-import com.toedter.calendar.JDateChooser;
-
 import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
@@ -130,7 +119,6 @@ public class CustomDialog extends JDialog {
 
     public void autoFillToInsert(Class<?> cl) {
 	Field[] fields = cl.getDeclaredFields();
-	MainController controller = new MainController();
 
 	for (Field field : fields) {
 
@@ -145,9 +133,9 @@ public class CustomDialog extends JDialog {
 		JComponent comp = null;
 
 		if (forGUI.type() == GUIType.SINGLE_OPTION) {
-		    comp = controller.textField(false);
+		    comp = new CustomTextField(GUIType.SINGLE_OPTION);
 		} else if (forGUI.type() == GUIType.MULTI_OPTION) {
-		    comp = controller.textField(true);
+		    comp = new CustomTextField(GUIType.MULTI_OPTION);
 		} else if (forGUI.type() == GUIType.DATE) {
 		    comp = new CustomTextField(GUIType.DATE);
 		} else {
@@ -193,13 +181,12 @@ public class CustomDialog extends JDialog {
     // extraen de la misma clase
     public void getTypeTest() {
 	java.awt.Component[] comps = cPanel.getComponents();
-	Object type = null;
-	List<Object> result = new ArrayList<>();
 
 	for (java.awt.Component component : comps) {
 	    if (component instanceof JTextField) {
 		CustomTextField field = (CustomTextField) component;
-		System.out.println(field.getType());
+		System.out.println("type: " + field.getType() + " value: " + field.TextToType() + " valueT: "
+			+ field.TextToType().getClass());
 	    }
 	}
     }

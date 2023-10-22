@@ -1,6 +1,5 @@
 package com.gutengmorgen.ShzTy.views;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Window;
@@ -9,28 +8,21 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-public class AutoCompleteTest {
+public class AutoComplete {
     private JTextComponent component;
     private Function<String, List<String>> lookup;
-
     private List<String> results;
     private JWindow popup;
     private JList<String> list;
@@ -38,36 +30,16 @@ public class AutoCompleteTest {
     private String split = ",";
     private GUIType optionMode = GUIType.SINGLE_OPTION;
 
-    public static void main(String[] args) {
-	JFrame frame = new JFrame("Sample autocomplete field");
-
-	List<String> values = Arrays.asList("Frame", "Dialog", "Label", "Tree", "Table", "List", "Field");
-	Function<String, List<String>> lookup = text -> values.stream()
-		.filter(v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();
-	
-	JTextField field = new JTextField(15);
-	AutoCompleteTest test = new AutoCompleteTest(field, GUIType.MULTI_OPTION);
-	test.setLookup(lookup);
-
-	JPanel border = new JPanel(new BorderLayout());
-	border.setBorder(new EmptyBorder(50, 50, 50, 50));
-	border.add(field);
-	frame.add(border);
-
-	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	frame.pack();
-	frame.setLocationRelativeTo(null);
-	frame.setVisible(true);
-    }
-
-    public AutoCompleteTest(JTextComponent component, GUIType mode) {
+    public AutoComplete(JTextComponent component, GUIType mode, Function<String,List<String>> lookup) {
 	this.component = component;
 	this.optionMode = mode;
+	this.lookup = lookup;
 	DefaultFunctions();
     }
 
-    public AutoCompleteTest(JTextComponent component) {
+    public AutoComplete(JTextComponent component, Function<String,List<String>> lookup) {
 	this.component = component;
+	this.lookup = lookup;
 	DefaultFunctions();
     }
 
@@ -218,10 +190,6 @@ public class AutoCompleteTest {
 	});
     }
 
-    public void setLookup(Function<String, List<String>> lookup) {
-	this.lookup = lookup;
-    }
-    
     public void setOptionMode(GUIType mode) {
 	this.optionMode = mode;
     }

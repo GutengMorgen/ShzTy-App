@@ -51,20 +51,20 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 
     private void showInfo() {
 	CustomDialog dialog = new CustomDialog("Info of Current Row");
-	DtoMapper.mapper(table.getName(), rowId, dialog, DTO_MODEL.RETURN);
+	DtoMapper.mapper(table, rowId, dialog, DTO_MODEL.RETURN);
 	dialog.setVisible(true);
     }
 
     private void updateItem() {
 	CustomDialog dialog = new CustomDialog("Update Current Row");
-	DtoMapper.mapper(table.getName(), rowId, dialog, DTO_MODEL.UPDATE);
+	DtoMapper.mapper(table, rowId, dialog, DTO_MODEL.UPDATE);
 	dialog.setVisible(true);
     }
 
     private void addItem() {
 	CustomDialog dialog = new CustomDialog("Add New Item");
 //	dialog.autoFill(DtoMapper.map(DTO_MODEL.CREATE));
-	DtoMapper.mapper(table.getName(), rowId, dialog, DTO_MODEL.CREATE);
+	DtoMapper.mapper(table, rowId, dialog, DTO_MODEL.CREATE);
 	dialog.setVisible(true);
     }
 

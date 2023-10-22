@@ -1,5 +1,6 @@
 package com.gutengmorgen.ShzTy.views;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -15,8 +16,9 @@ public class ArtistTableModel extends AbstractTableModel {
     private String[] columnNames = { "Id", "Name", "Country", "Languages", "Genres" };
 
     public ArtistTableModel() {
+	list = new ArrayList<>();
 	ArtistService artistService = new ArtistService();
-	this.list = artistService.getSimpleList();
+	this.list = new ArrayList<>(artistService.getSimpleList());
     }
 
     @Override
@@ -33,8 +35,6 @@ public class ArtistTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
 	return columnNames[columnIndex];
     }
-
-//    TableColumn
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -56,7 +56,23 @@ public class ArtistTableModel extends AbstractTableModel {
 	}
     }
 
-    public String getUniqueKeyForRow(int row) {
-	return (String) getValueAt(row, 0); // Assuming the first column contains the unique keys
+    public void updateRow(int rowIndex, DtoSimpleReturnArtist dto) {
+	list.set(rowIndex, dto);
+	fireTableRowsUpdated(rowIndex, rowIndex);
+//	fireTableDataChanged();
     }
+
+    public void insertRow(DtoSimpleReturnArtist dto) {
+	list.add(dto);
+	int lastRow = list.size() - 1;
+	fireTableRowsInserted(lastRow, lastRow);
+    }
+
+    public void deleteRow(int rowIndex, DtoSimpleReturnArtist dto) {
+	if (rowIndex >= 0 && rowIndex < list.size()) {
+	    list.remove(rowIndex);
+	    fireTableRowsUpdated(rowIndex, rowIndex);
+	}
+    }
+
 }

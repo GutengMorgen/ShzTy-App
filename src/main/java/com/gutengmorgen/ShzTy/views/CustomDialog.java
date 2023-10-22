@@ -1,6 +1,7 @@
 package com.gutengmorgen.ShzTy.views;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.lang.reflect.Field;
@@ -16,6 +17,9 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
+
 import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
@@ -170,23 +174,33 @@ public class CustomDialog extends JDialog {
 
     public List<Object> getResult() {
 	List<Object> result = new ArrayList<>();
-	java.awt.Component[] comps = cPanel.getComponents();
 
-	for (java.awt.Component component : comps) {
-	    if (component instanceof JTextField) {
-		CustomTextField field = (CustomTextField) component;
+	for (Component comp : cPanel.getComponents()) {
+	    if (comp instanceof JTextField) {
+		CustomTextField field = (CustomTextField) comp;
 		result.add(field.TextToType());
-//		if (!field.getText().isEmpty())
-//		    System.out.println("type: " + field.getType() + " value: " + field.TextToType() + " valueT: "
-//			    + field.TextToType().getClass());
 	    }
 	}
 	
 	return result;
     }
     
-    public Object convert(Class<?> origin) throws NoSuchMethodException, SecurityException {
-	Object obj = origin.getDeclaredConstructor();
-	return obj;
+    public Object convert(Object test) {
+	Class<?> c = test.getClass();
+	Field[] fields = c.getDeclaredFields();
+	List<Object> result = getResult();
+	
+	for (int i = 0; i < result.size() - 1; i++) {
+	    Object v = result.get(i);
+	    try {
+		Field f = fields[i];
+		f.setAccessible(true);
+		f.set(test, v);
+	    } catch (IllegalArgumentException | IllegalAccessException e) {
+		e.printStackTrace();
+	    }
+	}
+	
+	return test;
     }
 }

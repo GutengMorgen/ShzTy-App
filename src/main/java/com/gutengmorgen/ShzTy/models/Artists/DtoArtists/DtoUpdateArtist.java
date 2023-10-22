@@ -21,5 +21,9 @@ public record DtoUpdateArtist(
         Set<Long> languageIDs,
 	@ForGUI(name = "Genres:", type = GUIType.SINGLE_OPTION, useEntity = "Genre")
         Set<Long> genreIDs) {
+
+    public DtoUpdateArtist() {
+	this(null, null, null, null, null, null, null);
+    }
     
 }

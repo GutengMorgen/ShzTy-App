@@ -12,7 +12,7 @@ public record DtoCreateArtist(
 	@ForGUI(name = "Name*:")
         @NotBlank(message = "Name is required")
         String name,
-	@ForGUI(name = "Born Date:")
+	@ForGUI(name = "Born Date:", type = GUIType.DATE)
         Date bornDate,
 	@ForGUI(name = "Gender*:")
         @NotBlank(message = "Gender is required")
@@ -21,8 +21,8 @@ public record DtoCreateArtist(
         String country,
 	@ForGUI(name = "Biography:")
         String biography,
-	@ForGUI(name = "Languages:", type = GUIType.MULTI_OPTION)
+	@ForGUI(name = "Languages:", type = GUIType.MULTI_OPTION, useEntity = "Language")
         Set<Long> languageIDs,
-	@ForGUI(name = "Genres:", type = GUIType.MULTI_OPTION)
+	@ForGUI(name = "Genres:", type = GUIType.MULTI_OPTION, useEntity = "Genre")
         Set<Long> genreIDs) {
 }

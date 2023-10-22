@@ -55,7 +55,7 @@ public class ArtistService {
 
     // DtoUpdateArtist dto = new DtoUpdateArtist(null, null, null, "USA", null,
     // null, null);
-    public void updateArtist(DtoUpdateArtist dto, Long id) {
+    public DtoSimpleReturnArtist updateArtist(DtoUpdateArtist dto, Long id) {
 	Artist a = validArtist(id);
 
 	if (dto.name() != null)
@@ -73,6 +73,7 @@ public class ArtistService {
 
 	a.update(dto);
 	artistRepository.update(a);
+	return new DtoSimpleReturnArtist(a);
     }
 
     public void deleteArtist(Long id) {

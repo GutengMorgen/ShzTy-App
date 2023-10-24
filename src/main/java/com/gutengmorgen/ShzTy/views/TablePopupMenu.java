@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JTable;
 import javax.swing.SwingWorker;
 
 public class TablePopupMenu extends JPopupMenu implements ActionListener {
@@ -17,12 +16,12 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem miRemove;
     private JMenuItem miAdd;
     private JMenuItem miRefresh;
-    private JTable table;
-    private Long rowId;
+    private CustomTable<?> table;
+    private Long idEntity;
 
-    public TablePopupMenu(JTable table, int row) {
+    public TablePopupMenu(CustomTable<?> table, int row) {
 	this.table = table;
-	this.rowId = (Long) table.getValueAt(row, 0);
+	this.idEntity = (Long) table.getValueAt(row, 0);
 
 	miInfo = new JMenuItem("Show More Info");
 	miInfo.addActionListener(this);
@@ -42,7 +41,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	add(miRefresh);
     }
 
-    public TablePopupMenu(JTable table) {
+    public TablePopupMenu(CustomTable<?> table) {
 	this.table = table;
 
 	miRefresh = new JMenuItem("Refresh Table");
@@ -54,25 +53,32 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == miInfo) {
-	    CustomDialog dialog = new CustomDialog("Info of Current Row");
-	    DtoMapper.mapper(table, rowId, dialog, DTO_MODEL.RETURN);
-	    dialog.setVisible(true);
+	    CustomDialog d = new CustomDialog("Info of Current Row");
+	    DtoMapper.search(table, idEntity, d, DTO_MODEL.RETURN);
 	} else if (e.getSource() == miUpdate) {
-	    CustomDialog dialog = new CustomDialog("Update Current Row");
-	    DtoMapper.mapper(table, rowId, dialog, DTO_MODEL.UPDATE);
-	    dialog.setVisible(true);
+	    CustomDialog d = new CustomDialog("Updating Current Row");
+	    DtoMapper.search(table, idEntity, d, DTO_MODEL.UPDATE);
 	} else if (e.getSource() == miRemove) {
-	    int a = JOptionPane.showConfirmDialog(table, "Are you sure?");
-	    if (a == JOptionPane.YES_OPTION) {
-		System.out.println("Se elimino el Artist");
-	    }
+	    alert();
 	} else if (e.getSource() == miAdd) {
-	    CustomDialog dialog = new CustomDialog("Add New Item");
-//	dialog.autoFill(DtoMapper.map(DTO_MODEL.CREATE));
-	    DtoMapper.mapper(table, rowId, dialog, DTO_MODEL.CREATE);
-	    dialog.setVisible(true);
+	    CustomDialog d = new CustomDialog("Creating new Row");
+	    DtoMapper.search(table, idEntity, d, DTO_MODEL.CREATE);
 	} else if (e.getSource() == miRefresh) {
 	    refresh();
+	}
+    }
+
+    private void give(String title, DTO_MODEL model) {
+	CustomDialog d = new CustomDialog(title);
+	DtoMapper mapper = new DtoMapper(table, idEntity, d, model);
+	mapper.mapper();
+	d.setVisible(true);
+    }
+
+    private void alert() {
+	int a = JOptionPane.showConfirmDialog(table, "Are you sure?");
+	if (a == JOptionPane.YES_OPTION) {
+	    System.out.println("Se elimino el Artist");
 	}
     }
 
@@ -81,10 +87,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 
 	    @Override
 	    protected Void doInBackground() throws Exception {
-		MainTableModel<?> m = (MainTableModel<?>) table.getModel();
-		m.refreshModel();
-		table.revalidate();
-		table.repaint();
+		((MainTableModel<?>) table.getModel()).refreshModel();
 		return null;
 	    }
 
@@ -96,7 +99,7 @@ public class TablePopupMenu extends JPopupMenu implements ActionListener {
 	    }
 
 	};
-	
+
 	worker.execute();
     }
 }

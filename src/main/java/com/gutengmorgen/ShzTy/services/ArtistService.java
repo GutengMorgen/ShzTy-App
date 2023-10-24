@@ -3,25 +3,26 @@ package com.gutengmorgen.ShzTy.services;
 import java.util.List;
 import java.util.Set;
 
+import com.gutengmorgen.ShzTy.Exceptions.UnsupportedDtoTypeException;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoReturnArtist;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoSimpleReturnArtist;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistCreateDTO;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistReturnDTO;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistSimpleReturnDTO;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistUpdateDTO;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Languages.Language;
 import com.gutengmorgen.ShzTy.repositories.ArtistRepository;
 import com.gutengmorgen.ShzTy.repositories.GenreRepository;
 import com.gutengmorgen.ShzTy.repositories.LanguageRepository;
 
-public class ArtistService {
+public class ArtistService implements MainServices<ArtistSimpleReturnDTO> {
     ArtistRepository artistRepository = new ArtistRepository();
     LanguageRepository languageRepository = new LanguageRepository();
     GenreRepository genreRepository = new GenreRepository();
 
     public static void main(String[] args) {
 	ArtistService artistService = new ArtistService();
-	artistService.getSimpleList();
+	artistService.simpleList();
 //	Artist a = artistService.getArtistById(1L);
 //	System.out.println(a.toString());
     }
@@ -29,51 +30,56 @@ public class ArtistService {
     public Artist getArtistById(Long id) {
 	return artistRepository.findById(id);
     }
-    
-    public DtoReturnArtist getReturnArtistById(Long id) {
-	return new DtoReturnArtist(artistRepository.findById(id));
-    }
 
     public List<Artist> getAllArtists() {
 	return artistRepository.findAll();
     }
 
-    public List<DtoSimpleReturnArtist> getSimpleList() {
-	return artistRepository.findAll().stream().map(artist -> new DtoSimpleReturnArtist(artist)).toList();
+    @Override
+    public List<ArtistSimpleReturnDTO> simpleList() {
+	return artistRepository.findAll().stream().map(artist -> new ArtistSimpleReturnDTO(artist)).toList();
     }
 
-    // DtoCreateArtist dto = new DtoCreateArtist("Mabbel Pines", new Date(3434423),
-    // "Female", "Spain", "usa una gorra",Set.of(2L, 3L), Set.of(2L, 3L));
-    public void saveArtist(DtoCreateArtist dto) {
-	validName(dto.name());
+    @Override
+    public ArtistSimpleReturnDTO save(InsertDTO dtoType) {
+	if (dtoType instanceof ArtistCreateDTO) {
+	    ArtistCreateDTO dto = (ArtistCreateDTO) dtoType;
+	    validName(dto.getName());
 
-	Artist artist = new Artist(dto);
-	associateGenres(dto.genreIDs(), artist);
-	associateLanguages(dto.languageIDs(), artist);
-	artistRepository.save(artist);
+	    Artist artist = new Artist(dto);
+	    if (dto.getGenreIDs() != null)
+		associateGenres(dto.getGenreIDs(), artist);
+	    if (dto.getLanguageIDs() != null)
+		associateLanguages(dto.getLanguageIDs(), artist);
+
+	    artistRepository.save(artist);
+
+	    return new ArtistSimpleReturnDTO(artist);
+	} else
+	    throw new UnsupportedDtoTypeException(ArtistCreateDTO.class, dtoType.getClass());
     }
 
-    // DtoUpdateArtist dto = new DtoUpdateArtist(null, null, null, "USA", null,
-    // null, null);
-    public DtoSimpleReturnArtist updateArtist(DtoUpdateArtist dto, Long id) {
-	Artist a = validArtist(id);
+    @Override
+    public ArtistSimpleReturnDTO update(InsertDTO dtoType, Long id) {
+	if (dtoType instanceof ArtistUpdateDTO) {
+	    ArtistUpdateDTO dto = (ArtistUpdateDTO) dtoType;
+	    Artist a = validArtist(id);
 
-	if (dto.name() != null)
-	    validName(dto.name());
+	    if (dto.getName() != null)
+		validName(dto.getName());
 
-	if (dto.genreIDs() != null) {
-	    a.getGenres().clear();
-	    associateGenres(dto.genreIDs(), a);
-	}
+	    if (dto.getGenreIDs() != null)
+		associateGenres(dto.getGenreIDs(), a);
 
-	if (dto.languageIDs() != null) {
-	    a.getLanguages().clear();
-	    associateLanguages(dto.languageIDs(), a);
-	}
+	    if (dto.getLanguageIDs() != null)
+		associateLanguages(dto.getLanguageIDs(), a);
 
-	a.update(dto);
-	artistRepository.update(a);
-	return new DtoSimpleReturnArtist(a);
+	    a.update(dto);
+	    artistRepository.update(a);
+	    return new ArtistSimpleReturnDTO(a);
+
+	} else
+	    throw new UnsupportedDtoTypeException(ArtistUpdateDTO.class, dtoType.getClass());
     }
 
     public void deleteArtist(Long id) {
@@ -83,10 +89,9 @@ public class ArtistService {
 	    throw new RuntimeException("This artist with id <" + id + "> "
 		    + "cannot be deleted because has related albums, " + "first delete all albums by this artist");
 	} else {
-
 	    a.getGenres().clear();
 	    a.getLanguages().clear();
-	    
+
 	    artistRepository.delete(a);
 	}
     }
@@ -101,6 +106,7 @@ public class ArtistService {
     }
 
     private void associateLanguages(Set<Long> languageIDs, Artist artist) {
+	artist.getLanguages().clear(); //NOTE: podria causar una excepcion porque este metodo se usa para save y update
 	for (Long languageID : languageIDs) {
 	    Language language = languageRepository.findById(languageID);
 	    if (language == null)
@@ -111,6 +117,7 @@ public class ArtistService {
     }
 
     private void associateGenres(Set<Long> genreIDs, Artist artist) {
+	artist.getGenres().clear();
 	for (Long genreID : genreIDs) {
 	    Genre genre = genreRepository.findById(genreID);
 	    if (genre == null)
@@ -123,5 +130,10 @@ public class ArtistService {
     private void validName(String name) {
 	if (artistRepository.existsByName(name))
 	    throw new RuntimeException("Artist with name <" + name + "> already exists");
+    }
+
+    @Override
+    public ReturnDTO getById(Long id) {
+	return new ArtistReturnDTO(artistRepository.findById(id));
     }
 }

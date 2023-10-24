@@ -17,10 +17,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistCreateDTO;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistUpdateDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Languages.Language;
+import com.gutengmorgen.ShzTy.services.InsertDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -61,12 +64,20 @@ public class Artist {
         this.biography = dto.biography();
     }
     
-    public void update(DtoUpdateArtist dto) {
-	if(dto.name() != null) this.name = dto.name();
-        if(dto.bornDate() != null) this.born_date = dto.bornDate();
-        if(dto.gender() != null) this.gender = dto.gender();
-        if(dto.country() != null) this.country = dto.country();
-        if(dto.biography() != null) this.biography = dto.biography();
+    public Artist(ArtistCreateDTO dto) {
+	this.name = dto.getName();
+        this.born_date = dto.getBornDate();
+        this.gender = dto.getGender();
+        this.country = dto.getCountry();
+        this.biography = dto.getBiography();
+    }
+    
+    public void update(ArtistUpdateDTO dto) {
+	if(dto.getName() != null) this.name = dto.getName();
+        if(dto.getBornDate() != null) this.born_date = dto.getBornDate();
+        if(dto.getGender() != null) this.gender = dto.getGender();
+        if(dto.getCountry() != null) this.country = dto.getCountry();
+        if(dto.getBiography() != null) this.biography = dto.getBiography();
     }
     
     public void removeAllGenres() {

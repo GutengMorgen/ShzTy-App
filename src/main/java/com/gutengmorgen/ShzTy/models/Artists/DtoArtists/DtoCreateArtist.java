@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import com.gutengmorgen.ShzTy.views.ForGUI;
 import com.gutengmorgen.ShzTy.views.GUIType;
 
-public record DtoCreateArtist(
+public record DtoCreateArtist (
 	@ForGUI(name = "Name*:")
         @NotBlank(message = "Name is required")
         String name,

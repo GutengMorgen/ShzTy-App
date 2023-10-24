@@ -18,6 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.gutengmorgen.ShzTy.services.InsertDTO;
+import com.gutengmorgen.ShzTy.services.MainServices;
+import com.gutengmorgen.ShzTy.services.ReturnDTO;
+
 import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
@@ -34,6 +38,7 @@ public class CustomDialog extends JDialog {
     public JButton okButton;
     private JButton cancelButton;
     private int rowIndex = 0;
+    private Class<? extends InsertDTO> subjectClass;
 
     public CustomDialog(String title) {
 	setTitle(title);
@@ -100,7 +105,8 @@ public class CustomDialog extends JDialog {
 	closeAutoFill();
     }
 
-    public void autoFillToInsert(Class<?> cl) {
+    public void autoFillToInsert(Class<? extends InsertDTO> cl) {
+	this.subjectClass = cl;
 	Field[] fields = cl.getDeclaredFields();
 
 	for (Field field : fields) {
@@ -159,7 +165,9 @@ public class CustomDialog extends JDialog {
 	pack();
     }
 
-    public List<Object> getResult() {
+    // TODO: ocurre un error en el autocomplete cuando se preciona enter al final,
+    // en multioption
+    public List<Object> resultList() {
 	List<Object> result = new ArrayList<>();
 
 	for (Component comp : cPanel.getComponents()) {
@@ -168,27 +176,52 @@ public class CustomDialog extends JDialog {
 		result.add(field.TextToType());
 	    }
 	}
-	
+
 	return result;
     }
-    
-    //TODO: hacer que esto funcione
-    public Object convert(Object test) {
-	Class<?> c = test.getClass();
-	Field[] fields = c.getDeclaredFields();
-	List<Object> result = getResult();
-	
-	for (int i = 0; i < result.size() - 1; i++) {
-	    Object v = result.get(i);
-	    try {
-		Field f = fields[i];
-		f.setAccessible(true);
-		f.set(test, v);
-	    } catch (IllegalArgumentException | IllegalAccessException e) {
-		e.printStackTrace();
+
+    // TODO: hacer que esto funcione
+    public InsertDTO convert(Object objectToFill) {
+	if (objectToFill instanceof InsertDTO) {
+	    Class<?> c = objectToFill.getClass();
+	    Field[] fields = c.getDeclaredFields();
+
+//	System.out.println(resultList().toString());
+	    for (int i = 0; i < resultList().size(); i++) {
+		Object v = resultList().get(i);
+		try {
+		    Field f = fields[i];
+		    f.setAccessible(true);
+		    f.set(objectToFill, v);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+		    e.printStackTrace();
+		}
 	    }
-	}
-	
-	return test;
+	    return (InsertDTO) objectToFill;
+	} else
+	    throw new RuntimeException("El objecto no implementa InsertDto");
     }
+
+    public <R extends ReturnDTO> void okAction(MainTableModel<R> model, MainServices<R> services, Object save) {
+	okButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		model.insertRow(services.save(convert(save)));
+		System.out.println(convert(save));
+	    }
+	});
+    }
+
+    public <R extends ReturnDTO> void okAction(MainTableModel<R> model, MainServices<R> services, int rowIndex,
+	    Long idEntity, Object update) {
+	okButton.addActionListener(new ActionListener() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		model.updateRow(rowIndex, services.update(convert(update), idEntity));
+	    }
+	});
+    }
+
 }

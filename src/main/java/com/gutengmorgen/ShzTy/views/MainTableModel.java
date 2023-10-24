@@ -1,9 +1,17 @@
 package com.gutengmorgen.ShzTy.views;
 
-public interface MainTableModel<T> {
+import javax.swing.table.TableModel;
+
+import com.gutengmorgen.ShzTy.services.InsertDTO;
+import com.gutengmorgen.ShzTy.services.ReturnDTO;
+
+public interface MainTableModel<T extends ReturnDTO> extends TableModel {
 
     void updateRow(int rowIndex, T dto);
+
     void insertRow(T dto);
+
     void deleteRow(int rowIndex);
+
     void refreshModel();
 }

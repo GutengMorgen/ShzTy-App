@@ -1,12 +1,13 @@
 package com.gutengmorgen.ShzTy.views;
 
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumCreateDTO;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumUpdateDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistCreateDTO;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistSimpleReturnDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistUpdateDTO;
+import com.gutengmorgen.ShzTy.services.AlbumService;
 import com.gutengmorgen.ShzTy.services.ArtistService;
 import com.gutengmorgen.ShzTy.services.MainServices;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
-import com.gutengmorgen.ShzTy.services.TrackService;
 import com.gutengmorgen.ShzTy.views.Components.CustomDialog;
 import com.gutengmorgen.ShzTy.views.Components.CustomTable;
 import com.gutengmorgen.ShzTy.views.Extras.MainTableModel;
@@ -18,7 +19,7 @@ public class DtoMapper {
 	if (table.getName().contains("Ar")) {
 	    impact(new ArtistService(), table, dialog, model, new ArtistCreateDTO(), new ArtistUpdateDTO());
 	} else if (table.getName().contains("Al")) {
-//	    impact(new AlbumService(), table, dialog, model, new AlbumCreateDTO(), new AlbumUpdateDTO());
+	    impact(new AlbumService(), table, dialog, model, new AlbumCreateDTO(), new AlbumUpdateDTO());
 	} else if (table.getName().contains("Tr")) {
 //	    impact(new TrackService(), table, dialog, model, idEntity, new TrackCreateDTO(), new TrackUpdateDTO());
 	}

@@ -3,11 +3,15 @@ package com.gutengmorgen.ShzTy.services;
 import java.util.List;
 import java.util.Set;
 
+import javax.activation.UnsupportedDataTypeException;
+
+import com.gutengmorgen.ShzTy.Exceptions.UnsupportedDtoTypeException;
 import com.gutengmorgen.ShzTy.models.AlbumFormats.AlbumFormat;
 import com.gutengmorgen.ShzTy.models.Albums.Album;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoReturnAlbum;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumCreateDTO;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumSimpleReturnDTO;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumReturnDTO;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumUpdateDTO;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.repositories.AlbumFormatRepository;
@@ -15,7 +19,7 @@ import com.gutengmorgen.ShzTy.repositories.AlbumRepository;
 import com.gutengmorgen.ShzTy.repositories.ArtistRepository;
 import com.gutengmorgen.ShzTy.repositories.GenreRepository;
 
-public class AlbumService implements MainServices<ReturnDTO> {
+public class AlbumService implements MainServices<AlbumSimpleReturnDTO> {
     AlbumRepository albumRepository = new AlbumRepository();
     ArtistRepository artistRepository = new ArtistRepository();
     GenreRepository genreRepository = new GenreRepository();
@@ -23,73 +27,13 @@ public class AlbumService implements MainServices<ReturnDTO> {
 
     public static void main(String[] args) {
 	AlbumService service = new AlbumService();
-
-//	service.saveArtist();
-//	service.deleteAlbum(1L);
 	for (Object object : service.getAllAlbums()) {
 	    System.out.println(object.toString());
 	}
     }
 
-    public Album getAlbumById(Long id) {
-	return albumRepository.findById(id);
-    }
-
     public List<Album> getAllAlbums() {
 	return albumRepository.findAll();
-    }
-
-    public List<DtoReturnAlbum> getSimpleList() {
-	return albumRepository.findAll().stream().map(album -> new DtoReturnAlbum(album)).toList();
-    }
-
-    // DtoCreateAlbum dto = new DtoCreateAlbum("Nightmare", new Date(3434423), 1L,
-    // 1L, Set.of(2L, 3L));
-    public void saveAlbum(DtoCreateAlbum dto) {
-	Artist a = validArtist(dto.artistId());
-	AlbumFormat af = validAlbumFormat(dto.albumFormatId());
-
-	validNameInArtist(dto.title(), a);
-	Album alb = new Album(dto);
-
-	alb.setArtist(a);
-	alb.setAlbumFormat(af);
-	associateGenres(dto.genreIDs(), alb);
-	albumRepository.save(alb);
-    }
-
-    // DtoUpdateAlbum dto = new DtoUpdateAlbum("Love and Thunder", null, null, null,
-    // null);
-    public void updateAlbum(DtoUpdateAlbum dto, Long id) {
-	Album al = validAlbum(id);
-
-	if (dto.artistId() != null) {
-	    al.setArtist(validArtist(dto.artistId()));
-	}
-
-	if (dto.albumFormatId() != null) {
-	    al.setAlbumFormat(validAlbumFormat(dto.albumFormatId()));
-	}
-
-	if (dto.genresId() != null) {
-	    al.getGenres().clear();
-	    associateGenres(dto.genresId(), al);
-	}
-
-	if (dto.title() != null) {
-	    if (dto.artistId() != null) {
-		Artist artist = validArtist(dto.artistId());
-		al.setTitle(validNameInArtist(dto.title(), artist));
-	    } else {
-		al.setTitle(validNameInArtist(dto.title(), al.getArtist()));
-	    }
-	}
-
-	if (dto.releaseDate() != null) {
-	    al.setRelease_date(dto.releaseDate());
-	}
-
-	albumRepository.update(al);
     }
 
     public void deleteAlbum(Long id) {
@@ -147,5 +91,75 @@ public class AlbumService implements MainServices<ReturnDTO> {
 		    "Album with title <" + name + "> already exists in Artist with id <" + a.getId() + ">");
 	else
 	    return name;
+    }
+
+    @Override
+    public AlbumSimpleReturnDTO save(InsertDTO origin) {
+	if (origin instanceof AlbumCreateDTO) {
+	    AlbumCreateDTO dto = (AlbumCreateDTO) origin;
+
+	    Artist a = validArtist(dto.getArtistId());
+	    AlbumFormat af = validAlbumFormat(dto.getAlbumFormatId());
+
+	    validNameInArtist(dto.getTitle(), a);
+	    Album alb = new Album(dto);
+
+	    alb.setArtist(a);
+	    alb.setAlbumFormat(af);
+	    associateGenres(dto.getGenreIDs(), alb);
+	    albumRepository.save(alb);
+
+	    return new AlbumSimpleReturnDTO(alb);
+	} else
+	    throw new UnsupportedDtoTypeException(AlbumCreateDTO.class, origin.getClass());
+    }
+
+    @Override
+    public AlbumSimpleReturnDTO update(InsertDTO origin, Long id) {
+	if (origin instanceof AlbumUpdateDTO) {
+	    AlbumUpdateDTO dto = (AlbumUpdateDTO) origin;
+	    Album al = validAlbum(id);
+
+	    if (dto.getArtistId() != null) {
+		al.setArtist(validArtist(dto.getArtistId()));
+	    }
+
+	    if (dto.getAlbumFormatId() != null) {
+		al.setAlbumFormat(validAlbumFormat(dto.getAlbumFormatId()));
+	    }
+
+	    if (dto.getGenresId() != null) {
+		al.getGenres().clear();
+		associateGenres(dto.getGenresId(), al);
+	    }
+
+	    if (dto.getTitle() != null) {
+		if (dto.getArtistId() != null) {
+		    Artist artist = validArtist(dto.getArtistId());
+		    al.setTitle(validNameInArtist(dto.getTitle(), artist));
+		} else {
+		    al.setTitle(validNameInArtist(dto.getTitle(), al.getArtist()));
+		}
+	    }
+
+	    if (dto.getReleaseDate() != null) {
+		al.setRelease_date(dto.getReleaseDate());
+	    }
+
+	    albumRepository.update(al);
+
+	    return new AlbumSimpleReturnDTO(al);
+	} else
+	    throw new UnsupportedDtoTypeException(AlbumUpdateDTO.class, origin.getClass());
+    }
+
+    @Override
+    public List<AlbumSimpleReturnDTO> simpleList() {
+	return albumRepository.findAll().stream().map(a -> new AlbumSimpleReturnDTO(a)).toList();
+    }
+
+    @Override
+    public ReturnDTO getById(Long id) {
+	return new AlbumReturnDTO(albumRepository.findById(id));
     }
 }

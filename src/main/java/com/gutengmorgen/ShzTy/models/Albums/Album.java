@@ -19,9 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.AlbumFormats.AlbumFormat;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoReturnAlbum;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumCreateDTO;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumReturnDTO;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumUpdateDTO;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Tracks.Track;
@@ -57,7 +57,7 @@ public class Album {
     @OneToMany(mappedBy = "album")
     private Set<Track> tracks;
 
-    public Album(DtoCreateAlbum dto) {
+    public Album(AlbumCreateDTO dto) {
 	this.title = dto.title();
 	this.release_date = dto.releaseDate();
     }
@@ -75,9 +75,9 @@ public class Album {
     public static Class<?> findDtoClassByModel(ModelDTO model) {
 	Class<?> dtoClass = null;
 
-	if (model == ModelDTO.CREATE) dtoClass = DtoCreateAlbum.class;
-	else if (model == ModelDTO.UPDATE) dtoClass = DtoUpdateAlbum.class;
-	else if (model == ModelDTO.RETURN) dtoClass = DtoReturnAlbum.class;
+	if (model == ModelDTO.CREATE) dtoClass = AlbumCreateDTO.class;
+	else if (model == ModelDTO.UPDATE) dtoClass = AlbumUpdateDTO.class;
+	else if (model == ModelDTO.RETURN) dtoClass = AlbumReturnDTO.class;
 
 	return dtoClass;
     }

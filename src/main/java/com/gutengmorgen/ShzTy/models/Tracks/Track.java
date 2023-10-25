@@ -17,9 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoCreateAlbum;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoReturnAlbum;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumCreateDTO;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumReturnDTO;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumUpdateDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.PlayLists.PlayList;

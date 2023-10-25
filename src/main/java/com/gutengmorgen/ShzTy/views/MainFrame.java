@@ -10,10 +10,12 @@ import javax.swing.JTable;
 
 import javax.swing.UIManager;
 
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumSimpleReturnDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistCreateDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistSimpleReturnDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistUpdateDTO;
 import com.gutengmorgen.ShzTy.views.Components.CustomTable;
+import com.gutengmorgen.ShzTy.views.TableModel.AlbumTableModel;
 import com.gutengmorgen.ShzTy.views.TableModel.ArtistTableModel;
 import com.gutengmorgen.ShzTy.views.TableModel.TestingModel;
 
@@ -23,7 +25,7 @@ public class MainFrame extends JFrame {
     private static final long serialVersionUID = 1L;
 
     private CustomTable<ArtistSimpleReturnDTO> tableArtist;
-    private CustomTable<ArtistSimpleReturnDTO> tableAlbum;
+    private CustomTable<AlbumSimpleReturnDTO> tableAlbum;
     private JTable tableTrack;
     private JTextField textField;
     private JTable table;
@@ -63,8 +65,7 @@ public class MainFrame extends JFrame {
 	JScrollPane sAlbum = new JScrollPane();
 	tabbedPane.addTab("Album", null, sAlbum, null);
 
-//	tableAlbum = new CustomTable("tAl", new AlbumTableModel(false));
-	tableAlbum = new CustomTable<>("tAl", new TestingModel(false));
+	tableAlbum = new CustomTable<>("tAl", new AlbumTableModel(false));
 	sAlbum.setViewportView(tableAlbum);
 
 	JScrollPane sTrack = new JScrollPane();

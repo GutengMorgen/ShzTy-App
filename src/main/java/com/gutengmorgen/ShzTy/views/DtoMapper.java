@@ -6,29 +6,18 @@ import com.gutengmorgen.ShzTy.views.Components.CustomTable;
 import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
 
 public class DtoMapper {
-    public static void search(CustomTable<?> table, CustomDialog dialog, ModelDTO model) {
-	if (table.getName().contains("Ar")) {
-	    //NOTE: poner mainservices, object save y object update en customtable y luego referenciarlos?
-	    impact(table, dialog, model);
-	} else if (table.getName().contains("Al")) {
-	    impact(table, dialog, model);
-	} else if (table.getName().contains("Tr")) {
-	    impact(table, dialog, model);
-	}
-
-	dialog.setVisible(true);
-    }
-
     public static <R extends ReturnDTO> void impact(CustomTable<R> t, CustomDialog d, ModelDTO md) {
+	// NOTE: cubrir el service en algo general para luego llamar a ese general y
+	// iniciar al service aqui
 
 	if (md == ModelDTO.RETURN) {
-	    d.autoFillReturn(t.getService().getById(t.getIdEntity()));
+	    d.autoFill(t.getService().getById(t.getIdEntity()));
 	} else if (md == ModelDTO.CREATE) {
-	    d.autoFillToInsert(t.getCreateObject());
-	    d.okAction(t.getCustomModel(), t.getService());
+	    d.autoFillInsert(t.getCreateObject());
+	    d.okAction(t, md);
 	} else if (md == ModelDTO.UPDATE) {
-	    d.autoFillToInsert(t.getUpdateObject());
-	    d.okAction(t.getCustomModel(), t.getService(), t.getSelectedRow(), t.getIdEntity());
+	    d.autoFillInsert(t.getUpdateObject());
+	    d.okAction(t, md);
 	}
 
 	d.setVisible(true);

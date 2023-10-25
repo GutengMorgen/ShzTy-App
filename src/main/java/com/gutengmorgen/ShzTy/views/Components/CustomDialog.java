@@ -22,8 +22,9 @@ import com.gutengmorgen.ShzTy.services.InsertDTO;
 import com.gutengmorgen.ShzTy.services.MainServices;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
-import com.gutengmorgen.ShzTy.views.Extras.GUIType;
+import com.gutengmorgen.ShzTy.views.Extras.ParmType;
 import com.gutengmorgen.ShzTy.views.Extras.MainTableModel;
+import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +40,7 @@ public class CustomDialog extends JDialog {
     private JButton okButton;
     private JButton cancelButton;
     private int rowIndex = 0;
-    private Object subject;
+    private InsertDTO subject;
     private Field[] subjectFields;
 
     public CustomDialog(String title) {
@@ -48,100 +49,86 @@ public class CustomDialog extends JDialog {
 
 	cPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	getContentPane().add(cPanel, BorderLayout.WEST);
-	GridBagLayout gbl_cPanel = new GridBagLayout();
-	cPanel.setLayout(gbl_cPanel);
+	GridBagLayout gbl = new GridBagLayout();
+	cPanel.setLayout(gbl);
 
-	{
-	    JPanel buttonPane = new JPanel();
-	    buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
-	    {
-		okButton = new JButton("OK");
-		buttonPane.add(okButton);
+	JPanel buttonPane = new JPanel();
+	buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+	getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+	okButton = new JButton("OK");
+	buttonPane.add(okButton);
+
+	cancelButton = new JButton("Cancel");
+	cancelButton.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		dispose();
 	    }
-	    {
-		cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-			dispose();
-		    }
-		});
-		buttonPane.add(cancelButton);
-	    }
-	}
+	});
+	buttonPane.add(cancelButton);
     }
 
     @SuppressWarnings("unchecked")
-    public void autoFillReturn(Object obj) {
-	Class<?> class1 = obj.getClass();
-	Field[] fields = class1.getDeclaredFields();
+    public void autoFill(ReturnDTO obj) {
 
-	for (Field field : fields) {
-	    field.setAccessible(true);
-
-	    if (!field.isAnnotationPresent(ForGUI.class))
-		break;
-
-	    ForGUI forGUI = field.getAnnotation(ForGUI.class);
+	for (Field field : obj.getClass().getDeclaredFields()) {
+	    ForGUI forGUI = check(field);
 
 	    try {
-		String name = forGUI.name();
 		Object value = field.get(obj);
 		JComponent component = null;
 
-		if (forGUI.type() == GUIType.SIMPLE_TEXT) {
-		    // TODO: Cannot invoke "Object.toString()" because "value" is null
+		if (forGUI.type() == ParmType.SIMPLE_TEXT) {
 		    component = new JLabel(value.toString());
-		} else if (forGUI.type() == GUIType.SINGLE_OPTION) {
+		} else if (forGUI.type() == ParmType.SINGLE_OPTION) {
 		    DefaultComboBoxModel<String> lm = new DefaultComboBoxModel<>();
 		    lm.addAll((Collection<? extends String>) value);
 		    component = new JComboBox<>(lm);
 		}
 
-		addComponent(name, component);
+		if (component != null)
+		    addComponent(forGUI.name(), component);
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
 	}
-
 	closeAutoFill();
     }
 
-    public void autoFillToInsert(Object object) {
+    // TODO: hacer que se seteen los valores de una entidad cuando se haga update
+    public void autoFillInsert(InsertDTO object) {
 	this.subject = object;
 	this.subjectFields = object.getClass().getDeclaredFields();
 
 	for (Field field : subjectFields) {
+	    ForGUI forGUI = check(field);
 
-	    field.setAccessible(true);
-	    if (!field.isAnnotationPresent(ForGUI.class))
-		break;
+	    JComponent comp = null;
 
-	    ForGUI forGUI = field.getAnnotation(ForGUI.class);
-
-	    try {
-		String name = forGUI.name();
-		JComponent comp = null;
-
-		if (forGUI.type() == GUIType.SINGLE_OPTION) {
-		    CustomTextField c = new CustomTextField(GUIType.SINGLE_OPTION, forGUI.useEntity());
-		    comp = c;
-		} else if (forGUI.type() == GUIType.MULTI_OPTION) {
-		    CustomTextField c = new CustomTextField(GUIType.MULTI_OPTION, forGUI.useEntity());
-		    comp = c;
-		} else if (forGUI.type() == GUIType.DATE) {
-		    comp = new CustomTextField(GUIType.DATE);
-		} else {
-		    comp = new CustomTextField(GUIType.SIMPLE_TEXT);
-		}
-
-		addComponent(name, comp);
-	    } catch (Exception e) {
-		e.printStackTrace();
+	    if (forGUI.type() == ParmType.SINGLE_OPTION) {
+		CustomTextField c = new CustomTextField(ParmType.SINGLE_OPTION, forGUI.useEntity());
+		comp = c;
+	    } else if (forGUI.type() == ParmType.MULTI_OPTION) {
+		CustomTextField c = new CustomTextField(ParmType.MULTI_OPTION, forGUI.useEntity());
+		comp = c;
+	    } else if (forGUI.type() == ParmType.DATE) {
+		comp = new CustomTextField(ParmType.DATE);
+	    } else {
+		comp = new CustomTextField(ParmType.SIMPLE_TEXT);
 	    }
+
+	    addComponent(forGUI.name(), comp);
 	}
 	closeAutoFill();
+    }
+
+    private ForGUI check(Field field) {
+	field.setAccessible(true);
+	if (field.isAnnotationPresent(ForGUI.class))
+	    return field.getAnnotation(ForGUI.class);
+	else
+	    throw new RuntimeException("Todos los parametros del objecto deben tener la anotacion ForGUI");
     }
 
     private void addComponent(String name, JComponent comp) {
@@ -175,8 +162,7 @@ public class CustomDialog extends JDialog {
 
 	for (Component comp : cPanel.getComponents()) {
 	    if (comp instanceof CustomTextField) {
-		CustomTextField field = (CustomTextField) comp;
-		result.add(field.TextToType());
+		result.add(((CustomTextField) comp).TextToType());
 	    }
 	}
 
@@ -184,8 +170,6 @@ public class CustomDialog extends JDialog {
     }
 
     private InsertDTO convert() {
-//	System.out.println(resultList().toString());
-
 	for (int i = 0; i < resultList().size(); i++) {
 	    Object v = resultList().get(i);
 	    try {
@@ -196,32 +180,21 @@ public class CustomDialog extends JDialog {
 		e.printStackTrace();
 	    }
 	}
-	return (InsertDTO) subject;
+	return subject;
     }
 
-    public <R extends ReturnDTO> void okAction(MainTableModel<R> model, MainServices<R> services) {
+    public <R extends ReturnDTO> void okAction(CustomTable<R> table, ModelDTO md) {
 	okButton.addActionListener(new ActionListener() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-//		System.out.println(convert(subject));
-		model.insertRow(services.save(convert()));
+		if (md == ModelDTO.CREATE)
+		    table.getCustomModel().insertRow(table.getService().save(convert()));
+		else if (md == ModelDTO.UPDATE)
+		    table.getCustomModel().updateRow(table.getSelectedRow(),
+			    table.getService().update(convert(), table.getIdEntity()));
 		dispose();
 	    }
 	});
     }
-
-    public <R extends ReturnDTO> void okAction(MainTableModel<R> model, MainServices<R> services, int rowIndex,
-	    Long idEntity) {
-	okButton.addActionListener(new ActionListener() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-//		System.out.println(convert(subject));
-		model.updateRow(rowIndex, services.update(convert(), idEntity));
-		dispose();
-	    }
-	});
-    }
-
 }

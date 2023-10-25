@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.gutengmorgen.ShzTy.models.Tracks.Track;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
-import com.gutengmorgen.ShzTy.views.Extras.GUIType;
+import com.gutengmorgen.ShzTy.views.Extras.ParmType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,28 +23,35 @@ public class TrackReturnDTO implements ReturnDTO {
     private Long id;
     @ForGUI(name = "Title:")
     private String title;
-    @ForGUI(name = "Release Date:", type = GUIType.DATE)
+    @ForGUI(name = "Release Date:")
     private Date releaseDate;
     @ForGUI(name = "Play Time:")
-    private int playTime;
-    @ForGUI(name = "Notes:", type = GUIType.TEXT)
+    private String playTime;
+    @ForGUI(name = "Notes:", type = ParmType.SIMPLE_TEXT)
     private String notes;
-    @ForGUI(name = "Genres:", type = GUIType.SINGLE_OPTION, useEntity = "Genre")
-    private Set<Long> genreIDs;
-    @ForGUI(name = "Album:", type = GUIType.SINGLE_OPTION, useEntity = "Album")
-    private Long albumId;
-    @ForGUI(name = "PlayList:", type = GUIType.SINGLE_OPTION, useEntity = "PlayList")
-    private Long playListId;
+    @ForGUI(name = "Genres:", type = ParmType.SINGLE_OPTION)
+    private Set<String> genreIDs;
+    @ForGUI(name = "Album:")
+    private String albumId;
+    @ForGUI(name = "PlayList:")
+    private String playListId;
 
     public TrackReturnDTO(Track t) {
 	this.id = t.getId();
 	this.title = t.getTitle();
 	this.releaseDate = t.getRelease_date();
-	//TODO: hacer que playtime se nuestre en minutos
-	this.playTime = t.getPlay_time();
+	this.playTime = convert(t.getPlay_time());
 	this.notes = t.getNotes();
-	this.genreIDs = t.getGenres().stream().map(genre -> genre.getId()).collect(Collectors.toSet());
-	this.albumId = t.getAlbum().getId();
-	this.playListId = t.getPlayList().getId();
+	this.genreIDs = t.getGenres().stream().map(genre -> genre.getName()).collect(Collectors.toSet());
+	this.albumId = t.getAlbum().getTitle();
+	this.playListId = t.getPlayList().getTile();
+    }
+
+    private String convert(int seconds) {
+	int h = seconds / 3600;
+	int m = (seconds % 3600) / 60;
+	int s = seconds % 60;
+
+	return String.format("%02d:%02d:%02d", h, m, s);
     }
 }

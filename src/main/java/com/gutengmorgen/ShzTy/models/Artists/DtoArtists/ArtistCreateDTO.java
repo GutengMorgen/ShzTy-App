@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.gutengmorgen.ShzTy.services.InsertDTO;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
-import com.gutengmorgen.ShzTy.views.Extras.GUIType;
+import com.gutengmorgen.ShzTy.views.Extras.ParmType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class ArtistCreateDTO implements InsertDTO {
     @ForGUI(name = "Name*:")
     @NotBlank(message = "Name is required")
     private String name;
-    @ForGUI(name = "Born Date:", type = GUIType.DATE)
+    @ForGUI(name = "Born Date:", type = ParmType.DATE)
     private Date bornDate;
     @ForGUI(name = "Gender*:")
     @NotBlank(message = "Gender is required")
@@ -31,9 +31,9 @@ public class ArtistCreateDTO implements InsertDTO {
     private String country;
     @ForGUI(name = "Biography:")
     private String biography;
-    @ForGUI(name = "Languages:", type = GUIType.MULTI_OPTION, useEntity = "Language")
+    @ForGUI(name = "Languages:", type = ParmType.MULTI_OPTION, useEntity = "Language")
     private Set<Long> languageIDs;
-    @ForGUI(name = "Genres:", type = GUIType.MULTI_OPTION, useEntity = "Genre")
+    @ForGUI(name = "Genres:", type = ParmType.MULTI_OPTION, useEntity = "Genre")
     private Set<Long> genreIDs;
 
     @Override

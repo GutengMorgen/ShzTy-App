@@ -1,6 +1,6 @@
 package com.gutengmorgen.ShzTy.views.Extras;
 
-public enum GUIType {
+public enum ParmType {
     SIMPLE_TEXT,
     TEXT,
     DATE,

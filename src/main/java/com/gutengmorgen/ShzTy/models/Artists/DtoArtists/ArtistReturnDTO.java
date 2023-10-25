@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
-import com.gutengmorgen.ShzTy.views.Extras.GUIType;
+import com.gutengmorgen.ShzTy.views.Extras.ParmType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,11 +31,11 @@ public class ArtistReturnDTO implements ReturnDTO {
     String country;
     @ForGUI(name = "Biography:")
     String biography;
-    @ForGUI(name = "Albums:", type = GUIType.SINGLE_OPTION)
+    @ForGUI(name = "Albums:", type = ParmType.SINGLE_OPTION)
     Set<String> albums;
-    @ForGUI(name = "Languages:", type = GUIType.SINGLE_OPTION)
+    @ForGUI(name = "Languages:", type = ParmType.SINGLE_OPTION)
     Set<String> languages;
-    @ForGUI(name = "Genres:", type = GUIType.SINGLE_OPTION)
+    @ForGUI(name = "Genres:", type = ParmType.SINGLE_OPTION)
     Set<String> genres;
 
     public ArtistReturnDTO(Artist a) {

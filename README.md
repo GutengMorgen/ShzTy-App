@@ -34,3 +34,10 @@
 
 - agregar un popup para el tab con la opcion de recargar la tabla
 - hacer que el refresh de la tabla se haga en un diferente threard
+
+
+- sobre la anotacion @forgui
+	- todos los dtos que se van a usar para crear, actualizar y obtener una entidad deben tener el @ForGui
+	- si el dto implementa la interface returnDTO:
+		- no es necesario poner el useEntity
+		- y el parmtype es un single o multiOption entonces la clase de la variable debe ser un string o set<String>

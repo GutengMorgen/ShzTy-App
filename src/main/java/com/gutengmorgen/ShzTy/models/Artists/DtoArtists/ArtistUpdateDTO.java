@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.gutengmorgen.ShzTy.services.InsertDTO;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
-import com.gutengmorgen.ShzTy.views.Extras.GUIType;
+import com.gutengmorgen.ShzTy.views.Extras.ParmType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import lombok.Setter;
 public class ArtistUpdateDTO implements InsertDTO {
     @ForGUI(name = "Name:")
     private String name;
-    @ForGUI(name = "Born Date:", type = GUIType.DATE)
+    @ForGUI(name = "Born Date:", type = ParmType.DATE)
     private Date bornDate;
     @ForGUI(name = "Gender:")
     private String gender;
@@ -27,9 +27,9 @@ public class ArtistUpdateDTO implements InsertDTO {
     private String country;
     @ForGUI(name = "Biography:")
     private String biography;
-    @ForGUI(name = "Languages:", type = GUIType.MULTI_OPTION, useEntity = "Language")
+    @ForGUI(name = "Languages:", type = ParmType.MULTI_OPTION, useEntity = "Language")
     private Set<Long> languageIDs;
-    @ForGUI(name = "Genres:", type = GUIType.MULTI_OPTION, useEntity = "Genre")
+    @ForGUI(name = "Genres:", type = ParmType.MULTI_OPTION, useEntity = "Genre")
     private Set<Long> genreIDs;
     
     @Override

@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
 import com.gutengmorgen.ShzTy.controller.MainController;
-import com.gutengmorgen.ShzTy.views.Extras.GUIType;
+import com.gutengmorgen.ShzTy.views.Extras.ParmType;
 import com.gutengmorgen.ShzTy.views.ForComponents.AutoComplete;
 import com.gutengmorgen.ShzTy.views.ForComponents.FilterDateFormat;
 import com.gutengmorgen.ShzTy.views.ForComponents.FilterOnlyNumbers;
@@ -17,41 +17,41 @@ import com.gutengmorgen.ShzTy.views.ForComponents.FilterOnlyNumbers;
 public class CustomTextField extends JTextField {
     private static final long serialVersionUID = -4818068062887542415L;
 
-    private GUIType type;
+    private ParmType type;
     private String useEntity;
 
-    public CustomTextField(GUIType type) {
+    public CustomTextField(ParmType type) {
 	this.type = type;
 
-	if (type == GUIType.DATE) {
+	if (type == ParmType.DATE) {
 	    ((AbstractDocument) getDocument()).setDocumentFilter(new FilterDateFormat());
 	    this.setToolTipText("Solo se permite fecha en este formato: yyyy-MM-dd");
-	} else if (type == GUIType.DIGITS) {
+	} else if (type == ParmType.DIGITS) {
 	    ((AbstractDocument) getDocument()).setDocumentFilter(new FilterOnlyNumbers());
 	    this.setToolTipText("Solo se permite numeros");
 	}
     }
 
-    public CustomTextField(GUIType type, String useEntity) {
+    public CustomTextField(ParmType type, String useEntity) {
 	this.type = type;
 	this.useEntity = useEntity;
 
-	if (type == GUIType.SINGLE_OPTION) {
+	if (type == ParmType.SINGLE_OPTION) {
 	    MainController controller = new MainController();
-	    new AutoComplete(this, GUIType.SINGLE_OPTION, controller.lookup(useEntity));
+	    new AutoComplete(this, ParmType.SINGLE_OPTION, controller.lookup(useEntity));
 	    this.setToolTipText("Solo se permite seleccionar una opcion");
-	} else if (type == GUIType.MULTI_OPTION) {
+	} else if (type == ParmType.MULTI_OPTION) {
 	    MainController controller = new MainController();
-	    new AutoComplete(this, GUIType.MULTI_OPTION, controller.lookup(useEntity));
+	    new AutoComplete(this, ParmType.MULTI_OPTION, controller.lookup(useEntity));
 	    this.setToolTipText("Utilizar < , > para agregar mas opciones");
 	}
     }
 
-    public GUIType getType() {
+    public ParmType getType() {
 	return type;
     }
 
-    public void setType(GUIType type) {
+    public void setType(ParmType type) {
 	this.type = type;
     }
 
@@ -62,18 +62,18 @@ public class CustomTextField extends JTextField {
 	if(text.isBlank())
 	    return null;
 	
-	if (type == GUIType.DATE) {
+	if (type == ParmType.DATE) {
 	    try {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		obj = new Date(format.parse(text).getTime());
 	    } catch (java.text.ParseException e) {
 		e.printStackTrace();
 	    }
-	} else if (type == GUIType.DIGITS) {
+	} else if (type == ParmType.DIGITS) {
 	    obj = Integer.parseInt(text);
-	} else if (type == GUIType.SINGLE_OPTION) {
+	} else if (type == ParmType.SINGLE_OPTION) {
 	    obj = textToSet(text.trim());
-	} else if (type == GUIType.MULTI_OPTION) {
+	} else if (type == ParmType.MULTI_OPTION) {
 	    obj = textToSet(text.trim());
 	} else {
 	    obj = text;

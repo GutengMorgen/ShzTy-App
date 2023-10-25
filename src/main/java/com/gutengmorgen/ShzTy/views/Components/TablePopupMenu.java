@@ -10,7 +10,6 @@ import javax.swing.SwingWorker;
 
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.DtoMapper;
-import com.gutengmorgen.ShzTy.views.Extras.MainTableModel;
 import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
 
 public class TablePopupMenu<R extends ReturnDTO> extends JPopupMenu implements ActionListener {
@@ -54,24 +53,18 @@ public class TablePopupMenu<R extends ReturnDTO> extends JPopupMenu implements A
     @Override
     public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == miInfo) {
-	    give("Info of Current Row", ModelDTO.RETURN);
+	    DtoMapper.impact(table, new CustomDialog("Info of Current Row"), ModelDTO.RETURN);
 	} else if (e.getSource() == miUpdate) {
-	    give("Updating Current Row", ModelDTO.UPDATE);
+	    DtoMapper.impact(table, new CustomDialog("Updating Current Row"), ModelDTO.UPDATE);
 	} else if (e.getSource() == miRemove) {
 	    alert();
 	} else if (e.getSource() == miAdd) {
-	    give("Creating new Row", ModelDTO.CREATE);
+	    DtoMapper.impact(table, new CustomDialog("Creating new Row"), ModelDTO.CREATE);
 	} else if (e.getSource() == miRefresh) {
 	    refresh();
 	}
     }
 
-    private void give(String label, ModelDTO model) {
-//	DtoMapper.search(table, new CustomDialog(label), model);
-	//NOTE: con esto ahora el service se inicialize automaticamente
-	DtoMapper.impact(table, new CustomDialog(label), model);
-    }
-    
     private void alert() {
 	int a = JOptionPane.showConfirmDialog(table, "Are you sure?");
 	if (a == JOptionPane.YES_OPTION) {
@@ -84,13 +77,12 @@ public class TablePopupMenu<R extends ReturnDTO> extends JPopupMenu implements A
 
 	    @Override
 	    protected Void doInBackground() throws Exception {
-		((MainTableModel<?>) table.getModel()).refreshModel();
+		table.getCustomModel().refreshModel();
 		return null;
 	    }
 
 	    @Override
 	    protected void done() {
-		super.done();
 		table.revalidate();
 		table.repaint();
 	    }

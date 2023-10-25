@@ -25,7 +25,7 @@ import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Tracks.Track;
-import com.gutengmorgen.ShzTy.views.DTO_MODEL;
+import com.gutengmorgen.ShzTy.views.ModelDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -72,12 +72,12 @@ public class Album {
         }
     }
     
-    public static Class<?> findDtoClassByModel(DTO_MODEL model) {
+    public static Class<?> findDtoClassByModel(ModelDTO model) {
 	Class<?> dtoClass = null;
 
-	if (model == DTO_MODEL.CREATE) dtoClass = DtoCreateAlbum.class;
-	else if (model == DTO_MODEL.UPDATE) dtoClass = DtoUpdateAlbum.class;
-	else if (model == DTO_MODEL.RETURN) dtoClass = DtoReturnAlbum.class;
+	if (model == ModelDTO.CREATE) dtoClass = DtoCreateAlbum.class;
+	else if (model == ModelDTO.UPDATE) dtoClass = DtoUpdateAlbum.class;
+	else if (model == ModelDTO.RETURN) dtoClass = DtoReturnAlbum.class;
 
 	return dtoClass;
     }

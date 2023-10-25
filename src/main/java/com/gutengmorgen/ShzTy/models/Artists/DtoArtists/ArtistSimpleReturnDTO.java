@@ -4,8 +4,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
-import com.gutengmorgen.ShzTy.services.InsertDTO;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
+import com.gutengmorgen.ShzTy.views.ForGUI;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,17 +17,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArtistSimpleReturnDTO implements ReturnDTO {
+    @ForGUI(name = "ID")
     Long id;
+    @ForGUI(name = "Name")
     String name;
+    @ForGUI(name = "Country")
     String country;
-    Set<String> Languages;
-    Set<String> Genres;
+    @ForGUI(name = "Languages")
+    Set<String> languages;
+    @ForGUI(name = "Genres")
+    Set<String> genres;
 
     public ArtistSimpleReturnDTO(Artist a) {
 	this.id = a.getId();
 	this.name = a.getName();
 	this.country = a.getCountry();
-	this.Languages = a.getLanguages().stream().map(l -> l.getName()).collect(Collectors.toSet());
-	this.Genres = a.getGenres().stream().map(g -> g.getName()).collect(Collectors.toSet());
+	this.languages = a.getLanguages().stream().map(l -> l.getName()).collect(Collectors.toSet());
+	this.genres = a.getGenres().stream().map(g -> g.getName()).collect(Collectors.toSet());
     }
 }

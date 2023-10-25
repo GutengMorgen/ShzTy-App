@@ -8,13 +8,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
-import com.gutengmorgen.ShzTy.services.InsertDTO;
 
-public class CustomTable<T extends ReturnDTO> extends JTable {
+public class CustomTable<R extends ReturnDTO> extends JTable {
     private static final long serialVersionUID = 6949002519327279008L;
-    private MainTableModel<T> dataModel;
-    private Class<? extends InsertDTO> createClass;
-    private Class<? extends InsertDTO> updateClass;
+    private MainTableModel<R> dataModel;
 
     public CustomTable(String name) {
 	setName(name);
@@ -22,19 +19,18 @@ public class CustomTable<T extends ReturnDTO> extends JTable {
 	DefaultSettings();
     }
 
-    //NOTE: separa las interfaces de DTO en dos tipos insert y return
-    public CustomTable(String name, MainTableModel<T> model) {
+    public CustomTable(String name, MainTableModel<R> model) {
 	setName(name);
 	setCustomModel(model);
 	DefaultSettings();
     }
 
-    public void setCustomModel(MainTableModel<T> model) {
+    public void setCustomModel(MainTableModel<R> model) {
 	this.dataModel = model;
 	super.setModel(dataModel);
     }
     
-    public MainTableModel<T> getCustomModel(){
+    public MainTableModel<R> getCustomModel(){
 	return dataModel;
     }
     
@@ -55,9 +51,9 @@ public class CustomTable<T extends ReturnDTO> extends JTable {
 		    int row = CustomTable.this.rowAtPoint(e.getPoint());
 		    if (isValidRow(row)) {
 			CustomTable.this.setRowSelectionInterval(row, row);
-			new TablePopupMenu(CustomTable.this, row).show(CustomTable.this, e.getX(), e.getY());
+			new TablePopupMenu<R>(CustomTable.this, false).show(CustomTable.this, e.getX(), e.getY());
 		    } else {
-			new TablePopupMenu(CustomTable.this).show(CustomTable.this, e.getX(), e.getY());;
+			new TablePopupMenu<R>(CustomTable.this, true).show(CustomTable.this, e.getX(), e.getY());
 		    }
 		}
 	    }
@@ -68,21 +64,8 @@ public class CustomTable<T extends ReturnDTO> extends JTable {
 	});
     }
 
-    public Class<? extends InsertDTO> getCreateClass() {
-	return createClass;
+    public Long getIdEntity() {
+	//puede devolver el selectedrow anterior si el actual es invalido
+	return (Long) getValueAt(getSelectedRow(), 0);
     }
-
-    public void setCreateClass(Class<? extends InsertDTO> createClass) {
-	this.createClass = createClass;
-    }
-
-    public Class<? extends InsertDTO> getUpdateClass() {
-	return updateClass;
-    }
-
-    public void setUpdateClass(Class<? extends InsertDTO> updateClass) {
-	this.updateClass = updateClass;
-    }
-
-  
 }

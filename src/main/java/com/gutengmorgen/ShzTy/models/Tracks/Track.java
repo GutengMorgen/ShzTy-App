@@ -25,7 +25,7 @@ import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.PlayLists.PlayList;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoCreateTrack;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoUpdateTrack;
-import com.gutengmorgen.ShzTy.views.DTO_MODEL;
+import com.gutengmorgen.ShzTy.views.ModelDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -77,11 +77,11 @@ public class Track {
         }
     }
     
-    public static Class<?> findDtoClassByModel(DTO_MODEL model) {
+    public static Class<?> findDtoClassByModel(ModelDTO model) {
 	Class<?> dtoClass = null;
 
-	if (model == DTO_MODEL.CREATE) dtoClass = DtoCreateTrack.class;
-	else if (model == DTO_MODEL.UPDATE) dtoClass = DtoUpdateTrack.class;
+	if (model == ModelDTO.CREATE) dtoClass = DtoCreateTrack.class;
+	else if (model == ModelDTO.UPDATE) dtoClass = DtoUpdateTrack.class;
 
 	return dtoClass;
     }

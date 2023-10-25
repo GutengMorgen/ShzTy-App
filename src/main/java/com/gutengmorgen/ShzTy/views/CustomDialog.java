@@ -22,8 +22,6 @@ import com.gutengmorgen.ShzTy.services.InsertDTO;
 import com.gutengmorgen.ShzTy.services.MainServices;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
 
-import javax.swing.JTextField;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.GridBagLayout;
@@ -35,10 +33,11 @@ public class CustomDialog extends JDialog {
 
     private final JPanel cPanel = new JPanel();
     private final GridBagConstraints constraints = new GridBagConstraints();
-    public JButton okButton;
+    private JButton okButton;
     private JButton cancelButton;
     private int rowIndex = 0;
-    private Class<? extends InsertDTO> subjectClass;
+    private Object subject;
+    private Field[] subjectFields;
 
     public CustomDialog(String title) {
 	setTitle(title);
@@ -89,6 +88,7 @@ public class CustomDialog extends JDialog {
 		JComponent component = null;
 
 		if (forGUI.type() == GUIType.SIMPLE_TEXT) {
+		    // TODO: Cannot invoke "Object.toString()" because "value" is null
 		    component = new JLabel(value.toString());
 		} else if (forGUI.type() == GUIType.SINGLE_OPTION) {
 		    DefaultComboBoxModel<String> lm = new DefaultComboBoxModel<>();
@@ -105,11 +105,13 @@ public class CustomDialog extends JDialog {
 	closeAutoFill();
     }
 
-    public void autoFillToInsert(Class<? extends InsertDTO> cl) {
-	this.subjectClass = cl;
-	Field[] fields = cl.getDeclaredFields();
+    // NOTE: hacer que esto convert usen el mismo objecto, y pasar el objecto como
+    // parametro en vez de obtener una clase
+    public void autoFillToInsert(Object object) {
+	this.subject = object;
+	this.subjectFields = object.getClass().getDeclaredFields();
 
-	for (Field field : fields) {
+	for (Field field : subjectFields) {
 
 	    field.setAccessible(true);
 	    if (!field.isAnnotationPresent(ForGUI.class))
@@ -153,7 +155,7 @@ public class CustomDialog extends JDialog {
 	cPanel.add(new JLabel(name), constraints);
 
 	constraints.gridx = 1;
-	if (comp instanceof JTextField)
+	if (comp instanceof CustomTextField)
 	    comp.setPreferredSize(new Dimension(150, comp.getPreferredSize().height));
 	cPanel.add(comp, constraints);
 
@@ -167,11 +169,11 @@ public class CustomDialog extends JDialog {
 
     // TODO: ocurre un error en el autocomplete cuando se preciona enter al final,
     // en multioption
-    public List<Object> resultList() {
+    private List<Object> resultList() {
 	List<Object> result = new ArrayList<>();
 
 	for (Component comp : cPanel.getComponents()) {
-	    if (comp instanceof JTextField) {
+	    if (comp instanceof CustomTextField) {
 		CustomTextField field = (CustomTextField) comp;
 		result.add(field.TextToType());
 	    }
@@ -180,46 +182,43 @@ public class CustomDialog extends JDialog {
 	return result;
     }
 
-    // TODO: hacer que esto funcione
-    public InsertDTO convert(Object objectToFill) {
-	if (objectToFill instanceof InsertDTO) {
-	    Class<?> c = objectToFill.getClass();
-	    Field[] fields = c.getDeclaredFields();
-
+    private InsertDTO convert() {
 //	System.out.println(resultList().toString());
-	    for (int i = 0; i < resultList().size(); i++) {
-		Object v = resultList().get(i);
-		try {
-		    Field f = fields[i];
-		    f.setAccessible(true);
-		    f.set(objectToFill, v);
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-		    e.printStackTrace();
-		}
+
+	for (int i = 0; i < resultList().size(); i++) {
+	    Object v = resultList().get(i);
+	    try {
+		Field f = subjectFields[i];
+		f.setAccessible(true);
+		f.set(subject, v);
+	    } catch (IllegalArgumentException | IllegalAccessException e) {
+		e.printStackTrace();
 	    }
-	    return (InsertDTO) objectToFill;
-	} else
-	    throw new RuntimeException("El objecto no implementa InsertDto");
+	}
+	return (InsertDTO) subject;
     }
 
-    public <R extends ReturnDTO> void okAction(MainTableModel<R> model, MainServices<R> services, Object save) {
+    public <R extends ReturnDTO> void okAction(MainTableModel<R> model, MainServices<R> services) {
 	okButton.addActionListener(new ActionListener() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		model.insertRow(services.save(convert(save)));
-		System.out.println(convert(save));
+//		System.out.println(convert(subject));
+		model.insertRow(services.save(convert()));
+		dispose();
 	    }
 	});
     }
 
     public <R extends ReturnDTO> void okAction(MainTableModel<R> model, MainServices<R> services, int rowIndex,
-	    Long idEntity, Object update) {
+	    Long idEntity) {
 	okButton.addActionListener(new ActionListener() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		model.updateRow(rowIndex, services.update(convert(update), idEntity));
+//		System.out.println(convert(subject));
+		model.updateRow(rowIndex, services.update(convert(), idEntity));
+		dispose();
 	    }
 	});
     }

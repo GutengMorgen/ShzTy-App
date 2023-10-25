@@ -19,11 +19,8 @@ import javax.persistence.Table;
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistCreateDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistUpdateDTO;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoCreateArtist;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Languages.Language;
-import com.gutengmorgen.ShzTy.services.InsertDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,14 +52,6 @@ public class Artist {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "artists_languages", joinColumns = @JoinColumn(name = "artist_id"), inverseJoinColumns = @JoinColumn(name = "language_id"))
     private Set<Language> languages = new HashSet<>();
-    
-    public Artist(DtoCreateArtist dto) {
-	this.name = dto.name();
-        this.born_date = dto.bornDate();
-        this.gender = dto.gender();
-        this.country = dto.country();
-        this.biography = dto.biography();
-    }
     
     public Artist(ArtistCreateDTO dto) {
 	this.name = dto.getName();

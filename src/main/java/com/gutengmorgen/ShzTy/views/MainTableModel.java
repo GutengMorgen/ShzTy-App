@@ -2,7 +2,6 @@ package com.gutengmorgen.ShzTy.views;
 
 import javax.swing.table.TableModel;
 
-import com.gutengmorgen.ShzTy.services.InsertDTO;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
 
 public interface MainTableModel<T extends ReturnDTO> extends TableModel {

@@ -15,7 +15,7 @@ import com.gutengmorgen.ShzTy.repositories.AlbumRepository;
 import com.gutengmorgen.ShzTy.repositories.ArtistRepository;
 import com.gutengmorgen.ShzTy.repositories.GenreRepository;
 
-public class AlbumService {
+public class AlbumService implements MainServices<ReturnDTO> {
     AlbumRepository albumRepository = new AlbumRepository();
     ArtistRepository artistRepository = new ArtistRepository();
     GenreRepository genreRepository = new GenreRepository();

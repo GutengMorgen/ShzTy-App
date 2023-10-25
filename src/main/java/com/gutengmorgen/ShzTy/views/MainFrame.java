@@ -54,9 +54,7 @@ public class MainFrame extends JFrame {
 	JScrollPane sArtist = new JScrollPane();
 	tabbedPane.addTab("Artist", null, sArtist, null);
 
-	tableArtist = new CustomTable<>("tAr", new ArtistTableModel(false));
-	tableArtist.setCreateClass(ArtistCreateDTO.class);
-	tableArtist.setUpdateClass(ArtistUpdateDTO.class);
+	tableArtist = new CustomTable<>("tAr", new ArtistTableModel(true));
 	sArtist.setViewportView(tableArtist);
 
 	JScrollPane sAlbum = new JScrollPane();

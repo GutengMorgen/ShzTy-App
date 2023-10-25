@@ -1,6 +1,8 @@
 package com.gutengmorgen.ShzTy.views;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -14,13 +16,46 @@ public class ArtistTableModel extends AbstractTableModel implements MainTableMod
     // NOTE: automatizar el proceso
     // TODO: optimizar esto
     private List<ArtistSimpleReturnDTO> list;
-    private String[] columnNames = { "Id", "Name", "Country", "Languages", "Genres" };
+    private List<String> testNames;
+    private Field[] fields;
+//    private String[] columnNames = { "Id", "Name", "Country", "Languages", "Genres" };
 
     public ArtistTableModel(boolean initModel) {
 	list = new ArrayList<>();
+	testNames = readProccess();
 	if (initModel) {
 	    ArtistService artistService = new ArtistService();
 	    this.list = new ArrayList<>(artistService.simpleList());
+	}
+    }
+
+    private List<String> readProccess() {
+	Class<?> c = ArtistSimpleReturnDTO.class;
+	Field[] fields = c.getDeclaredFields();
+	this.fields = fields;
+	List<String> result = new ArrayList<>();
+
+	for (Field field : fields) {
+	    field.setAccessible(true);
+
+	    if (!field.isAnnotationPresent(ForGUI.class))
+		throw new RuntimeException("Todos los parametros de la clase deben tener la anotacion ForGUI");
+
+	    ForGUI forGUI = field.getAnnotation(ForGUI.class);
+	    result.add(forGUI.name());
+	}
+
+	return result;
+    }
+
+    private Object setProccess(Object dto, int columnIndex) {
+	try {
+	    Field field = this.fields[columnIndex];
+	    field.setAccessible(true);
+	    return field.get(dto);
+	} catch (IllegalArgumentException | IllegalAccessException e) {
+	    e.printStackTrace();
+	    return null;
 	}
     }
 
@@ -31,32 +66,35 @@ public class ArtistTableModel extends AbstractTableModel implements MainTableMod
 
     @Override
     public int getColumnCount() {
-	return columnNames.length;
+//	return columnNames.length;
+	return testNames.size();
     }
 
     @Override
     public String getColumnName(int columnIndex) {
-	return columnNames[columnIndex];
+	return testNames.get(columnIndex);
+//	return columnNames[columnIndex];
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 	ArtistSimpleReturnDTO dto = list.get(rowIndex);
 
-	switch (columnIndex) {
-	case 0:
-	    return dto.getId();
-	case 1:
-	    return dto.getName();
-	case 2:
-	    return dto.getCountry();
-	case 3:
-	    return dto.getLanguages();
-	case 4:
-	    return dto.getGenres();
-	default:
-	    return null;
-	}
+	return setProccess(dto, columnIndex);
+//	switch (columnIndex) {
+//	case 0:
+//	    return dto.getId();
+//	case 1:
+//	    return dto.getName();
+//	case 2:
+//	    return dto.getCountry();
+//	case 3:
+//	    return dto.getLanguages();
+//	case 4:
+//	    return dto.getGenres();
+//	default:
+//	    return null;
+//	}
     }
 
     @Override

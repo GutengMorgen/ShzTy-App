@@ -17,15 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumCreateDTO;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumReturnDTO;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumUpdateDTO;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.DtoUpdateArtist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.PlayLists.PlayList;
-import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoCreateTrack;
-import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoUpdateTrack;
-import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
+import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.TrackCreateDTO;
+import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.TrackUpdateDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -57,18 +52,18 @@ public class Track {
     @JoinColumn(name = "id_playlists")
     private PlayList playList;
     
-    public Track(DtoCreateTrack dto) {
-        this.title = dto.title();
-        this.release_date = dto.releaseDate();
-        this.play_time = dto.playTime();
-        this.notes = dto.notes();
+    public Track(TrackCreateDTO dto) {
+        this.title = dto.getTitle();
+        this.release_date = dto.getReleaseDate();
+        this.play_time = dto.getPlayTime();
+        this.notes = dto.getNotes();
     }
     
-    public void update(DtoUpdateTrack dto) {
-	if(dto.title() != null) this.title = dto.title();
-	if(dto.releaseDate() != null) this.release_date = dto.releaseDate();
-	if(dto.playTime() != 0) this.play_time = dto.playTime();
-	if(dto.notes() != null) this.notes = dto.notes();
+    public void update(TrackUpdateDTO dto) {
+	if(dto.getTitle() != null) this.title = dto.getTitle();
+	if(dto.getReleaseDate() != null) this.release_date = dto.getReleaseDate();
+	if(dto.getPlayListId() != 0) this.play_time = dto.getPlayTime();
+	if(dto.getNotes() != null) this.notes = dto.getNotes();
     }
     
     public void removeAllGenres() {
@@ -77,15 +72,6 @@ public class Track {
         }
     }
     
-    public static Class<?> findDtoClassByModel(ModelDTO model) {
-	Class<?> dtoClass = null;
-
-	if (model == ModelDTO.CREATE) dtoClass = DtoCreateTrack.class;
-	else if (model == ModelDTO.UPDATE) dtoClass = DtoUpdateTrack.class;
-
-	return dtoClass;
-    }
-
     @Override
     public String toString() {
 	return "Track [id=" + id + ", title=" + title + ", release_date=" + release_date + ", play_time=" + play_time

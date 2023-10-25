@@ -11,13 +11,12 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumSimpleReturnDTO;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistCreateDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistSimpleReturnDTO;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistUpdateDTO;
+import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.TrackSimpleReturnDTO;
 import com.gutengmorgen.ShzTy.views.Components.CustomTable;
 import com.gutengmorgen.ShzTy.views.TableModel.AlbumTableModel;
 import com.gutengmorgen.ShzTy.views.TableModel.ArtistTableModel;
-import com.gutengmorgen.ShzTy.views.TableModel.TestingModel;
+import com.gutengmorgen.ShzTy.views.TableModel.TrackTableModel;
 
 import javax.swing.JScrollPane;
 
@@ -26,7 +25,7 @@ public class MainFrame extends JFrame {
 
     private CustomTable<ArtistSimpleReturnDTO> tableArtist;
     private CustomTable<AlbumSimpleReturnDTO> tableAlbum;
-    private JTable tableTrack;
+    private CustomTable<TrackSimpleReturnDTO> tableTrack;
     private JTextField textField;
     private JTable table;
 
@@ -46,6 +45,8 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
 	//TODO: hacer que hibernate manager se inicie en el start up
+	//TODO: mejorar los servicios de las entidades
+	//TODO: arreglar customDialog
 	setResizable(false);
 	setTitle("ShzTy - Desktop App");
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,8 +72,7 @@ public class MainFrame extends JFrame {
 	JScrollPane sTrack = new JScrollPane();
 	tabbedPane.addTab("Track", null, sTrack, null);
 
-//	tableTrack = new CustomTable("tTr", new TrackTableModel(false));
-	tableTrack = new CustomTable("tTr");
+	tableTrack = new CustomTable<>("tTr", new TrackTableModel(false));
 	sTrack.setViewportView(tableTrack);
 
 	JPanel Search = new JPanel();

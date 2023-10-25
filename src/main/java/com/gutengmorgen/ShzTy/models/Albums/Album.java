@@ -25,7 +25,7 @@ import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.DtoUpdateAlbum;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.Tracks.Track;
-import com.gutengmorgen.ShzTy.views.ModelDTO;
+import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

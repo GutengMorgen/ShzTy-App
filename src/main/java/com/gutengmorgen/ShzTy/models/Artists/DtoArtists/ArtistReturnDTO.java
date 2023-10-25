@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
-import com.gutengmorgen.ShzTy.views.ForGUI;
-import com.gutengmorgen.ShzTy.views.GUIType;
+import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
+import com.gutengmorgen.ShzTy.views.Extras.GUIType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

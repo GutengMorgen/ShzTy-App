@@ -25,7 +25,7 @@ import com.gutengmorgen.ShzTy.models.Genres.Genre;
 import com.gutengmorgen.ShzTy.models.PlayLists.PlayList;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoCreateTrack;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.DtoUpdateTrack;
-import com.gutengmorgen.ShzTy.views.ModelDTO;
+import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

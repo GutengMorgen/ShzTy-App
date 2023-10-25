@@ -7,6 +7,10 @@ import com.gutengmorgen.ShzTy.services.ArtistService;
 import com.gutengmorgen.ShzTy.services.MainServices;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
 import com.gutengmorgen.ShzTy.services.TrackService;
+import com.gutengmorgen.ShzTy.views.Components.CustomDialog;
+import com.gutengmorgen.ShzTy.views.Components.CustomTable;
+import com.gutengmorgen.ShzTy.views.Extras.MainTableModel;
+import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
 
 public class DtoMapper {
 

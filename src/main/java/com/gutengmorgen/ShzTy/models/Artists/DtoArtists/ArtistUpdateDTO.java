@@ -4,8 +4,8 @@ import java.sql.Date;
 import java.util.Set;
 
 import com.gutengmorgen.ShzTy.services.InsertDTO;
-import com.gutengmorgen.ShzTy.views.ForGUI;
-import com.gutengmorgen.ShzTy.views.GUIType;
+import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
+import com.gutengmorgen.ShzTy.views.Extras.GUIType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

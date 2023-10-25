@@ -10,9 +10,18 @@ import javax.swing.JTable;
 
 import javax.swing.UIManager;
 
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumCreateDTO;
 import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumSimpleReturnDTO;
+import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumUpdateDTO;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistCreateDTO;
 import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistSimpleReturnDTO;
+import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistUpdateDTO;
+import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.TrackCreateDTO;
 import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.TrackSimpleReturnDTO;
+import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.TrackUpdateDTO;
+import com.gutengmorgen.ShzTy.services.AlbumService;
+import com.gutengmorgen.ShzTy.services.ArtistService;
+import com.gutengmorgen.ShzTy.services.TrackService;
 import com.gutengmorgen.ShzTy.views.Components.CustomTable;
 import com.gutengmorgen.ShzTy.views.TableModel.AlbumTableModel;
 import com.gutengmorgen.ShzTy.views.TableModel.ArtistTableModel;
@@ -60,19 +69,22 @@ public class MainFrame extends JFrame {
 	JScrollPane sArtist = new JScrollPane();
 	tabbedPane.addTab("Artist", null, sArtist, null);
 
-	tableArtist = new CustomTable<>("tAr", new ArtistTableModel(false));
+	tableArtist = new CustomTable<>(new ArtistTableModel(false));
+	tableArtist.setPotencials(new ArtistService(), new ArtistCreateDTO(), new ArtistUpdateDTO());
 	sArtist.setViewportView(tableArtist);
 
 	JScrollPane sAlbum = new JScrollPane();
 	tabbedPane.addTab("Album", null, sAlbum, null);
 
-	tableAlbum = new CustomTable<>("tAl", new AlbumTableModel(false));
+	tableAlbum = new CustomTable<>(new AlbumTableModel(false));
+	tableAlbum.setPotencials(new AlbumService(), new AlbumCreateDTO(), new AlbumUpdateDTO());
 	sAlbum.setViewportView(tableAlbum);
 
 	JScrollPane sTrack = new JScrollPane();
 	tabbedPane.addTab("Track", null, sTrack, null);
 
-	tableTrack = new CustomTable<>("tTr", new TrackTableModel(false));
+	tableTrack = new CustomTable<>(new TrackTableModel(false));
+	tableTrack.setPotencials(new TrackService(), new TrackCreateDTO(), new TrackUpdateDTO());
 	sTrack.setViewportView(tableTrack);
 
 	JPanel Search = new JPanel();
@@ -88,7 +100,9 @@ public class MainFrame extends JFrame {
 	scrollPane.setBounds(10, 50, 710, 322);
 	Search.add(scrollPane);
 
-	table = new CustomTable("tSearch");
+//	table = new CustomTable("tSearch");
+	table = new JTable();
+	table.setName("tSearch");
 	scrollPane.setViewportView(table);
     }
 }

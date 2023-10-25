@@ -1,47 +1,36 @@
 package com.gutengmorgen.ShzTy.views;
 
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumCreateDTO;
-import com.gutengmorgen.ShzTy.models.Albums.DtoAlbums.AlbumUpdateDTO;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistCreateDTO;
-import com.gutengmorgen.ShzTy.models.Artists.DtoArtists.ArtistUpdateDTO;
-import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.TrackCreateDTO;
-import com.gutengmorgen.ShzTy.models.Tracks.DtoTracks.TrackUpdateDTO;
-import com.gutengmorgen.ShzTy.services.AlbumService;
-import com.gutengmorgen.ShzTy.services.ArtistService;
-import com.gutengmorgen.ShzTy.services.MainServices;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
-import com.gutengmorgen.ShzTy.services.TrackService;
 import com.gutengmorgen.ShzTy.views.Components.CustomDialog;
 import com.gutengmorgen.ShzTy.views.Components.CustomTable;
-import com.gutengmorgen.ShzTy.views.Extras.MainTableModel;
 import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
 
 public class DtoMapper {
     public static void search(CustomTable<?> table, CustomDialog dialog, ModelDTO model) {
 	if (table.getName().contains("Ar")) {
 	    //NOTE: poner mainservices, object save y object update en customtable y luego referenciarlos?
-	    impact(new ArtistService(), table, dialog, model, new ArtistCreateDTO(), new ArtistUpdateDTO());
+	    impact(table, dialog, model);
 	} else if (table.getName().contains("Al")) {
-	    impact(new AlbumService(), table, dialog, model, new AlbumCreateDTO(), new AlbumUpdateDTO());
+	    impact(table, dialog, model);
 	} else if (table.getName().contains("Tr")) {
-	    impact(new TrackService(), table, dialog, model, new TrackCreateDTO(), new TrackUpdateDTO());
+	    impact(table, dialog, model);
 	}
 
 	dialog.setVisible(true);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <R extends ReturnDTO> void impact(MainServices<R> s, CustomTable<?> t, CustomDialog d, ModelDTO md,
-	    Object save, Object update) {
+    public static <R extends ReturnDTO> void impact(CustomTable<R> t, CustomDialog d, ModelDTO md) {
 
 	if (md == ModelDTO.RETURN) {
-	    d.autoFillReturn(s.getById(t.getIdEntity()));
+	    d.autoFillReturn(t.getService().getById(t.getIdEntity()));
 	} else if (md == ModelDTO.CREATE) {
-	    d.autoFillToInsert(save);
-	    d.okAction((MainTableModel<R>) t.getCustomModel(), s);
+	    d.autoFillToInsert(t.getCreateObject());
+	    d.okAction(t.getCustomModel(), t.getService());
 	} else if (md == ModelDTO.UPDATE) {
-	    d.autoFillToInsert(update);
-	    d.okAction((MainTableModel<R>) t.getCustomModel(), s, t.getSelectedRow(), t.getIdEntity());
+	    d.autoFillToInsert(t.getUpdateObject());
+	    d.okAction(t.getCustomModel(), t.getService(), t.getSelectedRow(), t.getIdEntity());
 	}
+
+	d.setVisible(true);
     }
 }

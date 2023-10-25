@@ -7,12 +7,18 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
+import com.gutengmorgen.ShzTy.services.InsertDTO;
+import com.gutengmorgen.ShzTy.services.MainServices;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.Extras.MainTableModel;
 
 public class CustomTable<R extends ReturnDTO> extends JTable {
     private static final long serialVersionUID = 6949002519327279008L;
+    
     private MainTableModel<R> dataModel;
+    private InsertDTO createObject;
+    private InsertDTO updateObject;
+    private MainServices<R> service;
 
     public CustomTable(String name) {
 	setName(name);
@@ -20,8 +26,7 @@ public class CustomTable<R extends ReturnDTO> extends JTable {
 	DefaultSettings();
     }
 
-    public CustomTable(String name, MainTableModel<R> model) {
-	setName(name);
+    public CustomTable(MainTableModel<R> model) {
 	setCustomModel(model);
 	DefaultSettings();
     }
@@ -68,5 +73,27 @@ public class CustomTable<R extends ReturnDTO> extends JTable {
     public Long getIdEntity() {
 	//puede devolver el selectedrow anterior si el actual es invalido
 	return (Long) getValueAt(getSelectedRow(), 0);
+    }
+
+    public InsertDTO getCreateObject() {
+	return createObject;
+    }
+
+    public InsertDTO getUpdateObject() {
+	return updateObject;
+    }
+
+    public MainServices<R> getService() {
+	return service;
+    }
+
+    public void setService(MainServices<R> service) {
+	this.service = service;
+    }
+
+    public void setPotencials(MainServices<R> service, InsertDTO createObject, InsertDTO updateObject) {
+	this.service = service;
+	this.createObject = createObject;
+	this.updateObject = updateObject;
     }
 }

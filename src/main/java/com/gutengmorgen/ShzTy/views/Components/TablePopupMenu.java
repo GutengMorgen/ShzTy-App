@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingWorker;
 
-import com.gutengmorgen.ShzTy.services.ArtistService;
 import com.gutengmorgen.ShzTy.services.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.DtoMapper;
 import com.gutengmorgen.ShzTy.views.Extras.MainTableModel;
@@ -68,7 +67,9 @@ public class TablePopupMenu<R extends ReturnDTO> extends JPopupMenu implements A
     }
 
     private void give(String label, ModelDTO model) {
-	DtoMapper.search(table, new CustomDialog(label), model);
+//	DtoMapper.search(table, new CustomDialog(label), model);
+	//NOTE: con esto ahora el service se inicialize automaticamente
+	DtoMapper.impact(table, new CustomDialog(label), model);
     }
     
     private void alert() {

@@ -5,9 +5,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
-import com.gutengmorgen.ShzTy.services.ReturnDTO;
+import com.gutengmorgen.ShzTy.services.extras.ReturnDTO;
+import com.gutengmorgen.ShzTy.views.AllEntities;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
-import com.gutengmorgen.ShzTy.views.Extras.ParmType;
+import com.gutengmorgen.ShzTy.views.Extras.VarType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,9 +29,9 @@ public class AlbumReturnDTO implements ReturnDTO {
     @ForGUI(name = "Album Format:")
     private String albumFormat;
     @ForGUI(name = "Count Track:")
-    private int countTracks; // TODO: removerlo????
+    private int countTracks; // NOTE: removerlo????
 //        int playTime,
-    @ForGUI(name = "Genres:", type = ParmType.SINGLE_OPTION, useEntity = "Genre")
+    @ForGUI(name = "Genres:", type = VarType.SINGLE_OPTION, useEntity = AllEntities.Genre)
     Set<String> genres;
 
     public AlbumReturnDTO(Album al) {

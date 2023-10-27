@@ -3,9 +3,10 @@ package com.gutengmorgen.ShzTy.models.Albums.DtoAlbums;
 import java.sql.Date;
 import java.util.Set;
 
-import com.gutengmorgen.ShzTy.services.InsertDTO;
+import com.gutengmorgen.ShzTy.services.extras.InsertDTO;
+import com.gutengmorgen.ShzTy.views.AllEntities;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
-import com.gutengmorgen.ShzTy.views.Extras.ParmType;
+import com.gutengmorgen.ShzTy.views.Extras.VarType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,13 +20,13 @@ import lombok.Setter;
 public class AlbumUpdateDTO implements InsertDTO {
     @ForGUI(name = "Title:")
     private String title;
-    @ForGUI(name = "Release Date:", type = ParmType.DATE)
+    @ForGUI(name = "Release Date:", type = VarType.DATE)
     private Date releaseDate;
-    @ForGUI(name = "Artist:", type = ParmType.SINGLE_OPTION, useEntity = "Artist")
+    @ForGUI(name = "Artist:", type = VarType.SINGLE_OPTION, useEntity = AllEntities.Artist)
     private Long artistId;
-    @ForGUI(name = "Album Format:", type = ParmType.SINGLE_OPTION, useEntity = "AlbumFormat")
+    @ForGUI(name = "Album Format:", type = VarType.SINGLE_OPTION, useEntity = AllEntities.AlbumFormat)
     private Long albumFormatId;
-    @ForGUI(name = "Genre:", type = ParmType.MULTI_OPTION, useEntity = "Genre")
+    @ForGUI(name = "Genre:", type = VarType.MULTI_OPTION, useEntity = AllEntities.Genre)
     private Set<Long> genresId;
 
     @Override

@@ -7,9 +7,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
-import com.gutengmorgen.ShzTy.services.InsertDTO;
-import com.gutengmorgen.ShzTy.services.MainServices;
-import com.gutengmorgen.ShzTy.services.ReturnDTO;
+import com.gutengmorgen.ShzTy.services.extras.InsertDTO;
+import com.gutengmorgen.ShzTy.services.extras.MainServices;
+import com.gutengmorgen.ShzTy.services.extras.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.Extras.MainTableModel;
 
 public class CustomTable<R extends ReturnDTO> extends JTable {

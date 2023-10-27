@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingWorker;
 
-import com.gutengmorgen.ShzTy.services.ReturnDTO;
+import com.gutengmorgen.ShzTy.services.extras.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.DtoMapper;
 import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
 

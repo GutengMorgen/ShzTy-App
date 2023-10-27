@@ -8,10 +8,15 @@ import org.hibernate.Session;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
 import com.gutengmorgen.ShzTy.models.Artists.Artist;
+import com.gutengmorgen.ShzTy.repositories.extras.RepositoryBase;
 
 public class AlbumRepository extends RepositoryBase<Album> {
 
-    public List<Album> findAll() {
+    public AlbumRepository() {
+		super(Album.class);
+	}
+
+	public List<Album> findAll() {
 	try (Session se = factory.openSession()) {
 	    String jpql = "SELECT DISTINCT al FROM Album al " + "LEFT JOIN FETCH al.albumFormat "
 		    + "LEFT JOIN FETCH al.genres " + "LEFT JOIN FETCH al.tracks " + "LEFT JOIN FETCH al.artist";

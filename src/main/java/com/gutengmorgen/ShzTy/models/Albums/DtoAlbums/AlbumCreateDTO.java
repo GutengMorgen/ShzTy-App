@@ -6,9 +6,10 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.gutengmorgen.ShzTy.services.InsertDTO;
+import com.gutengmorgen.ShzTy.services.extras.InsertDTO;
+import com.gutengmorgen.ShzTy.views.AllEntities;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
-import com.gutengmorgen.ShzTy.views.Extras.ParmType;
+import com.gutengmorgen.ShzTy.views.Extras.VarType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,18 +22,18 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AlbumCreateDTO implements InsertDTO {
     @ForGUI(name = "Title*:")
-    @NotBlank(message = "Title is required")
+    @NotBlank()
     private String title;
-    @ForGUI(name = "Release Date*:", type = ParmType.DATE)
-    @NotNull(message = "Release date is required")
+    @ForGUI(name = "Release Date*:", type = VarType.DATE)
+    @NotNull()
     private Date releaseDate;
-    @ForGUI(name = "Artist*:", type = ParmType.SINGLE_OPTION, useEntity = "Artist")
-    @NotNull(message = "Artist is required")
+    @ForGUI(name = "Artist*:", type = VarType.SINGLE_OPTION, useEntity = AllEntities.Artist)
+    @NotNull()
     private Long artistId;
-    @ForGUI(name = "Album Format*:", type = ParmType.SINGLE_OPTION, useEntity = "AlbumFormat")
-    @NotNull(message = "Album format is required")
+    @ForGUI(name = "Album Format*:", type = VarType.SINGLE_OPTION, useEntity = AllEntities.AlbumFormat)
+    @NotNull()
     private Long albumFormatId;
-    @ForGUI(name = "Genres:", type = ParmType.MULTI_OPTION, useEntity = "Genre")
+    @ForGUI(name = "Genres:", type = VarType.MULTI_OPTION, useEntity = AllEntities.Genre)
     Set<Long> genreIDs;
 
     @Override

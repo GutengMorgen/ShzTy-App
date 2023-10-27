@@ -6,11 +6,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import com.gutengmorgen.ShzTy.views.AllEntities;
+
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface ForGUI {
     int Class = 0;
     String name();
-    ParmType type() default ParmType.SIMPLE_TEXT;
-    String useEntity() default "";
+    VarType type() default VarType.SIMPLE_TEXT;
+    AllEntities useEntity() default AllEntities.None;
 }

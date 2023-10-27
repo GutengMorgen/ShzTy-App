@@ -41,3 +41,14 @@
 	- si el dto implementa la interface returnDTO:
 		- no es necesario poner el useEntity
 		- y el parmtype es un single o multiOption entonces la clase de la variable debe ser un string o set<String>
+		
+		
+- cosas que faltan
+ 	- arreglar el maincontroller
+ 	- hacer algo con el forGUI.TEXT
+ 	- verificar los parametros obligatorios en customdialog
+ 	- arreglar los servicios
+ 	- hacer que los servicios no se llamen cuando se los declare - en mainframe
+ 	
+- nuevo diseño
+ 	- creo que seria interesante si en vez de crear un jdialog para mostrar sea parte del mainframe como un frame desplegable

@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.gutengmorgen.ShzTy.models.Albums.Album;
-import com.gutengmorgen.ShzTy.services.ReturnDTO;
+import com.gutengmorgen.ShzTy.services.extras.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlbumSimpleReturnDTO implements ReturnDTO {
+public class AlbumViewModel implements ReturnDTO {
     @ForGUI(name = "ID")
     private Long id;
     @ForGUI(name = "Title")
@@ -27,7 +27,7 @@ public class AlbumSimpleReturnDTO implements ReturnDTO {
     @ForGUI(name = "Genres")
     private Set<String> genres;
 
-    public AlbumSimpleReturnDTO(Album al) {
+    public AlbumViewModel(Album al) {
 	this.id = al.getId();
 	this.title = al.getTitle();
 	this.releaseDate = al.getRelease_date();

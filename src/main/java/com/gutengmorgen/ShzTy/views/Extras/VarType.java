@@ -1,6 +1,6 @@
 package com.gutengmorgen.ShzTy.views.Extras;
 
-public enum ParmType {
+public enum VarType {
     SIMPLE_TEXT,
     TEXT,
     DATE,

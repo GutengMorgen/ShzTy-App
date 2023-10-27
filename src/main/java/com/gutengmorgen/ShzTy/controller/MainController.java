@@ -3,41 +3,43 @@ package com.gutengmorgen.ShzTy.controller;
 import java.util.List;
 import java.util.function.Function;
 
+import com.gutengmorgen.ShzTy.services.AlbumFormatService;
+import com.gutengmorgen.ShzTy.services.AlbumService;
+import com.gutengmorgen.ShzTy.services.ArtistService;
 import com.gutengmorgen.ShzTy.services.GenreService;
 import com.gutengmorgen.ShzTy.services.LanguageService;
+import com.gutengmorgen.ShzTy.services.PlayListService;
+import com.gutengmorgen.ShzTy.services.TrackService;
+import com.gutengmorgen.ShzTy.services.extras.MainServices;
+import com.gutengmorgen.ShzTy.views.AllEntities;
 
 public class MainController {
 
-    public Function<String, List<String>> lookup(String useEntity) {
-	List<String> values = null;
-	Function<String, List<String>> lookup;
-
-	if (useEntity.equals("Language")) {
-	    LanguageService s = new LanguageService();
-	    values = s.getAllLanguages().stream().map(l -> l.getName()).toList();
-	} else if (useEntity.equals("Genre")) {
-	    GenreService s = new GenreService();
-	    values = s.getAllGenres().stream().map(g -> g.getName()).toList();
-	} else {
-	    throw new RuntimeException("No se encontro la entidad relacionada");
+	public static MainServices<?> search(AllEntities entityName) {
+        return switch (entityName) {
+            case Artist ->
+//	    return new ArtistService().init();
+                    new ArtistService();
+            case Album -> new AlbumService();
+            case Track -> new TrackService();
+            case Languages -> new LanguageService();
+            case Genre -> new GenreService();
+            case AlbumFormat -> new AlbumFormatService();
+            case PlayList -> new PlayListService();
+            default -> throw new RuntimeException("No se encontro la entidad relacionada. " + entityName);
+        };
 	}
 
-	final List<String> finalValues = values;
+	public static Function<String, List<String>> lookup(AllEntities entity) {
+		List<String> values = search(entity).getAllName();
 
-	lookup = text -> finalValues.stream()
-		.filter(v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();
+		Function<String, List<String>> lookup = text -> values.stream().filter(
+				v -> v.toLowerCase().contains(text.toLowerCase()) && !v.equals(text)).toList();
+		return lookup;
+	}
 
-	return lookup;
-    }
+	public static Long getIdByName(String name, AllEntities entity) {
+		return search(entity).getIdByName(name);
+	}
 
-    public Long getEntityId(String t, String useEntity) {
-	if (useEntity.equals("Language")) {
-	    LanguageService s = new LanguageService();
-	    return s.getIdByName(t);
-	} else if (useEntity.equals("Genre")) {
-	    GenreService s = new GenreService();
-	    return s.getIdByName(t);
-	} else
-	    throw new RuntimeException("No se encontro la entidad relacionada " + useEntity);
-    }
 }

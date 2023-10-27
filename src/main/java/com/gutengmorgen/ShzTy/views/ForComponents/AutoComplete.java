@@ -20,7 +20,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-import com.gutengmorgen.ShzTy.views.Extras.ParmType;
+import com.gutengmorgen.ShzTy.views.Extras.VarType;
 
 public class AutoComplete {
     private JTextComponent component;
@@ -30,9 +30,9 @@ public class AutoComplete {
     private JList<String> list;
     private DefaultListModel<String> model;
     private String split = ",";
-    private ParmType optionMode = ParmType.SINGLE_OPTION;
+    private VarType optionMode = VarType.SINGLE_OPTION;
 
-    public AutoComplete(JTextComponent component, ParmType mode, Function<String,List<String>> lookup) {
+    public AutoComplete(JTextComponent component, VarType mode, Function<String,List<String>> lookup) {
 	this.component = component;
 	this.optionMode = mode;
 	this.lookup = lookup;
@@ -153,7 +153,7 @@ public class AutoComplete {
     }
 
     private String textToApply() {
-	if (optionMode == ParmType.MULTI_OPTION) {
+	if (optionMode == VarType.MULTI_OPTION) {
 	    int[] indexes = findIndex(component.getText(), component.getCaretPosition());
 	    return component.getText().substring(indexes[0], indexes[1]);
 	} else
@@ -192,7 +192,7 @@ public class AutoComplete {
 	});
     }
 
-    public void setOptionMode(ParmType mode) {
+    public void setOptionMode(VarType mode) {
 	this.optionMode = mode;
     }
 

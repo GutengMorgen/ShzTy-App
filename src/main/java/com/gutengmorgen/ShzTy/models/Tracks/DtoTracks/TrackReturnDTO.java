@@ -5,9 +5,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.gutengmorgen.ShzTy.models.Tracks.Track;
-import com.gutengmorgen.ShzTy.services.ReturnDTO;
+import com.gutengmorgen.ShzTy.services.extras.ReturnDTO;
 import com.gutengmorgen.ShzTy.views.Extras.ForGUI;
-import com.gutengmorgen.ShzTy.views.Extras.ParmType;
+import com.gutengmorgen.ShzTy.views.Extras.VarType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,9 +27,9 @@ public class TrackReturnDTO implements ReturnDTO {
     private Date releaseDate;
     @ForGUI(name = "Play Time:")
     private String playTime;
-    @ForGUI(name = "Notes:", type = ParmType.SIMPLE_TEXT)
+    @ForGUI(name = "Notes:", type = VarType.SIMPLE_TEXT)
     private String notes;
-    @ForGUI(name = "Genres:", type = ParmType.SINGLE_OPTION)
+    @ForGUI(name = "Genres:", type = VarType.SINGLE_OPTION)
     private Set<String> genreIDs;
     @ForGUI(name = "Album:")
     private String albumId;

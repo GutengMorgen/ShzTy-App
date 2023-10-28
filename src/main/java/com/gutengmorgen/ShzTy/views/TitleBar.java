@@ -31,6 +31,9 @@ public class TitleBar extends JPanel {
 	private GridBagLayout gbl = new GridBagLayout();
 	private JPanel tabPanel = new JPanel();
 	private List<CustomLabel> labels = new ArrayList<>();
+	private static final String MINIMIZE_SYMBOL = "―";
+	private static final String NOTIFICATION_SYMBOL = "↘";
+	private static final String CLOSE_SYMBOL = "x";
 
 	public TitleBar(JFrame frame) {
 		this.frame = frame;
@@ -51,10 +54,10 @@ public class TitleBar extends JPanel {
 		gbl_tabs.gridy = 0;
 		add(tabPanel, gbl_tabs);
 
-		JLabel minimize = new JLabel("-");
+		JLabel minimize = new JLabel(MINIMIZE_SYMBOL);
 		defaultActions(minimize, 1, false);
 
-		JLabel close = new JLabel("x");
+		JLabel close = new JLabel(CLOSE_SYMBOL);
 		defaultActions(close, 2, true);
 
 		addMouseListener(new MouseInputAdapter() {

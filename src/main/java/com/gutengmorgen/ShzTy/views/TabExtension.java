@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import java.awt.Font;
 
-public class TabbExtension extends JFrame {
+public class TabExtension extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final int frameW;
 	private final int frameH;
@@ -33,7 +33,7 @@ public class TabbExtension extends JFrame {
 			public void run() {
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					TabbExtension frame = new TabbExtension(900, 500);
+					TabExtension frame = new TabExtension(900, 500);
 					JPanel panel = new JPanel();
 					JTextField field = new JTextField(21);
 					panel.add(field);
@@ -54,7 +54,7 @@ public class TabbExtension extends JFrame {
 		});
 	}
 
-	public TabbExtension(int width, int height) {
+	public TabExtension(int width, int height) {
 		this.frameW = width;
 		this.frameH = height;
 		centerMaxH = (frameH - titleH) - footerH;

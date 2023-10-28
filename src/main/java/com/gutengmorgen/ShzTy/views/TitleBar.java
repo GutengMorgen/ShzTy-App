@@ -13,6 +13,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
@@ -100,7 +101,6 @@ public class TitleBar extends JPanel {
 		comp.setHorizontalTextPosition(SwingConstants.CENTER);
 		comp.setHorizontalAlignment(SwingConstants.CENTER);
 		comp.setBorder(new EmptyBorder(2, 20, 2, 20));
-
 		comp.addMouseListener(new MouseInputAdapter() {
 
 			@Override
@@ -126,12 +126,26 @@ public class TitleBar extends JPanel {
 		add(comp, gbl_c);
 	}
 
-	public void addTab(String name, JComponent child) {
-		CustomLabel lb = new CustomLabel(name, child);
+	public void addTab(String name, JComponent child, JScrollPane port) {
+		CustomLabel lb = new CustomLabel(name, child, port);
 		tabSettings(lb);
 		tabPanel.add(lb);
 	}
-	
+
+	public void lastTabIndex() {
+		CustomLabel lb = labels.get(labels.size() - 1);
+		activeTab(lb);
+	}
+
+	public void setActiveTab(int index) {
+		if (index >= 0 && index < labels.size()) {
+			CustomLabel lb = labels.get(index);
+			activeTab(lb);
+		} else {
+			throw new IndexOutOfBoundsException("Index" + index + " out of bounds for labels");
+		}
+	}
+
 	private void tabSettings(CustomLabel label) {
 		label.setBorder(new CompoundBorder(new LineBorder(new Color(230, 230, 230)), new EmptyBorder(2, 2, 2, 2)));
 		label.setOpaque(true);
@@ -140,16 +154,21 @@ public class TitleBar extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				for (CustomLabel clabel : labels) {
-					if (clabel.equals(e.getSource())) {
-						clabel.childVisibility(true);
-						clabel.setBackground(Color.WHITE);
+				for (CustomLabel lb : labels) {
+					if (lb.equals(e.getSource())) {
+						activeTab(lb);
 					} else {
-						clabel.childVisibility(false);
-						clabel.setBackground(new Color(240, 240, 240));
+						lb.childVisibility(false);
+						lb.setBackground(new Color(240, 240, 240));
 					}
 				}
 			}
 		});
+	}
+
+	private void activeTab(CustomLabel lb) {
+		lb.childVisibility(true);
+		lb.getPort().setViewportView(lb.getChild());
+		lb.setBackground(Color.WHITE);
 	}
 }

@@ -2,13 +2,16 @@ package com.gutengmorgen.ShzTy.views.Components;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 public class CustomLabel extends JLabel {
 	private JComponent child;
+	private JScrollPane port;
 
-	public CustomLabel(String text, JComponent child) {
+	public CustomLabel(String text, JComponent child, JScrollPane port) {
 		setText(text);
 		this.child = child;
+		this.setPort(port);
 	}
 
 	public CustomLabel(String text) {
@@ -24,7 +27,17 @@ public class CustomLabel extends JLabel {
 	}
 
 	public void childVisibility(boolean visibility) {
-		if (child != null)
-			this.child.setVisible(visibility);
+		if (child == null)
+			throw new RuntimeException("El hijo del CustomLable es null ");
+
+		this.child.setVisible(visibility);
+	}
+
+	public JScrollPane getPort() {
+		return port;
+	}
+
+	public void setPort(JScrollPane port) {
+		this.port = port;
 	}
 }

@@ -3,10 +3,8 @@ package com.gutengmorgen.ShzTy.views;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
@@ -14,7 +12,6 @@ import java.awt.Frame;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -36,6 +33,7 @@ public class TitleBar extends JPanel {
 
 	public TitleBar(JFrame frame) {
 		this.frame = frame;
+		setBorder(null);
 		setBackground(Color.WHITE);
 		gbl.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
@@ -48,7 +46,6 @@ public class TitleBar extends JPanel {
 		tabPanel.setLayout(fl);
 		GridBagConstraints gbl_tabs = new GridBagConstraints();
 		gbl_tabs.fill = GridBagConstraints.HORIZONTAL;
-		gbl_tabs.insets = new Insets(0, 0, 0, 5);
 		gbl_tabs.gridx = 0;
 		gbl_tabs.gridy = 0;
 		add(tabPanel, gbl_tabs);
@@ -129,17 +126,6 @@ public class TitleBar extends JPanel {
 		add(comp, gbl_c);
 	}
 
-	public void addTab(CustomLabel label) {
-		tabSettings(label);
-		tabPanel.add(label);
-	}
-	
-	public void addTab(String name) {
-		CustomLabel lb = new CustomLabel(name);
-		tabSettings(lb);
-		tabPanel.add(lb);
-	}
-	
 	public void addTab(String name, JComponent child) {
 		CustomLabel lb = new CustomLabel(name, child);
 		tabSettings(lb);

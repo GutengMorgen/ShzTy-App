@@ -4,108 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4afb7164-cfb5-463c-b96e-300ff70af133" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/ForComponents/FilterSingleOption.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.factorypath" beforeDir="false" afterPath="$PROJECT_DIR$/.factorypath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumCreateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumReturnDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumReturnDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumSimpleReturnDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumUpdateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistCreateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistReturnDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistReturnDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistSimpleReturnDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistUpdateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackCreateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackReturnDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackReturnDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackSimpleReturnDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackUpdateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/AlbumFormatRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/AlbumFormatRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/AlbumRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/AlbumRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/ArtistRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/ArtistRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/GenreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/GenreRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/LanguageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/LanguageRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/PlayListRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/PlayListRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/RepositoryBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/extras/RepositoryBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/TrackRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/repositories/TrackRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/AlbumService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/AlbumService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/ArtistService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/ArtistService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/GenreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/GenreService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/InsertDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/extras/InsertDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/LanguageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/LanguageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/MainServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/extras/MainServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/ReturnDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/extras/ReturnDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/TrackService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/services/TrackService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Components/CustomDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Components/CustomDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Components/CustomTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Components/CustomTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Components/CustomTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Components/CustomTextField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Components/TablePopupMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Components/TablePopupMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/DtoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/DtoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Extras/ForGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Extras/ForGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Extras/MainTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Extras/MainTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Extras/ParmType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/Extras/VarType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/ForComponents/AutoComplete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/ForComponents/AutoComplete.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/MainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/AlbumTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/AlbumTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/ArtistTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/ArtistTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/TestingModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/TestingModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/TotalModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/TotalModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/TrackTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gutengmorgen/ShzTy/views/TableModel/TrackTableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/com.gutengmorgen/ShzTy-App/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/com.gutengmorgen/ShzTy-App/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/controller/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/controller/MainController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumCreateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumCreateDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumReturnDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumReturnDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumSimpleReturnDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumUpdateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Albums/DtoAlbums/AlbumUpdateDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistCreateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistCreateDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistReturnDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistReturnDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistSimpleReturnDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistUpdateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Artists/DtoArtists/ArtistUpdateDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackCreateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackCreateDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackReturnDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackReturnDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackSimpleReturnDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackUpdateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/models/Tracks/DtoTracks/TrackUpdateDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/AlbumFormatRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/AlbumFormatRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/AlbumRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/AlbumRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/ArtistRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/ArtistRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/GenreRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/GenreRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/LanguageRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/LanguageRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/PlayListRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/PlayListRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/RepositoryBase.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/TrackRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/repositories/TrackRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/AlbumService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/AlbumService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/ArtistService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/ArtistService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/GenreService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/GenreService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/InsertDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/LanguageService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/LanguageService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/MainServices.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/ReturnDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/TrackService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/services/TrackService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomDialog$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomDialog$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomDialog$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomDialog$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomDialog$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomDialog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomTextField.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/CustomTextField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/TablePopupMenu$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/TablePopupMenu$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/TablePopupMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Components/TablePopupMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/DtoMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/DtoMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Extras/ForGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Extras/ForGUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Extras/MainTableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Extras/MainTableModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/Extras/ParmType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/ForComponents/AutoComplete.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/ForComponents/AutoComplete.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/MainFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/MainFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/MainFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/MainFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/AlbumTableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/AlbumTableModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/ArtistTableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/ArtistTableModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/TestingModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/TestingModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/TotalModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/TotalModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/TrackTableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/gutengmorgen/ShzTy/views/TableModel/TrackTableModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-    </list>
+    <list default="true" id="4afb7164-cfb5-463c-b96e-300ff70af133" name="Changes" comment="arregla bugs de CustomTextField.java" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,6 +19,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -165,10 +71,29 @@
       <option name="presentableId" value="Default" />
       <updated>1698391766137</updated>
     </task>
+    <task id="LOCAL-00001" summary="arregla bugs de CustomTextField.java">
+      <option name="closed" value="true" />
+      <created>1698443404960</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1698443404960</updated>
+    </task>
+    <task id="LOCAL-00002" summary="arregla bugs de CustomTextField.java">
+      <option name="closed" value="true" />
+      <created>1698443448925</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1698443448925</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="MAXIMUM_HISTORY_ROWS" value="200" />
+    <MESSAGE value="arregla bugs de CustomTextField.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="arregla bugs de CustomTextField.java" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

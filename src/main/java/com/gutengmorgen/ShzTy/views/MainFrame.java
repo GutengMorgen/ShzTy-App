@@ -18,86 +18,158 @@ import com.gutengmorgen.ShzTy.views.TableModel.ArtistTableModel;
 import com.gutengmorgen.ShzTy.views.TableModel.TrackTableModel;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private CustomTable<ArtistViewModel> tableArtist;
-    private CustomTable<AlbumViewModel> tableAlbum;
-    private CustomTable<TrackViewModel> tableTrack;
-    private JTextField textField;
-    private JTable table;
+	private CustomTable<ArtistViewModel> tableArtist;
+	private CustomTable<AlbumViewModel> tableAlbum;
+	private CustomTable<TrackViewModel> tableTrack;
+	private JTextField textField;
+	private JTable table;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    MainFrame frame = new MainFrame();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					MainFrame frame = new MainFrame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-    public MainFrame() {
-        //TODO: hacer que hibernate manager se inicie en el start up
-        setResizable(true);
-        setTitle("ShzTy - Desktop App");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 460);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = getWidth();
-        int height = getHeight();
-        int x = (int) ((dim.getWidth() - getWidth()) / 2);
-        int y = (int) ((dim.getHeight() - getHeight()) / 2);
-        setLocation(x, y);
+	public MainFrame() {
+		// TODO: hacer que hibernate manager se inicie en el start up
+		setResizable(true);
+		setUndecorated(true);
+//		setBackground(new Color(1.0f, 1.0f, 1.0f, 0.3f));
+		setTitle("ShzTy - Desktop App");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setSize(800, 460);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (int) ((dim.getWidth() - getWidth()) / 2);
+		int y = (int) ((dim.getHeight() - getHeight()) / 2);
+		setLocation(x, y);
 
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setFocusable(false);
-        tabbedPane.setFocusTraversalKeysEnabled(false);
-        setContentPane(tabbedPane);
+		JPanel panel = new JPanel();
+		setContentPane(panel);
+		panel.setLayout(null);
 
-        JScrollPane sArtist = new JScrollPane();
-        tabbedPane.addTab("Artist", null, sArtist, null);
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(0, 23, 800, 437);
+		tabbedPane.setAutoscrolls(true);
+		tabbedPane.setFocusable(false);
+		tabbedPane.setFocusTraversalKeysEnabled(false);
+		panel.add(tabbedPane);
 
-        tableArtist = new CustomTable<>(new ArtistTableModel(true));
-        tableArtist.setPotencials(new ArtistService(), new ArtistCreateDTO(), new ArtistUpdateDTO());
-        sArtist.setViewportView(tableArtist);
+		tabbedPane.getUI();
 
-        JScrollPane sAlbum = new JScrollPane();
-        tabbedPane.addTab("Album", null, sAlbum, null);
+		JScrollPane sArtist = new JScrollPane();
+		tabbedPane.addTab("Artist", null, sArtist, null);
 
-        tableAlbum = new CustomTable<>(new AlbumTableModel(false));
-        tableAlbum.setPotencials(new AlbumService(), new AlbumCreateDTO(), new AlbumUpdateDTO());
-        sAlbum.setViewportView(tableAlbum);
+		tableArtist = new CustomTable<>(new ArtistTableModel(false));
+//        tableArtist.setPotencials(new ArtistService(), new ArtistCreateDTO(), new ArtistUpdateDTO());
+		sArtist.setViewportView(tableArtist);
 
-        JScrollPane sTrack = new JScrollPane();
-        tabbedPane.addTab("Track", null, sTrack, null);
+		JScrollPane sAlbum = new JScrollPane();
+		tabbedPane.addTab("Album", null, sAlbum, null);
 
-        tableTrack = new CustomTable<>(new TrackTableModel(false));
-        tableTrack.setPotencials(new TrackService(), new TrackCreateDTO(), new TrackUpdateDTO());
-        sTrack.setViewportView(tableTrack);
+		tableAlbum = new CustomTable<>(new AlbumTableModel(false));
+//        tableAlbum.setPotencials(new AlbumService(), new AlbumCreateDTO(), new AlbumUpdateDTO());
+		sAlbum.setViewportView(tableAlbum);
 
-        JPanel Search = new JPanel();
-        tabbedPane.addTab("Search", null, Search, null);
-        Search.setLayout(null);
+		JScrollPane sTrack = new JScrollPane();
+		tabbedPane.addTab("Track", null, sTrack, null);
 
-        textField = new JTextField();
-        textField.setBounds(10, 11, 710, 27);
-        Search.add(textField);
-        textField.setColumns(10);
+		tableTrack = new CustomTable<>(new TrackTableModel(false));
+//        tableTrack.setPotencials(new TrackService(), new TrackCreateDTO(), new TrackUpdateDTO());
+		sTrack.setViewportView(tableTrack);
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 50, 710, 322);
-        Search.add(scrollPane);
+		JPanel Search = new JPanel();
+		tabbedPane.addTab("Search", null, Search, null);
+		Search.setLayout(null);
+
+		textField = new JTextField();
+		textField.setBounds(10, 11, 710, 27);
+		Search.add(textField);
+		textField.setColumns(10);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 50, 710, 322);
+		Search.add(scrollPane);
 
 //	table = new CustomTable("tSearch");
-        table = new JTable();
-        table.setName("tSearch");
-        scrollPane.setViewportView(table);
-    }
+		table = new JTable();
+		table.setName("tSearch");
+		scrollPane.setViewportView(table);
+
+		CustomTitleBar title = new CustomTitleBar(MainFrame.this);
+		title.setBounds(0, 0, 800, 21);
+		panel.add(title);
+	}
+}
+
+class CustomTitleBar extends JPanel {
+	private int posX;
+	private int posY;
+	private boolean dragging = false;
+
+	public CustomTitleBar(JFrame frame) {
+		setLayout(new BorderLayout());
+
+		JButton closeButton = new JButton("x");
+		closeButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+		add(closeButton, BorderLayout.EAST);
+
+		closeButton.setFocusPainted(false);
+		closeButton.setBorderPainted(false);
+
+		addMouseListener(new MouseInputAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					posX = e.getX();
+					posY = e.getY();
+					dragging = true;
+					frame.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+				}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				dragging = false;
+			}
+
+		});
+
+		addMouseMotionListener(new MouseInputAdapter() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				if (dragging && SwingUtilities.isLeftMouseButton(e)) {
+					int newX = (int) (frame.getLocation().getX() + e.getX() - posX);
+					int newY = (int) (frame.getLocation().getY() + e.getY() - posY);
+					frame.setLocation(newX, newY);
+				}
+			}
+
+		});
+	}
 }

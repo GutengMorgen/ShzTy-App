@@ -71,8 +71,6 @@ public class MainFrame extends JFrame {
 		tabbedPane.setFocusTraversalKeysEnabled(false);
 		panel.add(tabbedPane);
 
-		tabbedPane.getUI();
-
 		JScrollPane sArtist = new JScrollPane();
 		tabbedPane.addTab("Artist", null, sArtist, null);
 

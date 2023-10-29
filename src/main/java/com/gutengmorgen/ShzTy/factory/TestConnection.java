@@ -1,16 +1,15 @@
 package com.gutengmorgen.ShzTy.factory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class TestConnection {
     public static void main(String[] args) {
-	EntityManagerFactory factory = ConnectionBaseHibernate.getManagerFactory();
-	EntityManager em = factory.createEntityManager();
-
+	SessionFactory sFactory = HibernateUtils.getSessionFactory();
+	Session sess = sFactory.openSession();
 
 	System.out.println("geg");
-	em.close();
-	ConnectionBaseHibernate.closeManagerFactory();
+	sess.close();
+	HibernateUtils.closeSessionFactory();
     }
 }

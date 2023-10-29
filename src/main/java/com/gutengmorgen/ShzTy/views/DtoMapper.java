@@ -1,54 +1,47 @@
 package com.gutengmorgen.ShzTy.views;
 
-import java.lang.reflect.Method;
+import com.gutengmorgen.ShzTy.services.extras.ReturnDTO;
+import com.gutengmorgen.ShzTy.views.Components.CustomDialog;
+import com.gutengmorgen.ShzTy.views.Components.CustomTable;
+import com.gutengmorgen.ShzTy.views.Extras.ModelDTO;
 
-import com.gutengmorgen.ShzTy.models.Artists.Artist;
-
-//NOTE: necesito obtener la clase del modelo para usar su find_DTOs
 public class DtoMapper {
-    private static String modelsPackage = "com.gutengmorgen.ShzTy.models";
-    
-    public static void main(String[] args) {
+	private final static ContraFooter f = ContraFooter.getInstance();
 	
-	long startTime2 = System.currentTimeMillis();
+	public static <R extends ReturnDTO> void impact(CustomTable<R> t, CustomDialog d, ModelDTO md) {
+		// NOTE: cubrir el service en algo general para luego llamar a ese general y
+		// iniciar al service aqui
+		if (md == ModelDTO.RETURN) {
+			d.autoFill(t.getService().getById(t.getIdEntity()));
+		} else if (md == ModelDTO.CREATE) {
+			d.autoFillInsert(t.getCreateObject());
+			d.okAction(t, md);
+		} else if (md == ModelDTO.UPDATE) {
+			d.autoFillInsert(t.getUpdateObject());
+			d.okAction(t, md);
+		}
 
-	Class<?> clazz2 = map(Artist.class, DTO_MODEL.UPDATE);
-	System.out.println(clazz2);
-	
-	long endTime2 = System.currentTimeMillis();
-	long executionTime2 = endTime2 - startTime2;
-
-	System.out.println("Method took " + executionTime2 + " milliseconds");
-    }
-    
-    private static String simpleExtractor(String input) {
-	return(input.split("-")[1]);
-    }
-    
-    public static Class<?> map(String entityName, DTO_MODEL model) {
-	String classSimpleName = simpleExtractor(entityName);
-	
-	try {
-	    Class<?> modelClass = ClassFinder.findClassInPackage(modelsPackage, classSimpleName);
-	    return executeMethod(modelClass, model);
-	    
-	} catch (Exception e) {
-	    e.printStackTrace();
+		d.setVisible(true);
 	}
-	
-	return null;
-    }
 
-    public static Class<?> map(Class<?> clazz, DTO_MODEL model) {
-	return executeMethod(clazz, model);
-    }
-    
-    private static Class<?> executeMethod(Class<?> modelClass, DTO_MODEL model) {
-	try {
-	    Method method = modelClass.getMethod("findDtoClassByModel", DTO_MODEL.class);
-	    return (Class<?>) method.invoke(null, model);
-	} catch (Exception ex) {
-	    throw new RuntimeException("no se encontro el metodo " + ex.getMessage());
+	public static <R extends ReturnDTO> void contraFooter(CustomTable<R> t, ModelDTO md) {
+		f.getFooterView().removeAll();
+		f.customTextFields.clear();
+		f.mandatoryFields.clear();
+		f.getFooterView().revalidate();
+		f.getFooterView().repaint();
+
+		if (md == ModelDTO.RETURN) {
+			f.autoFill(t.getService().getById(t.getIdEntity()));
+		} else if (md == ModelDTO.CREATE) {
+			f.autoFillInsert(t.getCreateObject());
+			f.okAction(t, md);
+		} else if (md == ModelDTO.UPDATE) {
+			f.autoFillInsert(t.getUpdateObject());
+			f.okAction(t, md);
+		}
+
+		f.getFooterView().revalidate();
+		f.getFooterView().repaint();
 	}
-    }
 }

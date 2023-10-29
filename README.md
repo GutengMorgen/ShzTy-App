@@ -20,3 +20,35 @@
 		- create o update los datos segun el DtoModel
 		- implementar el delete el item de la tabla
 		- implementar el get para cada tabla
+		
+		
+- obtener el id de row de la tabla
+- obtener informacion del service
+- crear un customdialog para mostrar esa info
+
+
+- agregar un custom jtextfield para poder acceder a los record de una entidad y poder agregar varios de ellos
+	- agregar un autocompletador que use los nombres de los records de una entidad usando documentfilter
+- guardar los record de una entidad para no llamar cada rato al service de esa entidad
+
+
+- agregar un popup para el tab con la opcion de recargar la tabla
+- hacer que el refresh de la tabla se haga en un diferente threard
+
+
+- sobre la anotacion @forgui
+	- todos los dtos que se van a usar para crear, actualizar y obtener una entidad deben tener el @ForGui
+	- si el dto implementa la interface returnDTO:
+		- no es necesario poner el useEntity
+		- y el parmtype es un single o multiOption entonces la clase de la variable debe ser un string o set<String>
+		
+		
+- cosas que faltan
+ 	- arreglar el maincontroller
+ 	- hacer algo con el forGUI.TEXT
+ 	- verificar los parametros obligatorios en customdialog
+ 	- arreglar los servicios
+ 	- hacer que los servicios no se llamen cuando se los declare - en mainframe
+ 	
+- nuevo diseño
+ 	- creo que seria interesante si en vez de crear un jdialog para mostrar sea parte del mainframe como un frame desplegable

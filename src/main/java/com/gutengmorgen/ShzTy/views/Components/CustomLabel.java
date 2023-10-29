@@ -13,6 +13,11 @@ public class CustomLabel extends JLabel {
 		this.child = child;
 		this.setPort(port);
 	}
+	
+	public CustomLabel(String text, JComponent child) {
+		setText(text);
+		this.child = child;
+	}
 
 	public CustomLabel(String text) {
 		setText(text);

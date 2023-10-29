@@ -34,6 +34,7 @@ public class TitleBar extends JPanel {
 	private static final String MINIMIZE_SYMBOL = "―";
 	private static final String NOTIFICATION_SYMBOL = "↘";
 	private static final String CLOSE_SYMBOL = "x";
+	private JScrollPane tabPort;
 
 	public TitleBar(JFrame frame) {
 		this.frame = frame;
@@ -46,7 +47,7 @@ public class TitleBar extends JPanel {
 		tabPanel.setBackground(Color.WHITE);
 		FlowLayout fl = new FlowLayout(FlowLayout.LEADING);
 		fl.setVgap(0);
-		fl.setHgap(2);
+		fl.setHgap(0);
 		tabPanel.setLayout(fl);
 		GridBagConstraints gbl_tabs = new GridBagConstraints();
 		gbl_tabs.fill = GridBagConstraints.HORIZONTAL;
@@ -68,13 +69,13 @@ public class TitleBar extends JPanel {
 					posX = e.getX();
 					posY = e.getY();
 					dragging = true;
-					setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+//					setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 				}
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+//				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				dragging = false;
 			}
 		});
@@ -103,7 +104,7 @@ public class TitleBar extends JPanel {
 		comp.setOpaque(true);
 		comp.setHorizontalTextPosition(SwingConstants.CENTER);
 		comp.setHorizontalAlignment(SwingConstants.CENTER);
-		comp.setBorder(new EmptyBorder(2, 20, 2, 20));
+		comp.setBorder(new EmptyBorder(0, 20, 0, 20));
 		comp.addMouseListener(new MouseInputAdapter() {
 
 			@Override
@@ -129,10 +130,19 @@ public class TitleBar extends JPanel {
 		add(comp, gbl_c);
 	}
 
-	public void addTab(String name, JComponent child, JScrollPane port) {
-		CustomLabel lb = new CustomLabel(name, child, port);
+	public void addTab(String name, JComponent child) {
+		CustomLabel lb = new CustomLabel(name, child);
+		lb.setPort(tabPort);
 		tabSettings(lb);
 		tabPanel.add(lb);
+	}
+	
+	public void setTabPort(JScrollPane port) {
+		this.tabPort = port;
+	}
+	
+	public JScrollPane getTabPort() {
+		return this.tabPort;
 	}
 
 	public void lastTabIndex() {
@@ -150,7 +160,7 @@ public class TitleBar extends JPanel {
 	}
 
 	private void tabSettings(CustomLabel label) {
-		label.setBorder(new CompoundBorder(new LineBorder(new Color(230, 230, 230)), new EmptyBorder(2, 2, 2, 2)));
+		label.setBorder(new CompoundBorder(new LineBorder(new Color(230, 230, 230)), new EmptyBorder(0, 8, 0, 8)));
 		label.setOpaque(true);
 		labels.add(label);
 		label.addMouseListener(new MouseInputAdapter() {

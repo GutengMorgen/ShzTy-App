@@ -5,6 +5,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+
+import lombok.Getter;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JScrollPane;
@@ -12,6 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -22,11 +26,13 @@ public class TabExtension extends JFrame {
 	private final int frameW;
 	private final int frameH;
 	private static final int titleH = 25;
-	private static final int footerH = 20;
+	private static final int footerH = 15;
 	private int centerMaxH = 0;
 	private static final int centerMinH = 50;
-	public TitleBar title;
-	public JScrollPane center;
+	@Getter
+	private TitleBar bar;
+	@Getter
+	private JPanel footerView;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -37,15 +43,15 @@ public class TabExtension extends JFrame {
 					JPanel panel = new JPanel();
 					JTextField field = new JTextField(21);
 					panel.add(field);
-					frame.title.addTab("something", panel, frame.center);
-					
-					JTextArea textArea = new JTextArea();
-					frame.title.addTab("text", textArea, frame.center);
-					
-					JTextArea textArea2 = new JTextArea();
-					frame.title.addTab("another Text", textArea2, frame.center);
+					frame.bar.addTab("something", panel);
 
-					frame.title.setActiveTab(0);
+					JTextArea textArea = new JTextArea();
+					frame.bar.addTab("text", textArea);
+
+					JTextArea textArea2 = new JTextArea();
+					frame.bar.addTab("another Text", textArea2);
+
+					frame.bar.setActiveTab(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,50 +72,87 @@ public class TabExtension extends JFrame {
 		GridBagLayout mgbl = new GridBagLayout();
 		mgbl.columnWidths = new int[] { frameW };
 		mgbl.rowHeights = new int[] { titleH, frameH - titleH };
-		mgbl.columnWeights = new double[] { 1.0 };
+//		mgbl.columnWeights = new double[] { 1.0 };
 		mgbl.rowWeights = new double[] { 0.0, 1.0 };
 		main.setLayout(mgbl);
 		setContentPane(main);
 
-		title = new TitleBar(this);
-		addGBC(main, title, 0);
+		bar = new TitleBar(this);
+		addGBC(main, bar, 0);
 
 		JPanel around = new JPanel();
 		GridBagLayout agbl = new GridBagLayout();
 		agbl.columnWidths = new int[] { frameW };
 		agbl.rowHeights = new int[] { centerMaxH, footerH };
-		agbl.columnWeights = new double[] { 1.0 };
+//		agbl.columnWeights = new double[] { 1.0 };
 		agbl.rowWeights = new double[] { 1.0, 1.0 };
 		around.setLayout(agbl);
 		addGBC(main, around, 1);
 
-		center = new JScrollPane();
-		center.setBorder(null);
-		addGBC(around, center, 0);
+		JScrollPane centerPort = new JScrollPane();
+//		port.setBorder(null);
+		bar.setTabPort(centerPort);
+		addGBC(around, centerPort, 0);
 
-		JPanel footer = new JPanel();
-		footer.setLayout(null);
+		JScrollPane footer = new JScrollPane();
+//		footer.setLayout(null);
 		addGBC(around, footer, 1);
 
-		JButton dBtn = new JButton("<---->");
-		dBtn.setBorder(null);
-		dBtn.setFont(new Font("Consolas", Font.PLAIN, 10));
-		dBtn.setBounds(frameW - 100 - 2, 0, 100, 20);
-		dBtn.setContentAreaFilled(false);
-		dBtn.addActionListener(new ActionListener() {
+		footerView = new JPanel();
+		footer.setViewportView(footerView);
+		GridBagLayout gbl_view = new GridBagLayout();
+		footerView.setLayout(gbl_view);
+
+		JPanel controls = new JPanel();
+		footer.setColumnHeaderView(controls);
+		GridBagLayout controlsgbl = new GridBagLayout();
+		controlsgbl.columnWeights = new double[] { 1.0, 0.0, 0.0 };
+		controls.setLayout(controlsgbl);
+
+		JButton toggle = new JButton("<---->");
+		GridBagConstraints gbc_toggle = new GridBagConstraints();
+		gbc_toggle.anchor = GridBagConstraints.LINE_START;
+		gbc_toggle.insets = new Insets(0, 10, 0, 10);
+		gbc_toggle.gridx = 0;
+		gbc_toggle.gridy = 0;
+		controls.add(toggle, gbc_toggle);
+		toggle.setBorder(null);
+
+		JButton action = new JButton("action");
+		GridBagConstraints gbc_action = new GridBagConstraints();
+		gbc_action.anchor = GridBagConstraints.LINE_END;
+		gbc_action.insets = new Insets(0, 10, 0, 10);
+		gbc_action.gridx = 1;
+		gbc_action.gridy = 0;
+		controls.add(action, gbc_action);
+		action.setBorder(null);
+
+		JButton cancel = new JButton("cancel");
+		GridBagConstraints gbc_cancel = new GridBagConstraints();
+		gbc_cancel.anchor = GridBagConstraints.LINE_END;
+		gbc_cancel.insets = new Insets(0, 10, 0, 10);
+		gbc_cancel.gridx = 2;
+		gbc_cancel.gridy = 0;
+		controls.add(cancel, gbc_cancel);
+		cancel.setBorder(null);
+
+		toggle.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (dBtn.getText().equals("o----o")) {
+				if (toggle.getText().equals("o----o")) {
 					agbl.rowHeights = new int[] { centerMaxH, footerH };
-					dBtn.setText("<---->");
+					toggle.setText("<---->");
+					around.revalidate();
+					around.repaint();
 				} else {
 					agbl.rowHeights = new int[] { centerMinH, footerH };
-					dBtn.setText("o----o");
+					toggle.setText("o----o");
+					around.revalidate();
+					around.repaint();
 				}
 			}
 		});
-		footer.add(dBtn);
 	}
 
 	private void addGBC(JComponent father, JComponent child, int gridy) {
@@ -118,5 +161,12 @@ public class TabExtension extends JFrame {
 		gbl.gridx = 0;
 		gbl.gridy = gridy;
 		father.add(child, gbl);
+	}
+
+	private void addGBC(JComponent father, JComponent child, int gridx, int gridy, Insets insets) {
+		GridBagConstraints gbl = new GridBagConstraints();
+		gbl.insets = insets;
+		gbl.gridx = gridx;
+		gbl.gridy = gridy;
 	}
 }

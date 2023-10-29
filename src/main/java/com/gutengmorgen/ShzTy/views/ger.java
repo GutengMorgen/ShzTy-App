@@ -13,6 +13,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 public class ger extends JDialog {
 
@@ -79,6 +80,51 @@ public class ger extends JDialog {
 				panel.add(btnNewButton_1, gbc_btnNewButton_1);
 			}
 		}
+		
+		JScrollPane footerPanel = new JScrollPane();
+		footerPanel.setBounds(10, 132, 414, 71);
+		contentPanel.add(footerPanel);
+		
+		JPanel view = new JPanel();
+		footerPanel.setViewportView(view);
+		GridBagLayout gbl_view = new GridBagLayout();
+		gbl_view.columnWidths = new int[]{0};
+		gbl_view.rowHeights = new int[]{0};
+		gbl_view.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl_view.rowWeights = new double[]{Double.MIN_VALUE};
+		view.setLayout(gbl_view);
+		
+		JPanel controls = new JPanel();
+		footerPanel.setColumnHeaderView(controls);
+		GridBagLayout gbl_controls = new GridBagLayout();
+		gbl_controls.columnWidths = new int[]{155, 130, 108, 0};
+		gbl_controls.rowHeights = new int[]{15, 0};
+		gbl_controls.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_controls.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		controls.setLayout(gbl_controls);
+		
+		JButton toggle = new JButton("<---->");
+		GridBagConstraints gbc_toggle = new GridBagConstraints();
+		gbc_toggle.insets = new Insets(0, 0, 0, 5);
+		gbc_toggle.gridx = 0;
+		gbc_toggle.gridy = 0;
+		controls.add(toggle, gbc_toggle);
+		toggle.setBorder(null);
+		
+		JButton action = new JButton("action");
+		GridBagConstraints gbc_action = new GridBagConstraints();
+		gbc_action.insets = new Insets(0, 0, 0, 5);
+		gbc_action.gridx = 1;
+		gbc_action.gridy = 0;
+		controls.add(action, gbc_action);
+		action.setBorder(null);
+		
+		JButton cancel = new JButton("cancel");
+		GridBagConstraints gbc_cancel = new GridBagConstraints();
+		gbc_cancel.gridx = 2;
+		gbc_cancel.gridy = 0;
+		controls.add(cancel, gbc_cancel);
+		cancel.setBorder(null);
 		{
 			JPanel buttonPane = new JPanel();
 			FlowLayout fl_buttonPane = new FlowLayout(FlowLayout.RIGHT);
@@ -102,5 +148,4 @@ public class ger extends JDialog {
 			}
 		}
 	}
-
 }

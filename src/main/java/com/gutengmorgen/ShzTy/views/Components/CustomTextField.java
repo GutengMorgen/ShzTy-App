@@ -5,7 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.AbstractDocument;
 
 import com.gutengmorgen.ShzTy.controller.MainController;
@@ -48,23 +51,16 @@ public class CustomTextField extends JTextField {
 	public Object textToDataType() {
 		String text = getText().trim();
 
-		if(text.isBlank())
+		if (text.isBlank())
 			return null;
 
 		return switch (varType) {
 			case TEXT, SIMPLE_TEXT -> text;
-            case DATE -> textToDate(text);
+			case DATE -> textToDate(text);
 			case DIGITS -> Integer.parseInt(text);
 			case SINGLE_OPTION -> findEntity(text);
 			case MULTI_OPTION -> textToSet(text);
 		};
-	}
-
-	private Object checkText(String txt){
-		if(txt.isBlank() && txt.contains("notnull"))
-			throw new RuntimeException();
-		else
-			return null;
 	}
 
 	private Date textToDate(String txt) {

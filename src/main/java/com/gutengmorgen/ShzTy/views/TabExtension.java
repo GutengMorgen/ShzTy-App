@@ -2,9 +2,9 @@ package com.gutengmorgen.ShzTy.views;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 
 import lombok.Getter;
 
@@ -19,7 +19,6 @@ import java.awt.Insets;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import java.awt.Font;
 
 public class TabExtension extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -28,11 +27,14 @@ public class TabExtension extends JFrame {
 	private static final int titleH = 25;
 	private static final int footerH = 15;
 	private int centerMaxH = 0;
-	private static final int centerMinH = 50;
+	private static final String UP = "<---->";
+	private static final String DOWN = "o----o";
 	@Getter
 	private TitleBar bar;
 	@Getter
 	private JPanel footerView;
+	@Getter
+	private JLabel infoLabel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -65,14 +67,13 @@ public class TabExtension extends JFrame {
 		this.frameH = height;
 		centerMaxH = (frameH - titleH) - footerH;
 		setUndecorated(true);
-		setBounds(100, 100, frameW, frameH);
+		setSize(frameW, frameH);
 
 		JPanel main = new JPanel();
-		main.setBorder(new EmptyBorder(2, 2, 2, 2));
 		GridBagLayout mgbl = new GridBagLayout();
 		mgbl.columnWidths = new int[] { frameW };
 		mgbl.rowHeights = new int[] { titleH, frameH - titleH };
-//		mgbl.columnWeights = new double[] { 1.0 };
+		mgbl.columnWeights = new double[] { 1.0 };
 		mgbl.rowWeights = new double[] { 0.0, 1.0 };
 		main.setLayout(mgbl);
 		setContentPane(main);
@@ -84,18 +85,16 @@ public class TabExtension extends JFrame {
 		GridBagLayout agbl = new GridBagLayout();
 		agbl.columnWidths = new int[] { frameW };
 		agbl.rowHeights = new int[] { centerMaxH, footerH };
-//		agbl.columnWeights = new double[] { 1.0 };
+		agbl.columnWeights = new double[] { 1.0 };
 		agbl.rowWeights = new double[] { 1.0, 1.0 };
 		around.setLayout(agbl);
 		addGBC(main, around, 1);
 
 		JScrollPane centerPort = new JScrollPane();
-//		port.setBorder(null);
 		bar.setTabPort(centerPort);
 		addGBC(around, centerPort, 0);
 
 		JScrollPane footer = new JScrollPane();
-//		footer.setLayout(null);
 		addGBC(around, footer, 1);
 
 		footerView = new JPanel();
@@ -106,10 +105,10 @@ public class TabExtension extends JFrame {
 		JPanel controls = new JPanel();
 		footer.setColumnHeaderView(controls);
 		GridBagLayout controlsgbl = new GridBagLayout();
-		controlsgbl.columnWeights = new double[] { 1.0, 0.0, 0.0 };
+		controlsgbl.columnWeights = new double[] { 1.0, 0.0 };
 		controls.setLayout(controlsgbl);
 
-		JButton toggle = new JButton("<---->");
+		JButton toggle = new JButton(UP);
 		GridBagConstraints gbc_toggle = new GridBagConstraints();
 		gbc_toggle.anchor = GridBagConstraints.LINE_START;
 		gbc_toggle.insets = new Insets(0, 10, 0, 10);
@@ -117,40 +116,37 @@ public class TabExtension extends JFrame {
 		gbc_toggle.gridy = 0;
 		controls.add(toggle, gbc_toggle);
 		toggle.setBorder(null);
+		toggle.setFocusPainted(false);
 
-		JButton action = new JButton("action");
-		GridBagConstraints gbc_action = new GridBagConstraints();
-		gbc_action.anchor = GridBagConstraints.LINE_END;
-		gbc_action.insets = new Insets(0, 10, 0, 10);
-		gbc_action.gridx = 1;
-		gbc_action.gridy = 0;
-		controls.add(action, gbc_action);
-		action.setBorder(null);
-
-		JButton cancel = new JButton("cancel");
-		GridBagConstraints gbc_cancel = new GridBagConstraints();
-		gbc_cancel.anchor = GridBagConstraints.LINE_END;
-		gbc_cancel.insets = new Insets(0, 10, 0, 10);
-		gbc_cancel.gridx = 2;
-		gbc_cancel.gridy = 0;
-		controls.add(cancel, gbc_cancel);
-		cancel.setBorder(null);
+//		infoLabel = new JLabel("Toggle info bar");
+//		GridBagConstraints gbc_action = new GridBagConstraints();
+//		gbc_action.anchor = GridBagConstraints.LINE_END;
+//		gbc_action.insets = new Insets(0, 10, 0, 10);
+//		gbc_action.gridx = 1;
+//		gbc_action.gridy = 0;
+//		controls.add(infoLabel, gbc_action);
+//		infoLabel.setBorder(null);
 
 		toggle.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (toggle.getText().equals("o----o")) {
+				if (toggle.getText().equals(DOWN)) {
+//					agbl.rowHeights = new int[] { centerMaxH, footerH };
 					agbl.rowHeights = new int[] { centerMaxH, footerH };
-					toggle.setText("<---->");
-					around.revalidate();
-					around.repaint();
+					toggle.setText(UP);
+//					around.revalidate();
+//					around.repaint();
 				} else {
-					agbl.rowHeights = new int[] { centerMinH, footerH };
-					toggle.setText("o----o");
-					around.revalidate();
-					around.repaint();
+					int newH = (int) (frameH * 0.7);
+					int newF = (int) (frameH * 0.3);
+//					agbl.rowHeights = new int[] { centerMinH, footerH };
+					agbl.rowHeights = new int[] { newH, newF };
+					toggle.setText(DOWN);
+//					around.revalidate();
+//					around.repaint();
 				}
+				around.revalidate();
 			}
 		});
 	}

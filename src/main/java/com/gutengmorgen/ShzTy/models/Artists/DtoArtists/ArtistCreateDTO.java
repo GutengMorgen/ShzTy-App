@@ -20,13 +20,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArtistCreateDTO implements InsertDTO {
-    @ForGUI(name = "Name*:")
-    @NotBlank(message = "Name is required")
+    @ForGUI(name = "Name*:", mandatory = true)
+    @NotBlank()
     private String name;
     @ForGUI(name = "Born Date:", type = VarType.DATE)
     private Date bornDate;
-    @ForGUI(name = "Gender*:")
-    @NotBlank(message = "Gender is required")
+    @ForGUI(name = "Gender*:", mandatory = true)
+    @NotBlank()
     private String gender;
     @ForGUI(name = "Country:")
     private String country;

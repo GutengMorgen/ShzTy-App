@@ -15,4 +15,5 @@ public @interface ForGUI {
     String name();
     VarType type() default VarType.SIMPLE_TEXT;
     AllEntities useEntity() default AllEntities.None;
+    boolean mandatory() default false;
 }

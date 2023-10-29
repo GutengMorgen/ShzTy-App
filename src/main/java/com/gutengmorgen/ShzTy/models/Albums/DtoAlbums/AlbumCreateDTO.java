@@ -21,24 +21,24 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlbumCreateDTO implements InsertDTO {
-    @ForGUI(name = "Title*:")
-    @NotBlank()
-    private String title;
-    @ForGUI(name = "Release Date*:", type = VarType.DATE)
-    @NotNull()
-    private Date releaseDate;
-    @ForGUI(name = "Artist*:", type = VarType.SINGLE_OPTION, useEntity = AllEntities.Artist)
-    @NotNull()
-    private Long artistId;
-    @ForGUI(name = "Album Format*:", type = VarType.SINGLE_OPTION, useEntity = AllEntities.AlbumFormat)
-    @NotNull()
-    private Long albumFormatId;
-    @ForGUI(name = "Genres:", type = VarType.MULTI_OPTION, useEntity = AllEntities.Genre)
-    Set<Long> genreIDs;
+	@ForGUI(name = "Title*:", mandatory = true)
+	@NotBlank()
+	private String title;
+	@ForGUI(name = "Release Date*:", type = VarType.DATE, mandatory = true)
+	@NotNull()
+	private Date releaseDate;
+	@ForGUI(name = "Artist*:", type = VarType.SINGLE_OPTION, useEntity = AllEntities.Artist, mandatory = true)
+	@NotNull()
+	private Long artistId;
+	@ForGUI(name = "Album Format*:", type = VarType.SINGLE_OPTION, useEntity = AllEntities.AlbumFormat, mandatory = true)
+	@NotNull()
+	private Long albumFormatId;
+	@ForGUI(name = "Genres:", type = VarType.MULTI_OPTION, useEntity = AllEntities.Genre)
+	Set<Long> genreIDs;
 
-    @Override
-    public String toString() {
-	return "AlbumCreateDTO [title=" + title + ", releaseDate=" + releaseDate + ", artistId=" + artistId
-		+ ", albumFormatId=" + albumFormatId + ", genreIDs=" + genreIDs + "]";
-    }
+	@Override
+	public String toString() {
+		return "AlbumCreateDTO [title=" + title + ", releaseDate=" + releaseDate + ", artistId=" + artistId
+				+ ", albumFormatId=" + albumFormatId + ", genreIDs=" + genreIDs + "]";
+	}
 }

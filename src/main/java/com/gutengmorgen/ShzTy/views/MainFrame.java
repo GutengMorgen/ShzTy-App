@@ -13,6 +13,7 @@ import com.gutengmorgen.ShzTy.services.AlbumService;
 import com.gutengmorgen.ShzTy.services.ArtistService;
 import com.gutengmorgen.ShzTy.services.TrackService;
 import com.gutengmorgen.ShzTy.views.Components.CustomTable;
+import com.gutengmorgen.ShzTy.views.Components.TablePopupMenu;
 import com.gutengmorgen.ShzTy.views.TableModel.AlbumTableModel;
 import com.gutengmorgen.ShzTy.views.TableModel.ArtistTableModel;
 import com.gutengmorgen.ShzTy.views.TableModel.TrackTableModel;
@@ -45,27 +46,29 @@ public class MainFrame extends TabExtension {
 	public MainFrame() {
 		super(850, 500);
 		// TODO: hacer que hibernate manager se inicie en el start up
-		//TODO: reemplazar el customdialog por el footer
-		//TODO: mejorar el query para el show info
-		//TODO: crear un objecto que contenga el nombre e id de las entidades para los lookup
-		//TODO: hacer que no acepte campos nulos antes de parse a los dtocreate y dtoupdate
+		// TODO: mejorar el query para el show info
+		// TODO: crear un objecto que contenga el nombre e id de las entidades para los
+		// lookup
 		setTitle("ShzTy - Desktop App");
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (int) ((dim.getWidth() - getWidth()) / 2);
 		int y = (int) ((dim.getHeight() - getHeight()) / 2);
 		setLocation(x, y);
 
-		tableArtist = new CustomTable<>(new ArtistTableModel(false));
-//		tableArtist.setPotencials(new ArtistService(), new ArtistCreateDTO(), new ArtistUpdateDTO());
+		ContraFooter.initialize(this);
+		TablePopupMenu popupMenu = new TablePopupMenu();
+
+		tableArtist = new CustomTable<>(new ArtistTableModel(true), popupMenu);
+		tableArtist.setPotencials(new ArtistService(), new ArtistCreateDTO(), new ArtistUpdateDTO());
 		getBar().addTab("Artist", tableArtist);
 		getBar().setActiveTab(0);
 
-		tableAlbum = new CustomTable<>(new AlbumTableModel(false));
-//		tableAlbum.setPotencials(new AlbumService(), new AlbumCreateDTO(), new AlbumUpdateDTO());
+		tableAlbum = new CustomTable<>(new AlbumTableModel(true), popupMenu);
+		tableAlbum.setPotencials(new AlbumService(), new AlbumCreateDTO(), new AlbumUpdateDTO());
 		getBar().addTab("Album", tableAlbum);
 
-		tableTrack = new CustomTable<>(new TrackTableModel(false));
-//		tableTrack.setPotencials(new TrackService(), new TrackCreateDTO(), new TrackUpdateDTO());
+		tableTrack = new CustomTable<>(new TrackTableModel(true), popupMenu);
+		tableTrack.setPotencials(new TrackService(), new TrackCreateDTO(), new TrackUpdateDTO());
 		getBar().addTab("Track", tableTrack);
 
 		JPanel Search = new JPanel();
